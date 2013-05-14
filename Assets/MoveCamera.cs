@@ -1,21 +1,33 @@
 using UnityEngine;
 using System.Collections;
 
-public class MoveCamera : MonoBehaviour {
-
+public class MoveCamera : MonoBehaviour
+{
+	
+	private bool isDown = false;
+	private float mousePosition = 0.0f;
+	public static bool isMoving = false;
+	
 	// Use this for initialization
-	void Start () {
-	}
+	void Start ()
+	{}
 	
 	// Update is called once per frame
-	void Update () {
-		this.transform.RotateAround(new Vector3(10F, 0F, 10F), new Vector3(0F, 1F, 0F), 0.1F);
-		if(Input.GetMouseButtonDown(1))
-			CameraControl ();
-	}
-	
-	void CameraControl()
+	void Update ()
 	{
-		
+		if(isDown)
+		{
+			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), 0.1f*(Input.mousePosition.x-mousePosition));
+			if(Input.mousePosition.x-mousePosition != 0)
+				isMoving = true;
+			mousePosition = Input.mousePosition.x;
+		}
+		if(Input.GetMouseButtonDown(0))
+		{
+			isDown = true;
+			mousePosition = Input.mousePosition.x;
+		}
+		if(Input.GetMouseButtonUp(0))
+			isDown = false;
 	}
 }
