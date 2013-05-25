@@ -88,13 +88,6 @@ public class Customer : MonoBehaviour
 		// without exceeding their patience limit, they leave the cafe
 	}
 	
-/*---------------------------------------------------------------------------
-  Name   :  x
-  Purpose:  x
-  Receive:  x
-  Return :  x
----------------------------------------------------------------------------*/	
-	
 
 /*---------------------------------------------------------------------------
   Name   :  calculateLineWaitingTime

@@ -29,11 +29,11 @@ public class Employee : MonoBehaviour {
 	
 	// Skill --> higher quality drinks, but also requires higher pay
 	// but not sure we'll get to this implementation
-	enum Skill {beginner, average, expert}
+	enum Skill {novice, average, expert}
 	
 	// The current skill level of this employee
 	// possibly increases over time, based on how many drinks they make/orders they take?
-	int skillLevel = (int)Skill.beginner;
+	int skillLevel = (int)Skill.novice;
 	
 	//
 	// Use this for initialization
