@@ -13,11 +13,19 @@ using System.Collections;
 
 public class CoffeeShop : MonoBehaviour {
 	
+	// TODO ???
 	// Not sure if we should have a "MoneyManager" class...
+	//
 	
 	
 	// The overall current funds of this coffee shop
-	int funds = 0;
+	
+	// This doesn't seem to be the way that Unity deals with getting variables
+	// so hackyness yay
+	//int funds = 0;
+	//public int getFunds() { return funds; }
+	
+	public int funds = 0;
 	
 	// The popularity of this coffee shop
 	// Consists of customer satisfaction + hype from ads
@@ -118,7 +126,11 @@ public class CoffeeShop : MonoBehaviour {
 		// ...
 	}
 	
-
+	
+	
+	
+	
+	// TODO: ???
 	// not sure if next 2 functions are better in a "employeemanager" class
 	// or here... or within employees?
 	
