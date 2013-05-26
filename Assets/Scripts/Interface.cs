@@ -8,24 +8,34 @@ public class Interface : MonoBehaviour {
 	// Access to the coffee shop object
 	CoffeeShop cafe;
 	GameObject room;
+	
+	
+	
+	
+	// Constant
+	const int fundsX = 10;
+	const int fundsY = 10;
+	const int fundsW = 100;
+	const int fundsH = 75;
+		
 		
 	//
 	// Use this for initialization
 	//
 	void Start () {
 		
-		print ("yeay start");
+		//print ("yeay start");
 		
 		// use built-in tag because i'm too lazy to make my own tag
 		room = GameObject.FindGameObjectWithTag("GameController");
 		
-		Transform t = room.GetComponent<Transform>();
-		print (t.position.x);
+		//Transform t = room.GetComponent<Transform>();
+		//print (t.position.x);
 		
 		// Grabs the CoffeeShop class
 		cafe = room.GetComponent<CoffeeShop>();
 		
-		if (cafe == null) print ("NO CAFE!");
+		//if (cafe == null) print ("NO CAFE!");
 	}
 	
 	//
@@ -40,30 +50,14 @@ public class Interface : MonoBehaviour {
 	// containing script is enabled - just like the Update() function.
 	void OnGUI () {
 		
-		displayCurrentFunds();
-		
+		// Notes:
+		// Rect: x, y, width, height
 		// top left: 0,0,100,50
 		// top right: Screen.width - 100,0,100,50
 		// bottom left: (0,Screen.height - 50,100,50)
 		// bottom right: (Screen.width - 100,Screen.height - 50,100,50)
-		
-		
-		// Rect: x, y, width, height
-		
-		
-		
-		//GUI.Label (new Rect (20,40,120,20), "Child fear: ");
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		displayCurrentFunds();
 		
 		
 		
@@ -71,19 +65,11 @@ public class Interface : MonoBehaviour {
 
 		// Make a background box
 		
-		// top left 0,0,100,50
-		// top right: Screen.width - 100,0,100,50
-		//(0,0,100,50), "Top-left");
-		//(Screen.width - 100,0,100,50), "Top-right");
-		// (0,Screen.height - 50,100,50), "Bottom-left");
-		// (Screen.width - 100,Screen.height - 50,100,50), "Bottom-right");
 		
+		const int dateX = Screen.width - 200;
 		
-		int x = Screen.width - 120;
+		GUI.Box(new Rect(x - 20,10,200,100), "Parent Menu");
 		
-		GUI.Box(new Rect(x - 20,10,130,160), "Parent Menu");
-		
-		//GUI.Label (new Rect (0,0,100,50), "Child fear: " + im.currentFearLevel);
 		GUI.Label (new Rect (x-10,40,120,20), "Parent fear: " + imp.currentFearLevel);
 		GUI.Label (new Rect (x-10,65,120,20), "Motivation: " + imp.currentMotivationLevel);
 		GUI.Label (new Rect (x-10,90,120,20), "Parent panic: " + imp.currentPanicLevel);
@@ -113,13 +99,26 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayCurrentFunds()
 	{
-		GUI.Box(new Rect(10,10,100,75), "Current Funds: ");
+		// Make a background box near the top left screen corner
+		//GUI.Box(new Rect(10,10,100,75), "Current Funds: ");
+		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: ");
+		
+		GUI.Label(new Rect (fundsX+50,fundsY+10,fundsW,fundsH), "$" + cafe.funds);
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  displayCurrentDayTime
+  Purpose:  Display the current day and time of day
+  Receive:  null
+  Return :  void
+---------------------------------------------------------------------------*/	
+	void displayCurrentDayTime()
+	{
+		// (0,Screen.height - 50,100,50), "Bottom-left");
+		GUI.Box(new Rect(10,10,100,75), "Day: " /*+ day in game */ );
 		
 		GUI.Label(new Rect (50,20,100,50), "$" + cafe.funds);
 	}
-	
-	
-	
 	
 	
 /*---------------------------------------------------------------------------
