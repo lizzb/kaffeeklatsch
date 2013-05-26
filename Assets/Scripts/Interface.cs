@@ -69,8 +69,7 @@ public class Interface : MonoBehaviour {
 
 		displayCurrentFunds();
 		displayCurrentDayTime();
-		
-		
+		displayAdvertisements();
 		
 		/*		
 		// Near upper right hand corner
@@ -120,6 +119,26 @@ public class Interface : MonoBehaviour {
 		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: X" /*+ day in game */ );
 		
 		GUI.Label(new Rect (dateX+50,dateY+20,dateW,dateH), "Hour" + ":" + "Min" + "PM"); //........
+	}
+	
+	private bool advertisementDisplay = false;
+	void displayAdvertisements(){
+		if(GUI.Button(new Rect(10,100,120,30),new GUIContent("Advertisements"))){
+			advertisementDisplay = !advertisementDisplay;
+		}
+		if(advertisementDisplay){
+			GUI.Window(0,new Rect(10,150,100,100),advertisementWindow,"");
+		}
+	}
+	
+	void advertisementWindow(int WindowId){
+		if(GUI.Button(new Rect(5,10,90,20),"Flyers")){
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+		} else if(GUI.Button(new Rect(5,40,90,20),"Internet Ads")){
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+		} else if(GUI.Button(new Rect(5, 70,90,20),"Billboard")){
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+		}
 	}
 	
 	

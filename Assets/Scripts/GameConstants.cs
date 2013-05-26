@@ -16,7 +16,7 @@ using System;
 		// static classes cannot have instance constructors
 		/*	public GameConstants () { }*/
 	
-	public enum Drinks { PlainCoffee, Tea, Latte, IcedCoffee }
+	public enum Drinks { PlainCoffee = 1, Tea, Latte, IcedCoffee }
 	
 	//
 	// ---------- GAME START / initialization ----------
@@ -36,6 +36,9 @@ using System;
 	public const int startingFundsEasy = 5000;
 	public const int startingFundsMedium = 2500;
 	public const int startingFundsHard = 500;
+	
+	//Initial Rent for Coffee Shop
+	public const int startingRent = 50;
 	
 	
 	//

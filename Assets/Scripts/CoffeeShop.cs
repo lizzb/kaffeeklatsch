@@ -86,7 +86,10 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
-	
+		//Hack for Increasing Funds
+		if(Input.GetKeyDown(KeyCode.M)){
+			sellDrink (new Customer(),GameConstants.Drinks.PlainCoffee);
+		}
 	}
 
 	
@@ -98,14 +101,12 @@ public class CoffeeShop : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	int calculateDailyCosts()
 	{
+		return GameConstants.startingRent + GameConstants.wageNovice;
 		// Include rent
 		
 		// Calculate sum of paying all employees
 		
 		// Prices of ingredients/stock?
-		
-		
-		return 0;
 	}
 
 /*---------------------------------------------------------------------------
@@ -147,13 +148,13 @@ public class CoffeeShop : MonoBehaviour {
 		// possibly determine if we have the ingredients necessary?
 		
 		// determine the price of the drink requested
-		int drinkPrice = 1; //GameConstants.getPrice... have constant for prices? function?
+		int drinkPrice = (int)drink * 50; //GameConstants.getPrice... have constant for prices? function?
 		// not sure yet best way to do this
 		// also if drink is just an enum then possibly easier
 		
 		
-		// dailyRevenue += drinkPrice;
-		// dailyNumDrinksSold++;
+		dailyRevenue += drinkPrice;
+		dailyNumDrinksSold++;
 		
 		// increase shop funds by price of drink requested
 		funds += drinkPrice;
@@ -192,4 +193,12 @@ public class CoffeeShop : MonoBehaviour {
 		return true;
 	}
 	
+	public bool buyAdvertisement(Advertisement ad){
+		if(funds > ad.getCost()){
+			funds -= ad.getCost();
+			hypeLevel += ad.getHype();
+			return true;
+		}
+		return false;
+	}
 }
