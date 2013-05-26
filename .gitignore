@@ -12,13 +12,5 @@ Temp
 *.unityproj
 *.sln
 *.userprefs
-Assembly-CSharp-firstpass-vs.csproj
-Assembly-CSharp-firstpass.csproj
-Assembly-CSharp-vs.csproj
-Assembly-CSharp.csproj
-Assembly-UnityScript-firstpass-vs.csproj
-Assembly-UnityScript-firstpass.csproj
-Assembly-UnityScript-vs.csproj
-Assembly-UnityScript.csproj
 Kaffeeklatsch-csharp.sln
 Kaffeeklatsch.sln
