@@ -9,10 +9,10 @@ using System.Collections; // pretty sure this is redundant, since you already ha
 
 public class CustomerGeneration : MonoBehaviour {
 	
-	// DESCRIBE MEEEE.......
+	// Used to store how many seconds the customer will stay in the shop. The customer will leave if(time==0)
 	private float time;
 	
-	// DESCRIBE MEEEE.......
+	// Probability [0, 100] that a customer will spawn each second.
 	public int probOfCustomerSpawn;
 	
 	
@@ -43,11 +43,10 @@ public class CustomerGeneration : MonoBehaviour {
 	
 /*---------------------------------------------------------------------------
   Name   :  P ... rename this to something more descriptive please
-  Purpose:  ...
-  Receive:  ...
-  Return :  ...
+  Purpose:  There is an a% chance that P(a) will return true
+  Receive:  An integer a [0, 100]
+  Return :  A boolean that is pseudorandomly generated.
 ---------------------------------------------------------------------------*/	
-	//There is an a% chance that P(a) will return true
 	bool P(int a)
 	{
 		System.Random random = new System.Random();
