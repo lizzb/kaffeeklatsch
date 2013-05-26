@@ -9,7 +9,7 @@ using System.Collections; // pretty sure this is redundant, since you already ha
 
 public class CustomerGeneration : MonoBehaviour {
 	
-	// Used to store how many seconds the customer will stay in the shop. The customer will leave if(time==0)
+	// time ranges from [0, 1] and resets to 0 once it reaches 1. Used to regulate customer spawn once a second passes.
 	private float time;
 	
 	// Probability [0, 100] that a customer will spawn each second.
@@ -45,7 +45,7 @@ public class CustomerGeneration : MonoBehaviour {
   Name   :  P ... rename this to something more descriptive please
   Purpose:  There is an a% chance that P(a) will return true
   Receive:  An integer a [0, 100]
-  Return :  A boolean that is pseudorandomly generated.
+  Return :  bool - pseudorandomly generated. a% chance that it's true.
 ---------------------------------------------------------------------------*/	
 	bool P(int a)
 	{

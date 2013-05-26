@@ -15,7 +15,7 @@ public class Customer : MonoBehaviour
 {
 	
 	// The time a customer arrived at the store (or got in line...??)
-	int arrivalTime = 0;
+	float arrivalTime = 0;
 	
 	// The time a customer paid money to cashier for a drink 
 	int transactionTime = 0;
@@ -45,14 +45,15 @@ public class Customer : MonoBehaviour
 	int custOp = (int)Opinions.neutral;
 	
 	
-	//All on scale [0,10] with 0 being 'better'
+	//All public variables on scale [0,10] with 0 being 'better'
 	public int cleanFreak;
 	public int impatience;
 	public int moneyGrubber;
 	
-	private int linePosition;
-	private int customerSpeed;
-	private float timeInShop;
+	private int linePosition; // if linePosition==0 then customer is the first in line. This updates automatically
+	private int customerSpeed; // Determines how slow/fast a customer walks. The higher the faster.
+	private float timeInShop; // Used to store how many seconds the customer will stay in the shop.
+								//The customer will leave if(time==0)
 
 	//
 	// Use this for initialization
@@ -62,7 +63,8 @@ public class Customer : MonoBehaviour
 		// ----- start lizz's thoughts -----
 		
 		// Set arrivalTime to current time
-		//arrivalTime = current time		
+		//arrivalTime = current time
+		arrivalTime = Time.time;
 		
 		// ----- end lizz's thoughts, start federico's code -----
 		
@@ -115,29 +117,26 @@ public class Customer : MonoBehaviour
 		// ----- end lizz's thoughts, start federico's code -----
 		
 		
+		timeInShop -= Time.deltaTime;
 		
-		// ADD COMMENTS TO ME.................
+		// Customer walks from door to its line position
 		if(transform.position.x == 5)
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		
-		// ADD COMMENTS TO ME.................
-		timeInShop -= Time.deltaTime;
-		if(transform.position.x > 12-1.5*linePosition && timeInShop < 0)
-			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
-		if(transform.position.z < 1 && timeInShop < 0 && transform.position.x >= 6)
-			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
-		if(transform.position.x < 6 && timeInShop < 0)
-			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
+		// Customer walks out of the line and leaves the shop if timeInShop < 0.
+		if(timeInShop < 0)
+			leaveCafe(true, false);
 		
-		// ADD COMMENTS TO ME.................
+		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
 		if(transform.position.x < 6 && transform.position.z < -1 && timeInShop < 0)
 		{
 			int customerRemoved = this.linePosition;
 			Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
 			
-			// LOOPS AND LONG CONDITIONALS LIKE COMMENTS YUMYUM.............
+			// Loops through each of the current customers and if they were behind the customer who left,
+			// their linePosition is decreased, so they move forward in line.
 			foreach(Customer customer in customers)
 			{
 				if(customer.linePosition > customerRemoved)
@@ -186,7 +185,7 @@ public class Customer : MonoBehaviour
 		
 		// Neutral is the default state of a customer, and
 		// does not display a thought bubble
-		return (int)Opinions.neutral;
+		return (int) Opinions.neutral;
 	}	
 	
 	
@@ -224,7 +223,13 @@ public class Customer : MonoBehaviour
 ---------------------------------------------------------------------------*/	
 	void leaveCafe (bool longLine, bool longWait)
 	{
-
+		if(transform.position.x > 12-1.5*linePosition)
+			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
+		if(transform.position.z < 1 && transform.position.x >= 6)
+			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
+		if(transform.position.x < 6)
+			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
+		
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 	}	
 	
@@ -239,57 +244,3 @@ public class Customer : MonoBehaviour
 
 	
 }
-
-/* Federico's original code (before lizz slightly modified to match existing file)
- * delete this area when everything has been documented/transitioned!! ******
- * 
- * 	//All on scale [0,10] with 0 being 'better'
-	public int cleanFreak;
-	public int impatience;
-	public int moneyGrubber;
-	
-	private int linePosition;
-	private int customerSpeed;
-	private float timeInShop;
-
-	// Use this for initialization
-	void Start ()
-	{
-		System.Random random = new System.Random();
-		cleanFreak = random.Next(0, 11);
-		impatience = random.Next(0, 10);
-		moneyGrubber = random.Next(0, 11);
-		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
-		customerSpeed = 10;
-		timeInShop = (10-impatience)*4;
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		if(transform.position.x == 5)
-			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
-		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
-			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
-		
-		timeInShop -= Time.deltaTime;
-		if(transform.position.x > 12-1.5*linePosition && timeInShop < 0)
-			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
-		if(transform.position.z < 1 && timeInShop < 0 && transform.position.x >= 6)
-			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
-		if(transform.position.x < 6 && timeInShop < 0)
-			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
-		if(transform.position.x < 6 && transform.position.z < -1 && timeInShop < 0)
-		{
-			int customerRemoved = this.linePosition;
-			Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
-			foreach(Customer customer in customers)
-			{
-				if(customer.linePosition > customerRemoved)
-					customer.linePosition--;
-			}
-			Destroy(this.gameObject);
-		}
-	}
-	
-	*/
