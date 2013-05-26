@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-// I realize this is an awful name, don't judge me
+// I realize this is an awful class name, don't judge me
 
 public class Interface : MonoBehaviour {
 	
@@ -12,12 +12,22 @@ public class Interface : MonoBehaviour {
 	
 	
 	
-	// Constant
+	// Constants for placement of interface elements
+	
+	// --- Display of current funds ---
+	// Near upper left hand corner
 	const int fundsX = 10;
 	const int fundsY = 10;
 	const int fundsW = 100;
 	const int fundsH = 75;
 		
+	// --- Display of current day and time ---
+	// Near upper right hand corner
+	int dateX = Screen.width - 110;
+	const int dateY = 10;
+	const int dateW = 100;
+	const int dateH = 100;
+	
 		
 	//
 	// Use this for initialization
@@ -32,7 +42,7 @@ public class Interface : MonoBehaviour {
 		//Transform t = room.GetComponent<Transform>();
 		//print (t.position.x);
 		
-		// Grabs the CoffeeShop class
+		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
 		
 		//if (cafe == null) print ("NO CAFE!");
@@ -58,14 +68,12 @@ public class Interface : MonoBehaviour {
 		// bottom right: (Screen.width - 100,Screen.height - 50,100,50)
 
 		displayCurrentFunds();
+		displayCurrentDayTime();
 		
 		
 		
-		/*void OnGUI () {
-
-		// Make a background box
-		
-		
+		/*		
+		// Near upper right hand corner
 		const int dateX = Screen.width - 200;
 		
 		GUI.Box(new Rect(x - 20,10,200,100), "Parent Menu");
@@ -75,19 +83,11 @@ public class Interface : MonoBehaviour {
 		GUI.Label (new Rect (x-10,90,120,20), "Parent panic: " + imp.currentPanicLevel);
 		GUI.Label (new Rect (x-10,115,120,20), "Parent play: " + imp.currentPlayLevel);
 		GUI.Label (new Rect (x-10,140,120,20), "Emotion: " + imp.currentEmotion);
-		
-		
-		/*
+
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
 		if(GUI.Button(new Rect(20,40,80,20), "Level 1")) {
 			Application.LoadLevel(1);
-		}
-
-		// Make the second button.
-		if(GUI.Button(new Rect(20,70,80,20), "Level 2")) {
-			Application.LoadLevel(2);
-		}*
-	}*/
+		}*/
 		
 	}
 
@@ -99,11 +99,13 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayCurrentFunds()
 	{
-		// Make a background box near the top left screen corner
+		// Make a background box ...near the top left screen corner
 		//GUI.Box(new Rect(10,10,100,75), "Current Funds: ");
 		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: ");
 		
-		GUI.Label(new Rect (fundsX+50,fundsY+10,fundsW,fundsH), "$" + cafe.funds);
+		GUI.Label(new Rect (fundsX+10,fundsY+25,fundsW,fundsH), "$" + cafe.funds);
+		
+		// TODO: change font size/color
 	}
 	
 /*---------------------------------------------------------------------------
@@ -115,9 +117,9 @@ public class Interface : MonoBehaviour {
 	void displayCurrentDayTime()
 	{
 		// (0,Screen.height - 50,100,50), "Bottom-left");
-		GUI.Box(new Rect(10,10,100,75), "Day: " /*+ day in game */ );
+		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: X" /*+ day in game */ );
 		
-		GUI.Label(new Rect (50,20,100,50), "$" + cafe.funds);
+		GUI.Label(new Rect (dateX+50,dateY+20,dateW,dateH), "Hour" + ":" + "Min" + "PM"); //........
 	}
 	
 	
