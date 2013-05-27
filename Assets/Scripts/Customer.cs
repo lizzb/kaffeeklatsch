@@ -152,7 +152,7 @@ public class Customer : MonoBehaviour
 		{
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
-		else if(transform.position.x >= 13-1.5*linePosition)
+		else if(transform.position.x >= 13-1.5*linePosition && custAction != (int) Actions.walkingOut)
 		{
 			custAction = (int) Actions.inLine;
 		}
@@ -161,7 +161,7 @@ public class Customer : MonoBehaviour
 		// If the time a customer has been waiting in line (modify this *****)
 		// exceeds their patience limit, they leave unhappily
 		// leaveCafe(true, false);
-		if(timeInShop < 0)
+		if(timeInShop < 0 || custAction == (int) Actions.walkingOut)
 		{
 			custAction = (int) Actions.walkingOut;
 			leftEarly = true; // leave early, negative impact on satisfaction
@@ -169,7 +169,7 @@ public class Customer : MonoBehaviour
 		}
 		
 		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
-		if(transform.position.x < 6 && transform.position.z < -1 && timeInShop < 0)
+		if(transform.position.x < 6 && transform.position.z < -1 && (timeInShop < 0 || custAction == (int) Actions.walkingOut))
 		{
 			int customerRemoved = this.linePosition;
 			Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
