@@ -52,8 +52,7 @@ public class CoffeeShop : MonoBehaviour {
 	
 	
 	// List of employees working at this coffee shop
-	// employees[]
-	
+	ArrayList employees = new ArrayList();
 	
 	// List (expandable) of drinks that this coffee shop is capable of making
 	// Based on the machinery they have and/or the recipes they offer
@@ -127,18 +126,22 @@ public class CoffeeShop : MonoBehaviour {
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateDailyEmployeesWagesTotal
-  Purpose:  
-  Receive:  
+  Purpose:  To calculate the wages of all employees
+  Receive:  All internal variables
   Return :  the cost of paying wages to all employees for a particular day
 ---------------------------------------------------------------------------*/
 	int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
 	{
+		int total = 0;
+		foreach(Employee e in employees){
+			total += e.getPayrate();
+		}
 		// For each employee in the list of employees
 		// determine what their daily pay rate is
 		// sum it all up
 		// and return it
 		// (another function actually takes it from shop funds)
-		return 0;
+		return total;
 	}
 
 /*---------------------------------------------------------------------------
@@ -231,20 +234,30 @@ public class CoffeeShop : MonoBehaviour {
 	
 /*---------------------------------------------------------------------------
   Name   :  buyAdvertisement
-  Purpose:  
-  Receive:  
-  Return :  
+  Purpose:  Buying advertisement to shop in order to increase hype
+  Receive:  The Advertisement to be purchased
+  Return :  Return true if shop has enough money to buy, false if not enough
 ---------------------------------------------------------------------------*/	
 	public bool buyAdvertisement(Advertisement ad)
 	{
-		if(funds > ad.getCost())
+		if(funds > ad.getCost()) //If advertisement costs less than available funds
 		{
-			funds -= ad.getCost();
-			hypeLevel += ad.getHype();
+			funds -= ad.getCost(); //Decrease funds
+			hypeLevel += ad.getHype(); //Increase hype
 			return true;
 		}
 		return false;
 	}
-	
 
+/*---------------------------------------------------------------------------
+  Name   :  addEmployee
+  Purpose:  Adding employee to shop
+  Receive:  Employee to add
+  Return :  no return value
+---------------------------------------------------------------------------*/	
+	public void addEmployee(Employee employee)
+	{
+		employees.Add (employee);
+	}
+	
 }

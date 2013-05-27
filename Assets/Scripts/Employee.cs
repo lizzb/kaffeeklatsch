@@ -13,6 +13,9 @@ using System.Collections;
 
 public class Employee : MonoBehaviour {
 	
+	CoffeeShop cafe;
+	GameObject room;
+	
 	string name = "";
 	
 	// Pay rate per hour... or day... not sure yet
@@ -40,6 +43,15 @@ public class Employee : MonoBehaviour {
 	//
 	void Start () {
 		
+		payRate = GameConstants.wageNovice;
+		
+		
+		// use built-in tag because i'm too lazy to make my own tag
+		room = GameObject.FindGameObjectWithTag("GameController");
+		
+		// Grabs the CoffeeShop class (only once!)
+		cafe = room.GetComponent<CoffeeShop>();
+		cafe.addEmployee(this);
 		// Give them a name
 	
 	}
@@ -54,5 +66,10 @@ public class Employee : MonoBehaviour {
 		// isBusy = true;
 		// currentAction = Actions.Cashier,
 	
+	}
+	
+	//Get pay Rate
+	public int getPayrate(){
+		return payRate;
 	}
 }
