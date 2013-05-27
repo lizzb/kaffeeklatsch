@@ -96,8 +96,15 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
+<<<<<<< HEAD
 		//Detect if customer is ready to buy drink
 		sellDrinkToCustomer();
+=======
+		
+		//updatePopularity();
+		// update satisfaction and update hype called elsewhere
+		popularity = satisfactionRating + hypeLevel;
+>>>>>>> dbdbf4920db0c5acb09ad2682d3b471b90f1aca4
 		
 		//Hack for augmenting funds and popularity
 		if(Input.GetKeyDown(KeyCode.M)){
@@ -114,6 +121,32 @@ public class CoffeeShop : MonoBehaviour {
 		}
 	}
 
+	
+	
+// shop.updateCustomerSatisfaction(calculateSatisfactionLevel());	
+/*---------------------------------------------------------------------------
+  Name   :  updateSatisfaction
+  Purpose:  
+  Receive:  satisfaction rating from a customer
+  Return :  void
+---------------------------------------------------------------------------*/
+	public void updateCustomerSatisfaction(int custSatisfaction)
+	{
+		satisfactionRating += custSatisfaction;
+	}
+
+/*---------------------------------------------------------------------------
+  Name   :  updateHype
+  Purpose:  
+  Receive:  hype level from an advertising campaign
+  Return :  void
+---------------------------------------------------------------------------*/
+	public void updateHype(int hype)
+	{
+		hypeLevel += hype;
+	}
+	
+	
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateDailyCosts
@@ -147,7 +180,8 @@ public class CoffeeShop : MonoBehaviour {
 	int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
 	{
 		int total = 0;
-		foreach(Employee e in employees){
+		foreach(Employee e in employees)
+		{
 			total += e.getPayrate();
 		}
 		// For each employee in the list of employees
@@ -256,7 +290,7 @@ public class CoffeeShop : MonoBehaviour {
 		if(funds > ad.getCost()) //If advertisement costs less than available funds
 		{
 			funds -= ad.getCost(); //Decrease funds
-			hypeLevel += ad.getHype(); //Increase hype
+			updateHype(ad.getHype()); //hypeLevel += ad.getHype(); //Increase hype
 			return true;
 		}
 		return false;

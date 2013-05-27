@@ -13,6 +13,8 @@ using System.Collections;
 
 public class Customer : MonoBehaviour
 {
+	// Access to the coffee shop object
+	CoffeeShop cafe;
 	
 	// The time a customer arrived at the store (or got in line...??)
 	float arrivalTime = 0;
@@ -57,6 +59,7 @@ public class Customer : MonoBehaviour
 	
 	private int linePosition; // if linePosition==0 then customer is the first in line. This updates automatically
 	private int customerSpeed; // Determines how slow/fast a customer walks. The higher the faster.
+	
 	private float timeInShop; // Used to store how many seconds the customer will stay in the shop.
 								//The customer will leave if(time==0)
 
@@ -65,6 +68,14 @@ public class Customer : MonoBehaviour
 	//
 	void Start ()
 	{
+
+		
+		// use built-in tag because i'm too lazy to make my own tag
+		GameObject room = GameObject.FindGameObjectWithTag("GameController");
+		
+		// Grabs the CoffeeShop class (only once!)
+		cafe = room.GetComponent<CoffeeShop>();
+		
 		// ----- start lizz's thoughts -----
 		
 		// Set arrivalTime to current time
@@ -96,10 +107,11 @@ public class Customer : MonoBehaviour
 		
 		//if (!drinkIsReady)
 		
-		
-		// If the time a customer has been waiting in line
+		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
+		// If the time a customer has been waiting in line (modify this *****)
 		// exceeds their patience limit, they leave unhappily
 		// leaveCafe(true, false);
+
 		
 
 		// If the time a customer has been waiting in total (for a drink)
@@ -121,6 +133,8 @@ public class Customer : MonoBehaviour
 		
 		// ----- end lizz's thoughts, start federico's code -----
 		
+		bool leftEarly = false; // longline
+		bool longWait = false; // wait for drink
 		
 		timeInShop -= Time.deltaTime;
 		
@@ -130,17 +144,22 @@ public class Customer : MonoBehaviour
 			custAction = (int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
+		// Customer gets in line
 		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
 			custAction = (int) Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
 		
-		// Customer walks out of the line and leaves the shop if timeInShop < 0.
+		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
+		// If the time a customer has been waiting in line (modify this *****)
+		// exceeds their patience limit, they leave unhappily
+		// leaveCafe(true, false);
 		if(timeInShop < 0)
 		{
 			custAction = (int) Actions.walkingOut;
-			leaveCafe(true, false);
+			leftEarly = true; // leave early, negative impact on satisfaction
+			leaveCafe();
 		}
 		
 		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
@@ -156,11 +175,14 @@ public class Customer : MonoBehaviour
 				if(customer.linePosition > customerRemoved)
 					customer.linePosition--;
 			}
+			
+			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly, longWait));
 			Destroy(this.gameObject);
 		}
 	}
 
-
+	
+	
 /*---------------------------------------------------------------------------
   Name   :  calculateLineWaitingTime
   Purpose:  Determine number of minutes the customer has been waiting in line
@@ -209,12 +231,17 @@ public class Customer : MonoBehaviour
   Purpose:  Calculate and return a customer's satisfaction with their
   			experience at the coffee shop upon their departure
   Receive:  none, uses member variables
+  			--> could potentially take in variables like longLine, longWait
   			--> could potentially take in variables like leftearly = true
   			or a multiplier that leaveCafe generates based on leave conditions
   Return :  int satisfaction level - to use for other coffee shop functions 
 ---------------------------------------------------------------------------*/
-	int calculateSatisfactionLevel ()
+	int calculateSatisfactionLevel (bool leftEarly, bool longWait)
 	{
+		int satisfaction = GameConstants.defaultSatisfactionLevel;
+		
+		if (leftEarly) satisfaction = satisfaction * -1;
+		
 		// A customer's satisfaction with their experience at the coffee shop
 		// depends on many factors:
 		
@@ -223,8 +250,10 @@ public class Customer : MonoBehaviour
 		// quality of drink
 		// price of drink
 		
+		// TODO!! **** ACTUALLY calculate this stuff
+		// maybe dont need to feed longwait and stuff as bools in other function
 		
-		return 0;
+		return satisfaction;
 	}
 	
 
@@ -235,8 +264,13 @@ public class Customer : MonoBehaviour
   Receive:  --> could potentially take in variables like longLine, longWait
   Return :  
 ---------------------------------------------------------------------------*/	
+<<<<<<< HEAD
 	public void leaveCafe (bool longLine, bool longWait)
+=======
+	void leaveCafe ()
+>>>>>>> dbdbf4920db0c5acb09ad2682d3b471b90f1aca4
 	{
+		// Animation to leave cafe....comment me later!! ****
 		if(transform.position.z < 1 && transform.position.x >= 6)
 			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
 		else if(transform.position.x < 6)
@@ -244,7 +278,9 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
+
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
+		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
 	
 
