@@ -1,7 +1,16 @@
+/*
+ * Interface ---> I realize this is an awful class name, don't judge me
+ * 
+ * TODO: finish description
+ * 
+ * This class is responsible for displaying all GUI components in the game on screen
+ * 
+ * Notes: 
+ */
+
 using UnityEngine;
 using System.Collections;
 
-// I realize this is an awful class name, don't judge me
 
 public class Interface : MonoBehaviour {
 	
@@ -9,38 +18,67 @@ public class Interface : MonoBehaviour {
 	CoffeeShop cafe;
 	GameObject room;
 	
+	// TODO: change font size/color of stuff *****
 	
 	
-	
-	// Constants for placement of interface elements
+	// ----- Constants for placement of interface elements ----- //
 	
 	// --- Display of current funds ---
 	// Near upper left hand corner
 	const int fundsX = 10;
 	const int fundsY = 10;
-	const int fundsW = 100;
-	const int fundsH = 75;
-		
+	const int fundsW = 185;
+	const int fundsH = 30; //50;
+	
+	// --- Display of cafe's popularity ---
+	// Popularity consists of customer satisfaction + hype from ads
+	// When displaying, the hype level and satisfaction should be 2 diff colors
+	// in a status bar labeled "popularity"
+	
+	// The established/long-term customer satisfaction rating of this coffee shop
+	// The current "hype" level for this coffee shop
+	// (boosts to popularity due to advertising)
+	const int popX = 10;
+	const int popY = 50; //125;
+	const int popW = 185;
+	const int popH = 75;
+	
+	
 	// --- Display of current day and time ---
 	// Near upper right hand corner
 	int dateX = Screen.width - 110;
 	const int dateY = 10;
 	const int dateW = 100;
-	const int dateH = 100;
+	const int dateH = 65;
 	
+
+	
+	// --- Display of advertisement/marketing button ---
+	const int adButtonX = 10;
+	const int adButtonY = 200; //100;
+	const int adButtonW = 120;
+	const int adButtonH = 30;
+	
+	// --- Display of advertisement/marketing menu ---
+	
+	const int adMenuX = adButtonW + 25; //adButtonX;
+	const int adMenuY = adButtonY; //adButtonY+50;
+	const int adMenuW = 100;
+	const int adMenuH = 100;
+	
+	// drinkssoldtoday
+	// revenue today
+	
+	
+
 		
 	//
 	// Use this for initialization
 	//
 	void Start () {
 		
-		//print ("yeay start");
-		
 		// use built-in tag because i'm too lazy to make my own tag
 		room = GameObject.FindGameObjectWithTag("GameController");
-		
-		//Transform t = room.GetComponent<Transform>();
-		//print (t.position.x);
 		
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
@@ -66,23 +104,20 @@ public class Interface : MonoBehaviour {
 		// top right: Screen.width - 100,0,100,50
 		// bottom left: (0,Screen.height - 50,100,50)
 		// bottom right: (Screen.width - 100,Screen.height - 50,100,50)
+		
+		// y: 40, 65, 90,115, 140 --> i.e. 25 is nice line height for labels
 
 		displayCurrentFunds();
+		displayPopularity();
 		displayCurrentDayTime();
+		
+		// ----- Buttons, Buy Menus, etc. ----- //
 		displayAdvertisements();
 		
 		/*		
-		// Near upper right hand corner
-		const int dateX = Screen.width - 200;
+		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
+		GUI.Label (new Rect (x-10,65,120,20), "Revenue for today: " + imp.currentMotivationLevel);
 		
-		GUI.Box(new Rect(x - 20,10,200,100), "Parent Menu");
-		
-		GUI.Label (new Rect (x-10,40,120,20), "Parent fear: " + imp.currentFearLevel);
-		GUI.Label (new Rect (x-10,65,120,20), "Motivation: " + imp.currentMotivationLevel);
-		GUI.Label (new Rect (x-10,90,120,20), "Parent panic: " + imp.currentPanicLevel);
-		GUI.Label (new Rect (x-10,115,120,20), "Parent play: " + imp.currentPlayLevel);
-		GUI.Label (new Rect (x-10,140,120,20), "Emotion: " + imp.currentEmotion);
-
 		// Make the first button. If it is pressed, Application.Loadlevel (1) will be executed
 		if(GUI.Button(new Rect(20,40,80,20), "Level 1")) {
 			Application.LoadLevel(1);
@@ -100,11 +135,14 @@ public class Interface : MonoBehaviour {
 	{
 		// Make a background box ...near the top left screen corner
 		//GUI.Box(new Rect(10,10,100,75), "Current Funds: ");
-		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: ");
+		//GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: ");
 		
-		GUI.Label(new Rect (fundsX+10,fundsY+25,fundsW,fundsH), "$" + cafe.funds);
+		// Since label is inside box, make sure position is relative to position of box
+		//GUI.Label(new Rect (fundsX+10,fundsY+25,fundsW,fundsH), "$" + cafe.funds);
 		
-		// TODO: change font size/color
+		// TODO: change font size/color *****
+		
+		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: $"+ cafe.funds);
 	}
 	
 /*---------------------------------------------------------------------------
@@ -115,28 +153,86 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayCurrentDayTime()
 	{
-		// (0,Screen.height - 50,100,50), "Bottom-left");
 		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: X" /*+ day in game */ );
 		
-		GUI.Label(new Rect (dateX+50,dateY+20,dateW,dateH), "Hour" + ":" + "Min" + "PM"); //........
+		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), "Hour" + ":" + "Min" + "PM"); //........
 	}
+	
+
+/*---------------------------------------------------------------------------
+  Name   :  displayPopularity
+  Purpose:  Display the popularity of this coffee shop
+  			TODO: in meter form.....???? ***
+  Receive:  null
+  Return :  void
+---------------------------------------------------------------------------*/
+	void displayPopularity()
+	{
+		int lineHeight = 20;
+		int y = popY+5;
+		//GUI.Box(new Rect(popX,popY,popW,popH), "Popularity: " + cafe.popularity);
+		
+		GUI.Box(new Rect(popX,popY,popW,popH), "");
+		GUI.Label(new Rect(popX+12,y,popW,popH), "Popularity: " + cafe.popularity);
+		GUI.Label(new Rect (popX+25,y+lineHeight,popW,popH), "Customer Satisfaction: " + cafe.satisfactionRating); 
+		GUI.Label(new Rect (popX+25,y+2*lineHeight,popW,popH), "Hype: " + cafe.hypeLevel); 
+		
+		// pretty sure i can type text and use \n for line breaks... will figure out later ***
+		// seems silly to be making rects inside a box
+	}
+	
+	
 	
 	private bool advertisementDisplay = false;
-	void displayAdvertisements(){
-		if(GUI.Button(new Rect(10,100,120,30),new GUIContent("Advertisements"))){
+	
+/*---------------------------------------------------------------------------
+  Name   :  displayAdvertisements
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void displayAdvertisements()
+	{
+		// COMMENT MEE..............
+		if(GUI.Button(new Rect(adButtonX,adButtonY,adButtonW,adButtonH),new GUIContent("Advertisements")))
+		{
 			advertisementDisplay = !advertisementDisplay;
 		}
-		if(advertisementDisplay){
-			GUI.Window(0,new Rect(10,150,100,100),advertisementWindow,"");
+		
+		// COMMENT MEE..............
+		if(advertisementDisplay)
+		{
+			GUI.Window(0,new Rect(adMenuX,adMenuY,adMenuW,adMenuH),advertisementWindow,"");
 		}
 	}
 	
-	void advertisementWindow(int WindowId){
-		if(GUI.Button(new Rect(5,10,90,20),"Flyers")){
+/*---------------------------------------------------------------------------
+  Name   :  advertisementWindow
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void advertisementWindow(int WindowId)
+	{
+		int x = 5;
+		int y = 10;
+		int lineHeight = 30;
+		int w = 90;
+		int h = 20;
+		
+		// COMMENT MEE..............
+		if(GUI.Button(new Rect(x,y,w,h),"Flyers"))
+		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
-		} else if(GUI.Button(new Rect(5,40,90,20),"Internet Ads")){
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(x,y+lineHeight,w,h),"Internet Ads"))
+		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
-		} else if(GUI.Button(new Rect(5, 70,90,20),"Billboard")){
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
+		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
 		}
 	}

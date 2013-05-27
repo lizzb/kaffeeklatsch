@@ -17,29 +17,35 @@ public class CoffeeShop : MonoBehaviour {
 	// Not sure if we should have a "MoneyManager" class...
 	//
 	
+	// TODO: make sure you can't purchase things that will make you go into debt
+	// however, paying your employees at end of day CAN make you go into debt
 	
-	// The overall current funds of this coffee shop
 	
-	// This doesn't seem to be the way that Unity deals with getting variables
+	
+	// Common good practice is to have private member variables and public getters/setters
+	// However, this doesn't seem to be the way that Unity deals with variables like these
 	// so hackyness yay
 	//int funds = 0;
 	//public int getFunds() { return funds; }
 	
-	public int funds = 0;
-	
-	// The popularity of this coffee shop
-	// Consists of customer satisfaction + hype from ads
-	int popularity = 0;
-	
-	// When displaying, the hype level and satisfaction should be 2 diff colors
-	// in a status bar labeled "popularity"
+	// The overall current funds of this coffee shop
+	public int funds;
 	
 	// The established/long-term customer satisfaction rating of this coffee shop
-	int satisfactionRating = GameConstants.initialSatisfactionRating;
+	public int satisfactionRating;
 	
 	// The current "hype" level for this coffee shop
 	// (boosts to popularity due to advertising)
-	int hypeLevel = GameConstants.initialHypeLevel;
+	public int hypeLevel;
+	
+	// The popularity of this coffee shop
+	// Consists of customer satisfaction + hype from ads
+	public int popularity;
+	
+	// The daily rent for this coffee shop
+	// .....not sure if we'll get to implementing functionality requiring this
+	int rent; 
+
 	
 	// TODO: Figure out how to determine how long "hype" lasts for,
 	// especially if multiple marketing campaigns are put in place
@@ -73,13 +79,16 @@ public class CoffeeShop : MonoBehaviour {
 	//
 	// Use this for initialization
 	//
-	
-	// possibly feed in difficulty level --> different initial funds?
 	void Start () {
+		// possibly feed in difficulty level --> different initial funds?
 		
+		rent = GameConstants.startingRent;
+		
+		// Initialize all starting variables
 		funds = GameConstants.startingFundsEasy;
+		satisfactionRating = GameConstants.initialSatisfactionRating;
+		hypeLevel = GameConstants.initialHypeLevel;
 		popularity = satisfactionRating + hypeLevel;
-	
 	}
 	
 	//
@@ -96,17 +105,40 @@ public class CoffeeShop : MonoBehaviour {
 /*---------------------------------------------------------------------------
   Name   :  calculateDailyCosts
   Purpose:  Calculate the costs for one day of simulation
+  			(doesn't acutally remove them from store funds!)
   Receive:  none, uses internal variables
   Return :  costs for the day
 ---------------------------------------------------------------------------*/	
 	int calculateDailyCosts()
 	{
-		return GameConstants.startingRent + GameConstants.wageNovice;
-		// Include rent
+		int totalDailyCosts = 0;
 		
-		// Calculate sum of paying all employees
+		// Include rent
+		totalDailyCosts += rent;
+		
+		// Calculate sum of paying all employees for this day
+		totalDailyCosts += calculateDailyTotalEmployeesWagesTotal();
 		
 		// Prices of ingredients/stock?
+		
+		return totalDailyCosts;
+		//return GameConstants.startingRent + GameConstants.wageNovice;
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  calculateDailyEmployeesWagesTotal
+  Purpose:  
+  Receive:  
+  Return :  the cost of paying wages to all employees for a particular day
+---------------------------------------------------------------------------*/
+	int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
+	{
+		// For each employee in the list of employees
+		// determine what their daily pay rate is
+		// sum it all up
+		// and return it
+		// (another function actually takes it from shop funds)
+		return 0;
 	}
 
 /*---------------------------------------------------------------------------
@@ -119,6 +151,9 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		// don't need to add revenue to funds,
 		// since they are added at time of sale
+		
+		// Display costs spent on employee wages
+		// Display costs spent on rent
 		
 		// deduct daily costs
 		funds -= calculateDailyCosts();
@@ -152,7 +187,7 @@ public class CoffeeShop : MonoBehaviour {
 		// not sure yet best way to do this
 		// also if drink is just an enum then possibly easier
 		
-		
+		// Add drink sale to daily revenue tracker and daily drink/customer count
 		dailyRevenue += drinkPrice;
 		dailyNumDrinksSold++;
 		
@@ -192,13 +227,24 @@ public class CoffeeShop : MonoBehaviour {
 		
 		return true;
 	}
+
 	
-	public bool buyAdvertisement(Advertisement ad){
-		if(funds > ad.getCost()){
+/*---------------------------------------------------------------------------
+  Name   :  buyAdvertisement
+  Purpose:  
+  Receive:  
+  Return :  
+---------------------------------------------------------------------------*/	
+	public bool buyAdvertisement(Advertisement ad)
+	{
+		if(funds > ad.getCost())
+		{
 			funds -= ad.getCost();
 			hypeLevel += ad.getHype();
 			return true;
 		}
 		return false;
 	}
+	
+
 }
