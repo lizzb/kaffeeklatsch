@@ -40,6 +40,9 @@ using System;
 	//Initial Rent for Coffee Shop
 	public const int startingRent = 50;
 	
+	//Initial Drink Cost for Coffee Shop
+	public const int initialDrinkCost = 5;
+	
 	
 	//
 	// ---------- GAME OBJECTS / variables ----------

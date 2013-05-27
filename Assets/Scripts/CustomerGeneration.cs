@@ -29,10 +29,14 @@ public class CustomerGeneration : MonoBehaviour {
 	//
 	void Update ()
 	{
+		//Updates probOfCustomerSpawn according to shop's popularity
+		CoffeeShop coffeeShop = (CoffeeShop) GameObject.FindObjectOfType(typeof(CoffeeShop));
+		probOfCustomerSpawn = coffeeShop.popularity/4;
+		
 		time += Time.deltaTime;
 		if(time > 1.0f)
 		{
-			if(P(probOfCustomerSpawn) && GameObject.FindObjectsOfType(typeof(Customer)).Length < 4)
+			if(P(probOfCustomerSpawn) && GameObject.FindObjectsOfType(typeof(Customer)).Length < 6)
 			{
 				Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
 			}
