@@ -130,7 +130,7 @@ public class Customer : MonoBehaviour
 			custAction = (int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
-		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
+		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
 			custAction = (int) Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
