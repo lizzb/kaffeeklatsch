@@ -111,10 +111,10 @@ public class CoffeeShop : MonoBehaviour {
 			funds -= drinkCost;
 		}
 		if(Input.GetKeyDown(KeyCode.P)){
-			popularity += 10;
+			hypeLevel += 10;
 		}
 		if(Input.GetKeyDown(KeyCode.O)){
-			popularity -= 10;
+			hypeLevel -= 10;
 		}
 	}
 
@@ -313,6 +313,7 @@ public class CoffeeShop : MonoBehaviour {
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
 			if(c.isFrontOfLine()){
 				sellDrink (c,GameConstants.Drinks.PlainCoffee);
+				c.leaveCafe();
 			}
 		}
 	}
