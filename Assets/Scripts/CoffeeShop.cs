@@ -96,15 +96,12 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
-<<<<<<< HEAD
 		//Detect if customer is ready to buy drink
 		sellDrinkToCustomer();
-=======
 		
 		//updatePopularity();
 		// update satisfaction and update hype called elsewhere
 		popularity = satisfactionRating + hypeLevel;
->>>>>>> dbdbf4920db0c5acb09ad2682d3b471b90f1aca4
 		
 		//Hack for augmenting funds and popularity
 		if(Input.GetKeyDown(KeyCode.M)){

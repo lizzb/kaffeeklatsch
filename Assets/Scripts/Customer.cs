@@ -264,11 +264,7 @@ public class Customer : MonoBehaviour
   Receive:  --> could potentially take in variables like longLine, longWait
   Return :  
 ---------------------------------------------------------------------------*/	
-<<<<<<< HEAD
-	public void leaveCafe (bool longLine, bool longWait)
-=======
-	void leaveCafe ()
->>>>>>> dbdbf4920db0c5acb09ad2682d3b471b90f1aca4
+	public void leaveCafe ()
 	{
 		// Animation to leave cafe....comment me later!! ****
 		if(transform.position.z < 1 && transform.position.x >= 6)
