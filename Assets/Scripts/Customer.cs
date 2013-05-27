@@ -39,11 +39,16 @@ public class Customer : MonoBehaviour
 	
 	// Dominant customer thought/opinion/emotion to display in thought bubble 
 	enum Opinions { neutral=0, priceGood, priceBad, qualityGood, qualityBad,
-							waitGood, waitBad, envGood, envBad }
+							waitGood, waitBad, envGood, envBad };
 	
 	// This customer's opinion
 	int custOp = (int)Opinions.neutral;
 	
+	// Different actions customers can be doing
+	enum Actions { neutral, walkingIn, inLine, walkingOut };
+	
+	// This customer's current action
+	public int custAction = (int) Actions.neutral;
 	
 	//All public variables on scale [0,10] with 0 being 'better'
 	public int cleanFreak;
@@ -121,13 +126,22 @@ public class Customer : MonoBehaviour
 		
 		// Customer walks from door to its line position
 		if(transform.position.x == 5)
+		{
+			custAction = (int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
+		}
 		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
+		{
+			custAction = (int) Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
+		}
 		
 		// Customer walks out of the line and leaves the shop if timeInShop < 0.
 		if(timeInShop < 0)
+		{
+			custAction = (int) Actions.walkingOut;
 			leaveCafe(true, false);
+		}
 		
 		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
 		if(transform.position.x < 6 && transform.position.z < -1 && timeInShop < 0)
@@ -223,11 +237,11 @@ public class Customer : MonoBehaviour
 ---------------------------------------------------------------------------*/	
 	void leaveCafe (bool longLine, bool longWait)
 	{
-		if(transform.position.x > 12-1.5*linePosition)
-			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		if(transform.position.z < 1 && transform.position.x >= 6)
 			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
-		if(transform.position.x < 6)
+		else if(transform.position.x < 6)
+			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
+		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
