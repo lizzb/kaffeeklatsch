@@ -109,7 +109,6 @@ public class CoffeeShop : MonoBehaviour {
 	void Update () {
 		//Detect if customer is ready to buy drink
 		takeCustomerOrder();
-		//sellDrinkToCustomer();
 		
 		//updatePopularity();
 		// update satisfaction and update hype called elsewhere
@@ -128,11 +127,12 @@ public class CoffeeShop : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.O)){
 			hypeLevel -= 10;
 		}
+		
+		//Take 3 seconds to make drink
 		if(makingDrink){
 			time += Time.deltaTime;
-			print (time);
 			if(time > 3.0f){
-				sellDrinkToCustomer();
+				sellDrinkToCustomer(); //Sell drink to customer and reset timer
 				time = 0;
 			}
 		}
@@ -354,18 +354,24 @@ public class CoffeeShop : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	public void sellDrinkToCustomer(){
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
-			if(c.isFrontOfLine()){
-				sellDrink (c,GameConstants.Drinks.PlainCoffee);
-				c.custAction = 3;
-				makingDrink = false;
+			if(c.isFrontOfLine()){ //If customer is in front of line
+				sellDrink (c,GameConstants.Drinks.PlainCoffee); //Sell drink to customer
+				c.custAction = 3; //Set customer action to leaving shop
+				makingDrink = false; //Stop incrementing drink
 			}
 		}
 	}
-	
+
+/*---------------------------------------------------------------------------
+  Name   :  takeCustomerOrder
+  Purpose:  Take customer order from front of line
+  Receive:  Nothing, use internal variables
+  Return :  nothing
+---------------------------------------------------------------------------*/	
 	public void takeCustomerOrder(){
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
-			if(c.isFrontOfLine()){
-				makingDrink = true;
+			if(c.isFrontOfLine()){ //If customer is in front of line
+				makingDrink = true; //Start incrementing drink counter
 			}
 		}
 	}
