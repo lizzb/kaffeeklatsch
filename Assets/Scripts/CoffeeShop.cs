@@ -58,6 +58,8 @@ public class CoffeeShop : MonoBehaviour {
 	// Based on the machinery they have and/or the recipes they offer
 	// drinksMenu []
 	
+	//Initial Cost of Drink
+	int drinkCost = GameConstants.initialDrinkCost; 
 	
 	//
 	// Daily statistics - implement later if time
@@ -96,10 +98,10 @@ public class CoffeeShop : MonoBehaviour {
 	void Update () {
 		//Hack for augmenting funds and popularity
 		if(Input.GetKeyDown(KeyCode.M)){
-			funds += 50;
+			funds += drinkCost;
 		}
 		if(Input.GetKeyDown (KeyCode.N)){
-			funds -= 50;
+			funds -= drinkCost;
 		}
 		if(Input.GetKeyDown(KeyCode.P)){
 			popularity += 10;
@@ -195,16 +197,15 @@ public class CoffeeShop : MonoBehaviour {
 		// possibly determine if we have the ingredients necessary?
 		
 		// determine the price of the drink requested
-		int drinkPrice = (int)drink * 50; //GameConstants.getPrice... have constant for prices? function?
 		// not sure yet best way to do this
 		// also if drink is just an enum then possibly easier
 		
 		// Add drink sale to daily revenue tracker and daily drink/customer count
-		dailyRevenue += drinkPrice;
+		dailyRevenue += drinkCost;
 		dailyNumDrinksSold++;
 		
 		// increase shop funds by price of drink requested
-		funds += drinkPrice;
+		funds += drinkCost;
 		
 		
 		// Set the time of transaction for this customer to current time
@@ -269,4 +270,7 @@ public class CoffeeShop : MonoBehaviour {
 		employees.Add (employee);
 	}
 	
+	public void setDrinkCost(int cost){
+		drinkCost = cost;
+	}
 }

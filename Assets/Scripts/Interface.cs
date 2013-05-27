@@ -9,6 +9,7 @@
  */
 
 using UnityEngine;
+using System;
 using System.Collections;
 
 
@@ -51,6 +52,12 @@ public class Interface : MonoBehaviour {
 	const int dateW = 100;
 	const int dateH = 65;
 	
+	//Display of Price Setter Input
+	int priceX = Screen.width - 110;
+	const int priceY = 100;
+	const int priceW = 100;
+	const int priceH = 50;
+	
 	
 	// TODO: not sure if will add pictures to the buttons.....
 	
@@ -87,6 +94,7 @@ public class Interface : MonoBehaviour {
 	// drinkssoldtoday
 	// revenue today
 	
+	int costVal = GameConstants.initialDrinkCost;
 	
 
 		
@@ -108,6 +116,7 @@ public class Interface : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
+		cafe.setDrinkCost(costVal);
 	
 	}
 	
@@ -132,6 +141,9 @@ public class Interface : MonoBehaviour {
 		// ----- Buttons, Buy Menus, etc. ----- //
 		displayBuyButton();
 		displayAdvertisements();
+		
+		//Input for changing costs
+		displayPriceSetter();
 		
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
@@ -208,6 +220,8 @@ public class Interface : MonoBehaviour {
 	private bool adMenuIsVisible = false; //advertisementDisplay = false;
 	
 	private bool buyMenuIsVisible = false;
+	
+	private bool priceMenuIsVisible = false;
 	
 /*---------------------------------------------------------------------------
   Name   :  displayAdvertisements
@@ -323,5 +337,17 @@ public class Interface : MonoBehaviour {
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
 		}
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  displayPriceSetter
+  Purpose:  displays text input to change price of drink
+  Receive:  nothing, just ui 
+  Return :  nothing, just ui
+---------------------------------------------------------------------------*/	
+	void displayPriceSetter(){
+		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
+		float sliderValue = GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, 10.0f);
+		costVal = (int) sliderValue;
 	}
 }
