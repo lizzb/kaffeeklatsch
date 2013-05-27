@@ -13,6 +13,8 @@ using System.Collections;
 
 public class Customer : MonoBehaviour
 {
+	// ADD OBJECT LABELS
+	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
 	
@@ -144,12 +146,9 @@ public class Customer : MonoBehaviour
 			custAction = (int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
-<<<<<<< HEAD
+
 		// Customer gets in line
 		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
-=======
-		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
->>>>>>> 4a821d3e9b2560b38a76eb4575ea9b58600c50b9
 		{
 			custAction = (int) Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);

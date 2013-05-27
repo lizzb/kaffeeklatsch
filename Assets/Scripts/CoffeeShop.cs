@@ -13,6 +13,10 @@ using System.Collections;
 
 public class CoffeeShop : MonoBehaviour {
 	
+	// Manages employees.... more later ****
+	public EmployeeManager empManager;
+	
+	
 	// TODO ???
 	// Not sure if we should have a "MoneyManager" class...
 	//
@@ -51,9 +55,6 @@ public class CoffeeShop : MonoBehaviour {
 	// especially if multiple marketing campaigns are put in place
 	
 	
-	// List of employees working at this coffee shop
-	ArrayList employees = new ArrayList();
-	
 	// List (expandable) of drinks that this coffee shop is capable of making
 	// Based on the machinery they have and/or the recipes they offer
 	// drinksMenu []
@@ -81,6 +82,7 @@ public class CoffeeShop : MonoBehaviour {
 	// Use this for initialization
 	//
 	void Start () {
+		
 		// possibly feed in difficulty level --> different initial funds?
 		
 		rent = GameConstants.startingRent;
@@ -90,6 +92,11 @@ public class CoffeeShop : MonoBehaviour {
 		satisfactionRating = GameConstants.initialSatisfactionRating;
 		hypeLevel = GameConstants.initialHypeLevel;
 		popularity = satisfactionRating + hypeLevel;
+		
+		//empManager = EmployeeManager(); //(this);
+		//empManager.hireEmployee();
+		
+		
 	}
 	
 	//
@@ -175,7 +182,7 @@ public class CoffeeShop : MonoBehaviour {
 	int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
 	{
 		int total = 0;
-		foreach(Employee e in employees)
+		foreach(Employee e in empManager.employees)
 		{
 			total += e.getPayrate();
 		}
@@ -291,18 +298,34 @@ public class CoffeeShop : MonoBehaviour {
 		return false;
 	}
 
-/*---------------------------------------------------------------------------
-  Name   :  addEmployee
-  Purpose:  Adding employee to shop
-  Receive:  Employee to add
-  Return :  no return value
----------------------------------------------------------------------------*/	
-	public void addEmployee(Employee employee)
-	{
-		employees.Add (employee);
-	}
+
 	
 	public void setDrinkCost(int cost){
 		drinkCost = cost;
+	}
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  addEmployee
+  Purpose:  Hire employee to shop
+  Receive:  Employee to add
+  Return :  false if employee was not hired (insufficient funds or reach limit)
+---------------------------------------------------------------------------*/	
+	/* **** this needs TO BE FIXED TO BE HANDLED BY EMPLOYEEMANAGER ***/
+	public void addEmployee(Employee emp)
+	{
+		// use built-in tag because i'm too lazy to make my own tag
+		//room = GameObject.FindGameObjectWithTag("GameController");
+		
+		// Grabs the CoffeeShop class (only once!)
+		//cafe = room.GetComponent<CoffeeShop>();
+		//cafe.empManager.hireEmployee(this);
+		
+		//if (cafe.funds < GameConstants.employeeHiringCost) return false;
+		//Employee emp = new Employee();
+		//print("yay hire an employee!");
+		//employees.Add(emp);
+		empManager.employees.Add (emp);
+		// THIS ALL NEEDS TO BE FIXED *********
 	}
 }

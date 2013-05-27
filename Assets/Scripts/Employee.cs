@@ -14,12 +14,11 @@ using System.Collections;
 public class Employee : MonoBehaviour {
 	
 	CoffeeShop cafe;
-	GameObject room;
-	
+
 	string name = "";
 	
 	// Pay rate per hour... or day... not sure yet
-	int payRate = 0; 
+	int payRate; 
 	
 	// Whether this employee is currently busy or not
 	bool isBusy = false;
@@ -42,15 +41,17 @@ public class Employee : MonoBehaviour {
 	// Use this for initialization
 	//
 	void Start () {
+		name = "Janie";
 		
 		payRate = GameConstants.wageNovice;
 		
-		
+		// THIS NEEDS TO BE FIXED TO BE HANDLED BY EMPLOYEEMANAGER
 		// use built-in tag because i'm too lazy to make my own tag
-		room = GameObject.FindGameObjectWithTag("GameController");
+		GameObject room = GameObject.FindGameObjectWithTag("GameController");
 		
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
+		//cafe.empManager.hireEmployee(this);
 		cafe.addEmployee(this);
 		// Give them a name
 	
@@ -68,7 +69,7 @@ public class Employee : MonoBehaviour {
 	
 	}
 	
-	//Get pay Rate
+	// Get pay Rate
 	public int getPayrate(){
 		return payRate;
 	}

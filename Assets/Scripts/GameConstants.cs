@@ -85,6 +85,8 @@ using System;
 	// ---------- EMPLOYEES ----------
 	//
 	
+	public const int employeeHiringCost = 200;
+	
 	// Pay rate (salary? wage?) for employees of different skill levels
 	// TODO: probably will need to be adjusted! ***
 	public const int wageNovice = 50;
