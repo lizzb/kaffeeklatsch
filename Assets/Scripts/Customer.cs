@@ -47,7 +47,7 @@ public class Customer : MonoBehaviour
 	int custOp = (int)Opinions.neutral;
 	
 	// Different actions customers can be doing
-	enum Actions { neutral, walkingIn, inLine, walkingOut };
+	public enum Actions { neutral, walkingIn, inLine, walkingOut };
 	
 	// This customer's current action
 	public int custAction = (int) Actions.neutral;
@@ -60,7 +60,7 @@ public class Customer : MonoBehaviour
 	private int linePosition; // if linePosition==0 then customer is the first in line. This updates automatically
 	private int customerSpeed; // Determines how slow/fast a customer walks. The higher the faster.
 	
-	private float timeInShop; // Used to store how many seconds the customer will stay in the shop.
+	public float timeInShop; // Used to store how many seconds the customer will stay in the shop.
 								//The customer will leave if(time==0)
 
 	//
@@ -277,7 +277,7 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
-
+		print ("leaving");
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
