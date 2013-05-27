@@ -51,7 +51,25 @@ public class Interface : MonoBehaviour {
 	const int dateW = 100;
 	const int dateH = 65;
 	
-
+	
+	// TODO: not sure if will add pictures to the buttons.....
+	
+	// --- Display of buy/shop upgrade button ---
+	const int buyButtonX = 10;
+	const int buyButtonY = 150;
+	const int buyButtonW = 120;
+	const int buyButtonH = 30;
+	
+	// --- Display of buy/shop upgrade menu ---
+	
+	const int buyMenuX = buyButtonW + 25; 
+	const int buyMenuY = buyButtonY; 
+	const int buyMenuW = 100;
+	const int buyMenuH = 100;
+	
+	
+	
+	
 	
 	// --- Display of advertisement/marketing button ---
 	const int adButtonX = 10;
@@ -112,6 +130,7 @@ public class Interface : MonoBehaviour {
 		displayCurrentDayTime();
 		
 		// ----- Buttons, Buy Menus, etc. ----- //
+		displayBuyButton();
 		displayAdvertisements();
 		
 		/*		
@@ -182,8 +201,13 @@ public class Interface : MonoBehaviour {
 	}
 	
 	
+
+	// Note: for private variable booleans, use an "IsX" naming convention
+	// especially with visibility
 	
-	private bool advertisementDisplay = false;
+	private bool adMenuIsVisible = false; //advertisementDisplay = false;
+	
+	private bool buyMenuIsVisible = false;
 	
 /*---------------------------------------------------------------------------
   Name   :  displayAdvertisements
@@ -196,11 +220,11 @@ public class Interface : MonoBehaviour {
 		// COMMENT MEE..............
 		if(GUI.Button(new Rect(adButtonX,adButtonY,adButtonW,adButtonH),new GUIContent("Advertisements")))
 		{
-			advertisementDisplay = !advertisementDisplay;
+			adMenuIsVisible = !adMenuIsVisible;
 		}
 		
 		// COMMENT MEE..............
-		if(advertisementDisplay)
+		if(adMenuIsVisible)
 		{
 			GUI.Window(0,new Rect(adMenuX,adMenuY,adMenuW,adMenuH),advertisementWindow,"");
 		}
@@ -245,5 +269,59 @@ public class Interface : MonoBehaviour {
   Return :  x
 ---------------------------------------------------------------------------*/	
 	
+
+	// just copy/pasted below from KG's code
+	// will fix later - wanted to get it in for layout purposes
 	
+/*---------------------------------------------------------------------------
+  Name   :  displayBuyButton
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void displayBuyButton()
+	{
+		// COMMENT MEE..............
+		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH),new GUIContent("Shop Upgrades")))
+		{
+			buyMenuIsVisible = !buyMenuIsVisible;
+		}
+		
+		// COMMENT MEE..............
+		if(buyMenuIsVisible)
+		{
+			GUI.Window(0,new Rect(buyMenuX,buyMenuY,buyMenuW,buyMenuH),buyWindow,"");
+		}
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  buyWindow
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void buyWindow(int WindowId)
+	{
+		int x = 5;
+		int y = 10;
+		int lineHeight = 30;
+		int w = 90;
+		int h = 20;
+		
+		// COMMENT MEE..............
+		if(GUI.Button(new Rect(x,y,w,h),"Flyers"))
+		{
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(x,y+lineHeight,w,h),"Internet Ads"))
+		{
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
+		{
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+		}
+	}
 }

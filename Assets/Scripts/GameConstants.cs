@@ -56,6 +56,28 @@ using System;
 	public const int coffeeMachine3Cost = 350;
 	
 	
+	// Names of different advertising/marketing campaigns
+	public const string adType1Name = "Flyer";
+	public const string adType2Name = "Internet Ad";
+	public const string adType3Name = "Billboard";
+	
+	
+	// Cost to purchase different advertising/marketing campaigns
+	
+	public const int adType1Cost = 30;
+	public const int adType2Cost = 60;
+	public const int adType3Cost = 100;
+	
+	// Hype levels associated with different ad types
+	public const int adType1Hype = 5;
+	public const int adType2Hype = 15;
+	public const int adType3Hype = 40;
+	
+	// *** TODO: maybe also duration of hype....??
+	
+	
+	
+	
 	//
 	// ---------- EMPLOYEES ----------
 	//
@@ -65,6 +87,10 @@ using System;
 	public const int wageNovice = 50;
 	public const int wageAverage = 100;
 	public const int wageExpert = 150;
+	
+	
+	
+	
 	
 	
 	

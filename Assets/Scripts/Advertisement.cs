@@ -19,15 +19,20 @@ public class Advertisement
 	public Advertisement (AdvertisementType adType)
 	{
 		type = adType;
-		if(type == AdvertisementType.Flyer){
-			cost = 30;
-			hypeFactor = 5;
-		} else if(type == AdvertisementType.InternetAd){
-			cost = 60;
-			hypeFactor = 15;
-		} else if(type == AdvertisementType.Billboard){
-			cost = 100;
-			hypeFactor = 40;
+		if(type == AdvertisementType.Flyer)
+		{
+			cost = GameConstants.adType1Cost;
+			hypeFactor = GameConstants.adType1Hype;
+		}
+		else if(type == AdvertisementType.InternetAd)
+		{
+			cost = GameConstants.adType2Cost;
+			hypeFactor = GameConstants.adType2Hype;
+		}
+		else if(type == AdvertisementType.Billboard)
+		{
+			cost = GameConstants.adType3Cost;
+			hypeFactor = GameConstants.adType3Hype;
 		}
 	}
 		
