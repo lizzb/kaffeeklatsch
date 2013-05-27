@@ -147,8 +147,11 @@ public class Customer : MonoBehaviour
 		// Customer gets in line
 		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
-			custAction = (int) Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
+		}
+		else if(transform.position.x >= 13-1.5*linePosition)
+		{
+			custAction = (int) Actions.inLine;
 		}
 		
 		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
