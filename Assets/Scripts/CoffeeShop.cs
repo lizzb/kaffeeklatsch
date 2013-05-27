@@ -78,6 +78,10 @@ public class CoffeeShop : MonoBehaviour {
 	// List for history of costs at EOD
 	// List of history of satisfaction ratings at EOD
 	
+	//Variables to simulate drink making, will probably go away with employees
+	bool makingDrink = false;
+	private float time = 0;
+	
 	//
 	// Use this for initialization
 	//
@@ -104,7 +108,8 @@ public class CoffeeShop : MonoBehaviour {
 	//
 	void Update () {
 		//Detect if customer is ready to buy drink
-		sellDrinkToCustomer();
+		takeCustomerOrder();
+		//sellDrinkToCustomer();
 		
 		//updatePopularity();
 		// update satisfaction and update hype called elsewhere
@@ -122,6 +127,14 @@ public class CoffeeShop : MonoBehaviour {
 		}
 		if(Input.GetKeyDown(KeyCode.O)){
 			hypeLevel -= 10;
+		}
+		if(makingDrink){
+			time += Time.deltaTime;
+			print (time);
+			if(time > 3.0f){
+				sellDrinkToCustomer();
+				time = 0;
+			}
 		}
 	}
 
@@ -344,7 +357,15 @@ public class CoffeeShop : MonoBehaviour {
 			if(c.isFrontOfLine()){
 				sellDrink (c,GameConstants.Drinks.PlainCoffee);
 				c.timeInShop = 0f;
-				//c.leaveCafe();
+				makingDrink = false;
+			}
+		}
+	}
+	
+	public void takeCustomerOrder(){
+		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
+			if(c.isFrontOfLine()){
+				makingDrink = true;
 			}
 		}
 	}
