@@ -94,9 +94,18 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
-		//Hack for Increasing Funds
+		//Hack for augmenting funds and popularity
 		if(Input.GetKeyDown(KeyCode.M)){
-			sellDrink (new Customer(),GameConstants.Drinks.PlainCoffee);
+			funds += 50;
+		}
+		if(Input.GetKeyDown (KeyCode.N)){
+			funds -= 50;
+		}
+		if(Input.GetKeyDown(KeyCode.P)){
+			popularity += 10;
+		}
+		if(Input.GetKeyDown(KeyCode.O)){
+			popularity -= 10;
 		}
 	}
 

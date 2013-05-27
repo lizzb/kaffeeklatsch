@@ -72,4 +72,5 @@ public class Employee : MonoBehaviour {
 	public int getPayrate(){
 		return payRate;
 	}
+	
 }
