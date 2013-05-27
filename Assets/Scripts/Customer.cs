@@ -235,7 +235,7 @@ public class Customer : MonoBehaviour
   Receive:  --> could potentially take in variables like longLine, longWait
   Return :  
 ---------------------------------------------------------------------------*/	
-	void leaveCafe (bool longLine, bool longWait)
+	public void leaveCafe (bool longLine, bool longWait)
 	{
 		if(transform.position.z < 1 && transform.position.x >= 6)
 			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
@@ -255,6 +255,21 @@ public class Customer : MonoBehaviour
   Return :  ...
 ---------------------------------------------------------------------------*/	
 	
-
+/*---------------------------------------------------------------------------
+  Name   :  isFrontOfLine
+  Purpose:  Determines if customer is in front of line
+  Receive:  uses internal variables
+  Return :  true if customer is front of line, false otherwise
+---------------------------------------------------------------------------*/	
 	
+	public bool isFrontOfLine(){
+		if(custAction == (int) Actions.inLine && linePosition == 0 && paidForDrink == false){
+			return true;
+		}
+		return false;
+	}
+
+	public void setPaidForDrink(bool val){
+		paidForDrink = val;
+	}
 }
