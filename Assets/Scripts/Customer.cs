@@ -92,7 +92,7 @@ public class Customer : MonoBehaviour
 		moneyGrubber = random.Next(0, 11);
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
 		customerSpeed = 10;
-		timeInShop = (10-impatience)*4;
+		timeInShop = (10-impatience)*2;
 	}
 	
 
