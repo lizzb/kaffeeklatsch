@@ -21,6 +21,16 @@ public class Interface : MonoBehaviour {
 	// TODO: change font size/color of stuff *****
 	
 	
+	// Note: for private variable booleans, use an "IsX" naming convention
+	// especially with visibility
+	
+	private bool adMenuIsVisible = false; //advertisementDisplay = false;
+	
+	private bool buyMenuIsVisible = false;
+	
+	// need to fix something about these windows so only 1 open at a time
+	
+	
 	// ----- Constants for placement of interface elements ----- //
 	
 	// --- Display of current funds ---
@@ -202,12 +212,7 @@ public class Interface : MonoBehaviour {
 	
 	
 
-	// Note: for private variable booleans, use an "IsX" naming convention
-	// especially with visibility
-	
-	private bool adMenuIsVisible = false; //advertisementDisplay = false;
-	
-	private bool buyMenuIsVisible = false;
+
 	
 /*---------------------------------------------------------------------------
   Name   :  displayAdvertisements

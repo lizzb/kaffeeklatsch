@@ -102,6 +102,9 @@ using System;
 	// different drink options? types of patrons?
 	// looks/models?
 	
+	
+	public const int defaultSatisfactionLevel = 5; // need to play with this TODO
+	
 	}
 
 /*---------------------------------------------------------------------------
