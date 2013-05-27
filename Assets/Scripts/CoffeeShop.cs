@@ -103,6 +103,8 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
+		//Detect if customer is ready to buy drink
+		sellDrinkToCustomer();
 		
 		//updatePopularity();
 		// update satisfaction and update hype called elsewhere
@@ -116,10 +118,10 @@ public class CoffeeShop : MonoBehaviour {
 			funds -= drinkCost;
 		}
 		if(Input.GetKeyDown(KeyCode.P)){
-			popularity += 10;
+			hypeLevel += 10;
 		}
 		if(Input.GetKeyDown(KeyCode.O)){
-			popularity -= 10;
+			hypeLevel -= 10;
 		}
 	}
 
@@ -253,7 +255,7 @@ public class CoffeeShop : MonoBehaviour {
 		
 		// Would like to trigger animation to show money earned displayed, floating up
 		
-		
+		c.setPaidForDrink(true);
 		// for now, all transactions assumed to be successful
 		return true;
 	}
@@ -299,6 +301,7 @@ public class CoffeeShop : MonoBehaviour {
 	}
 
 
+
 	
 	public void setDrinkCost(int cost){
 		drinkCost = cost;
@@ -327,5 +330,22 @@ public class CoffeeShop : MonoBehaviour {
 		//employees.Add(emp);
 		empManager.employees.Add (emp);
 		// THIS ALL NEEDS TO BE FIXED *********
+	}
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  sellDrinkToCustomer
+  Purpose:  Selling a drink to customer in front of line
+  Receive:  Nothing, use internal variables
+  Return :  nothing
+---------------------------------------------------------------------------*/	
+	public void sellDrinkToCustomer(){
+		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
+			if(c.isFrontOfLine()){
+				sellDrink (c,GameConstants.Drinks.PlainCoffee);
+				c.timeInShop = 0f;
+				//c.leaveCafe();
+			}
+		}
 	}
 }

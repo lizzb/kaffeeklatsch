@@ -49,7 +49,7 @@ public class Customer : MonoBehaviour
 	int custOp = (int)Opinions.neutral;
 	
 	// Different actions customers can be doing
-	enum Actions { neutral, walkingIn, inLine, walkingOut };
+	public enum Actions { neutral, walkingIn, inLine, walkingOut };
 	
 	// This customer's current action
 	public int custAction = (int) Actions.neutral;
@@ -62,7 +62,7 @@ public class Customer : MonoBehaviour
 	private int linePosition; // if linePosition==0 then customer is the first in line. This updates automatically
 	private int customerSpeed; // Determines how slow/fast a customer walks. The higher the faster.
 	
-	private float timeInShop; // Used to store how many seconds the customer will stay in the shop.
+	public float timeInShop; // Used to store how many seconds the customer will stay in the shop.
 								//The customer will leave if(time==0)
 
 	//
@@ -148,10 +148,13 @@ public class Customer : MonoBehaviour
 		}
 
 		// Customer gets in line
-		if(transform.position.z > 10 && transform.position.x < 12-1.5*linePosition)
+		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
+		{
+			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
+		}
+		else if(transform.position.x >= 13-1.5*linePosition)
 		{
 			custAction = (int) Actions.inLine;
-			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
 		
 		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
@@ -267,7 +270,7 @@ public class Customer : MonoBehaviour
   Receive:  --> could potentially take in variables like longLine, longWait
   Return :  
 ---------------------------------------------------------------------------*/	
-	void leaveCafe ()
+	public void leaveCafe ()
 	{
 		// Animation to leave cafe....comment me later!! ****
 		if(transform.position.z < 1 && transform.position.x >= 6)
@@ -277,7 +280,7 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
-
+		print ("leaving");
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
@@ -290,6 +293,21 @@ public class Customer : MonoBehaviour
   Return :  ...
 ---------------------------------------------------------------------------*/	
 	
-
+/*---------------------------------------------------------------------------
+  Name   :  isFrontOfLine
+  Purpose:  Determines if customer is in front of line
+  Receive:  uses internal variables
+  Return :  true if customer is front of line, false otherwise
+---------------------------------------------------------------------------*/	
 	
+	public bool isFrontOfLine(){
+		if(custAction == (int) Actions.inLine && linePosition == 0 && paidForDrink == false){
+			return true;
+		}
+		return false;
+	}
+
+	public void setPaidForDrink(bool val){
+		paidForDrink = val;
+	}
 }

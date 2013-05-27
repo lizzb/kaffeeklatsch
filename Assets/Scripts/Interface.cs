@@ -126,8 +126,8 @@ public class Interface : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
+		//Set drink cost of cafe
 		cafe.setDrinkCost(costVal);
-	
 	}
 	
 	// UnityGUI controls make use of a special function called OnGUI().
@@ -226,8 +226,6 @@ public class Interface : MonoBehaviour {
 
 
 	
-	private bool priceMenuIsVisible = false;
-	
 /*---------------------------------------------------------------------------
   Name   :  displayAdvertisements
   Purpose:  x
@@ -236,13 +234,13 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayAdvertisements()
 	{
-		// COMMENT MEE..............
+		//If user clicks on Advertisement button, display ad Menu
 		if(GUI.Button(new Rect(adButtonX,adButtonY,adButtonW,adButtonH),new GUIContent("Advertisements")))
 		{
 			adMenuIsVisible = !adMenuIsVisible;
 		}
 		
-		// COMMENT MEE..............
+		//Display Ad Menu
 		if(adMenuIsVisible)
 		{
 			GUI.Window(0,new Rect(adMenuX,adMenuY,adMenuW,adMenuH),advertisementWindow,"");
@@ -263,17 +261,17 @@ public class Interface : MonoBehaviour {
 		int w = 90;
 		int h = 20;
 		
-		// COMMENT MEE..............
+		// If user clicks on flyers, buy a flyer
 		if(GUI.Button(new Rect(x,y,w,h),"Flyers"))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 		}
-		// COMMENT MEE..............
+		// If user clicks on Intenet Ads, buy internet ads
 		else if(GUI.Button(new Rect(x,y+lineHeight,w,h),"Internet Ads"))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
 		}
-		// COMMENT MEE..............
+		//If user clicks on billboard, buy billboard
 		else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
@@ -351,8 +349,9 @@ public class Interface : MonoBehaviour {
   Return :  nothing, just ui
 ---------------------------------------------------------------------------*/	
 	void displayPriceSetter(){
+		//Box to display current price
 		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
-		float sliderValue = GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, 10.0f);
-		costVal = (int) sliderValue;
+		//When slider changes value, updates cost of drinks
+		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, 10.0f);
 	}
 }
