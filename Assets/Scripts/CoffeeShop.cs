@@ -356,7 +356,7 @@ public class CoffeeShop : MonoBehaviour {
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
 			if(c.isFrontOfLine()){
 				sellDrink (c,GameConstants.Drinks.PlainCoffee);
-				c.timeInShop = 0f;
+				c.custAction = 3;
 				makingDrink = false;
 			}
 		}
