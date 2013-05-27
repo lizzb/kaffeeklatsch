@@ -16,6 +16,7 @@ public class MoveCamera : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
+		// Camera manipulation with mouse
 		if(isDown && !mouseWithinSliderBox())
 		{
 			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), 0.1f*(Input.mousePosition.x-mousePositionX));
@@ -32,6 +33,16 @@ public class MoveCamera : MonoBehaviour
 		}
 		if(Input.GetMouseButtonUp(0))
 			isDown = false;
+		
+		// Camera manipulation with keyboard
+		if(Input.GetKey(KeyCode.Comma)) // To rotate left
+			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), 1.0f);
+		if(Input.GetKey(KeyCode.Period)) // To rotate right
+			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), -1.0f);
+		if(Input.GetKey(KeyCode.Minus)) // To zoom in
+			this.camera.orthographicSize += 0.1f;
+		if(Input.GetKey (KeyCode.Equals) && this.camera.orthographicSize > 3.0f) // To zoom out
+			this.camera.orthographicSize -= 0.1f;
 	}
 	
 	bool mouseWithinSliderBox(){
