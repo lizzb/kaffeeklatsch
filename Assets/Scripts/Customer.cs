@@ -161,12 +161,10 @@ public class Customer : MonoBehaviour
 		// If the time a customer has been waiting in line (modify this *****)
 		// exceeds their patience limit, they leave unhappily
 		// leaveCafe(true, false);
-		if(timeInShop < 0)
+		if(timeInShop < 0 || custAction == (int) Actions.walkingOut)
 		{
 			custAction = (int) Actions.walkingOut;
-			if(!paidForDrink){
-				leftEarly = true; // leave early, negative impact on satisfaction
-			}
+			leftEarly = true; // leave early, negative impact on satisfaction
 			leaveCafe();
 		}
 		
@@ -284,6 +282,7 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
+		print ("leaving");
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
