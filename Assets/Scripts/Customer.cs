@@ -337,11 +337,10 @@ public class Customer : MonoBehaviour
 	void ColorCustomer()
 	{
 		float ratio = timeInShop/((10-impatience)*2);
-		Color color = new Color(1, ratio, 0);
 		
 		if(paidForDrink)
-			renderer.material.color = Color.green;
+			renderer.material.color = new Color(0.65882f, 0.63137f, 1.0f); //Purple
 		else
-			renderer.material.color = color;
+			renderer.material.color = new Color(1-ratio, ratio, 0);
 	}
 }
