@@ -370,8 +370,9 @@ public class CoffeeShop : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	public void takeCustomerOrder(){
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
-			if(c.isFrontOfLine()){ //If customer is in front of line
-				makingDrink = true; //Start incrementing drink counter
+			if(c.isFrontOfLine()){
+				c.resetTime();
+				makingDrink = true;
 			}
 		}
 	}
