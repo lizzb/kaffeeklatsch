@@ -92,7 +92,7 @@ public class Customer : MonoBehaviour
 		moneyGrubber = random.Next(0, 11);
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
 		customerSpeed = 10;
-		timeInShop = (10-impatience)*2;
+		resetTime();
 	}
 	
 
@@ -185,6 +185,8 @@ public class Customer : MonoBehaviour
 			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly, longWait));
 			Destroy(this.gameObject);
 		}
+		
+		ColorCustomer();
 	}
 
 	
@@ -309,5 +311,37 @@ public class Customer : MonoBehaviour
 
 	public void setPaidForDrink(bool val){
 		paidForDrink = val;
+	}
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  resetTime
+  Purpose:  Sets time to initial wait time
+  Receive:  None but timeInShop is a function of impatience
+  Return :  
+---------------------------------------------------------------------------*/	
+	
+	public void resetTime()
+	{
+		timeInShop = (10-impatience)*2;
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  ColorCustomer
+  Purpose:  Colors the customer capsule according to how much time is left until they leave.
+  			Yellow = just arrived; Red = leaving; Green = successfully received coffee
+  Receive:  
+  Return :  
+---------------------------------------------------------------------------*/	
+	
+	void ColorCustomer()
+	{
+		float ratio = timeInShop/((10-impatience)*2);
+		Color color = new Color(1, ratio, 0);
+		
+		if(paidForDrink)
+			renderer.material.color = Color.green;
+		else
+			renderer.material.color = color;
 	}
 }
