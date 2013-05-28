@@ -33,9 +33,9 @@ using System;
 	
 	// Amount of money that player receives upon start of game
 	// Different intial funds => different difficulty levels
-	public const int startingFundsEasy = 5000;
-	public const int startingFundsMedium = 2500;
-	public const int startingFundsHard = 500;
+	public const int startingFundsEasy = 500;
+	public const int startingFundsMedium = 250;
+	public const int startingFundsHard = 50;
 	
 	//Initial Rent for Coffee Shop
 	public const int startingRent = 50;

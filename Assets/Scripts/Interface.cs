@@ -98,15 +98,13 @@ public class Interface : MonoBehaviour {
 	
 	const int adMenuX = adButtonW + 25; //adButtonX;
 	const int adMenuY = adButtonY; //adButtonY+50;
-	const int adMenuW = 100;
+	const int adMenuW = 130;
 	const int adMenuH = 100;
 	
 	// drinkssoldtoday
 	// revenue today
 	
 	int costVal = GameConstants.initialDrinkCost;
-	
-
 		
 	//
 	// Use this for initialization
@@ -134,7 +132,6 @@ public class Interface : MonoBehaviour {
 	// The OnGUI() function gets called every frame as long as the
 	// containing script is enabled - just like the Update() function.
 	void OnGUI () {
-		
 		// Notes:
 		// Rect: x, y, width, height
 		// top left: 0,0,100,50
@@ -258,21 +255,25 @@ public class Interface : MonoBehaviour {
 		int x = 5;
 		int y = 10;
 		int lineHeight = 30;
-		int w = 90;
+		int w = 30;
+		int buttonWidth = 80;
 		int h = 20;
 		
+		GUI.Label(new Rect(x,y,w,h),"$" + GameConstants.adType1Cost);
+		GUI.Label(new Rect(x,y + lineHeight,w,h),"$" + GameConstants.adType2Cost);
+		GUI.Label(new Rect(x,y + 2 * lineHeight,w,h),"$" + GameConstants.adType3Cost);
 		// If user clicks on flyers, buy a flyer
-		if(GUI.Button(new Rect(x,y,w,h),"Flyers"))
+		if(GUI.Button(new Rect(x + w,y,buttonWidth,h),GameConstants.adType1Name))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 		}
 		// If user clicks on Intenet Ads, buy internet ads
-		else if(GUI.Button(new Rect(x,y+lineHeight,w,h),"Internet Ads"))
+		else if(GUI.Button(new Rect(x + w,y+lineHeight,buttonWidth,h),GameConstants.adType2Name))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
 		}
 		//If user clicks on billboard, buy billboard
-		else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
+		else if(GUI.Button(new Rect(x + w, y+2*lineHeight,buttonWidth,h),GameConstants.adType3Name))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
 		}
