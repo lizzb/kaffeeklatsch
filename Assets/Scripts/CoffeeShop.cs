@@ -385,4 +385,18 @@ public class CoffeeShop : MonoBehaviour {
 			}
 		}
 	}
+
+/*---------------------------------------------------------------------------
+  Name   :  buyCoffeeMachine
+  Purpose:  Buy and add a new coffee machine to the shop
+  Receive:  Coffee Machine Level / (enum??? not sure???) to buy
+  Return :  true if purchase was successful,
+  			false if machine not bought (insufficient funds or reach limit)
+---------------------------------------------------------------------------*/	
+	public bool buyCoffeeMachine(int coffeeMachineLevel)
+	{
+		
+		
+		return false;
+	}
 }

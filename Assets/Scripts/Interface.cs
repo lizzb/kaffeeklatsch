@@ -17,7 +17,6 @@ public class Interface : MonoBehaviour {
 	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
-	GameObject room;
 	
 	// TODO: change font size/color of stuff *****
 	
@@ -25,18 +24,28 @@ public class Interface : MonoBehaviour {
 	// Note: for private variable booleans, use an "IsX" naming convention
 	// especially with visibility
 	
-	private bool adMenuIsVisible = false; //advertisementDisplay = false;
 	
+	// TODO: need to fix something about these windows so only 1 open at a time *******
+	// either GUI Selection Grid or GUI Begin/End group?
 	private bool buyMenuIsVisible = false;
+	private bool adMenuIsVisible = false; //advertisementDisplay = false;
+	private bool empMenuIsVisible = false;
 	
-	// need to fix something about these windows so only 1 open at a time
+
 	
 	
 	// ----- Constants for placement of interface elements ----- //
 	
+	const int leftPaddingX = 10;
+	const int firstButtonY = 150;
+	const int vertSpaceBtwButtons = 50;
+	
+	
+	const int windowPaddingX = 5;
+	
 	// --- Display of current funds ---
 	// Near upper left hand corner
-	const int fundsX = 10;
+	const int fundsX = leftPaddingX;
 	const int fundsY = 10;
 	const int fundsW = 185;
 	const int fundsH = 30; //50;
@@ -49,7 +58,7 @@ public class Interface : MonoBehaviour {
 	// The established/long-term customer satisfaction rating of this coffee shop
 	// The current "hype" level for this coffee shop
 	// (boosts to popularity due to advertising)
-	const int popX = 10;
+	const int popX = leftPaddingX;
 	const int popY = 50; //125;
 	const int popW = 185;
 	const int popH = 75;
@@ -62,35 +71,32 @@ public class Interface : MonoBehaviour {
 	const int dateW = 100;
 	const int dateH = 65;
 	
-	//Display of Price Setter Input
+	// --- Display of Price Setter Input ---
 	int priceX = Screen.width - 110;
 	const int priceY = 100;
 	const int priceW = 100;
 	const int priceH = 50;
 	
 	
-	// TODO: not sure if will add pictures to the buttons.....
+	// TODO: not sure if will add pictures to the buttons.....**
 	
-	// --- Display of buy/shop upgrade button ---
-	const int buyButtonX = 10;
-	const int buyButtonY = 150;
+	// * ----- Display of buy/shop upgrade button ----- * //
+	const int buyButtonX = leftPaddingX;
+	const int buyButtonY = firstButtonY; //150;
 	const int buyButtonW = 120;
 	const int buyButtonH = 30;
 	
 	// --- Display of buy/shop upgrade menu ---
 	
-	const int buyMenuX = buyButtonW + 25; 
+	const int buyMenuX = buyButtonW + 25; //.......fixing of buttons/menus TODO
 	const int buyMenuY = buyButtonY; 
-	const int buyMenuW = 100;
-	const int buyMenuH = 100;
+	const int buyMenuW = 200; //100;
+	const int buyMenuH = 150; //100;
 	
 	
-	
-	
-	
-	// --- Display of advertisement/marketing button ---
-	const int adButtonX = 10;
-	const int adButtonY = 200; //100;
+	// * ----- Display of advertisement/marketing button ----- * //
+	const int adButtonX = leftPaddingX;
+	const int adButtonY = firstButtonY + 1*vertSpaceBtwButtons; //200; //100;
 	const int adButtonW = 120;
 	const int adButtonH = 30;
 	
@@ -100,6 +106,25 @@ public class Interface : MonoBehaviour {
 	const int adMenuY = adButtonY; //adButtonY+50;
 	const int adMenuW = 130;
 	const int adMenuH = 100;
+	
+	
+	// * ----- Display of employees button ----- * //
+	const int empButtonX = leftPaddingX;
+	const int empButtonY = firstButtonY + 2*vertSpaceBtwButtons; //250;
+	const int empButtonW = 120;
+	const int empButtonH = 30;
+	
+	// --- Display of employees menu ---
+	
+	const int empMenuX = empButtonW + 25; 
+	const int empMenuY = empButtonY; 
+	const int empMenuW = 135; //100
+	const int empMenuH = 80; //100
+	
+	
+
+	
+	
 	
 	// drinkssoldtoday
 	// revenue today
@@ -112,12 +137,10 @@ public class Interface : MonoBehaviour {
 	void Start () {
 		
 		// use built-in tag because i'm too lazy to make my own tag
-		room = GameObject.FindGameObjectWithTag("GameController");
+		GameObject room = GameObject.FindGameObjectWithTag("GameController");
 		
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
-		
-		//if (cafe == null) print ("NO CAFE!");
 	}
 	
 	//
@@ -147,9 +170,10 @@ public class Interface : MonoBehaviour {
 		
 		// ----- Buttons, Buy Menus, etc. ----- //
 		displayBuyButton();
-		displayAdvertisements();
+		displayAdButton();
+		displayEmployeeButton();
 		
-		//Input for changing costs
+		// Input for changing costs
 		displayPriceSetter();
 		
 		/*		
@@ -218,26 +242,24 @@ public class Interface : MonoBehaviour {
 		// pretty sure i can type text and use \n for line breaks... will figure out later ***
 		// seems silly to be making rects inside a box
 	}
-	
-	
 
 
 	
 /*---------------------------------------------------------------------------
-  Name   :  displayAdvertisements
+  Name   :  displayAdButton  // displayAdvertisements
   Purpose:  x
   Receive:  x
   Return :  x
 ---------------------------------------------------------------------------*/	
-	void displayAdvertisements()
+	void displayAdButton()
 	{
-		//If user clicks on Advertisement button, display ad Menu
+		// If user clicks on Advertisement button, display ad Menu
 		if(GUI.Button(new Rect(adButtonX,adButtonY,adButtonW,adButtonH),new GUIContent("Advertisements")))
 		{
 			adMenuIsVisible = !adMenuIsVisible;
 		}
 		
-		//Display Ad Menu
+		// Display Ad Menu
 		if(adMenuIsVisible)
 		{
 			GUI.Window(0,new Rect(adMenuX,adMenuY,adMenuW,adMenuH),advertisementWindow,"");
@@ -288,8 +310,6 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	
 
-	// just copy/pasted below from KG's code
-	// will fix later - wanted to get it in for layout purposes
 	
 /*---------------------------------------------------------------------------
   Name   :  displayBuyButton
@@ -299,13 +319,13 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayBuyButton()
 	{
-		// COMMENT MEE..............
+		// Toggle whether the Buy/Shop Upgrades button has been pressed
 		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH),new GUIContent("Shop Upgrades")))
 		{
 			buyMenuIsVisible = !buyMenuIsVisible;
 		}
 		
-		// COMMENT MEE..............
+		// Display buy/shop upgrade menu if button is pressed
 		if(buyMenuIsVisible)
 		{
 			GUI.Window(0,new Rect(buyMenuX,buyMenuY,buyMenuW,buyMenuH),buyWindow,"");
@@ -320,28 +340,86 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void buyWindow(int WindowId)
 	{
-		int x = 5;
+		//int x = windowPaddingX; //5;
 		int y = 10;
 		int lineHeight = 30;
-		int w = 90;
+		int w = buyMenuW - 2*windowPaddingX; //90;
 		int h = 20;
 		
 		// COMMENT MEE..............
-		if(GUI.Button(new Rect(x,y,w,h),"Flyers"))
+		if(GUI.Button(new Rect(windowPaddingX,y,w,h), GameConstants.coffeeMachine1Name ))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 		}
 		// COMMENT MEE..............
-		else if(GUI.Button(new Rect(x,y+lineHeight,w,h),"Internet Ads"))
+		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h), GameConstants.coffeeMachine2Name ))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
 		}
 		// COMMENT MEE..............
-		else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
+		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h), GameConstants.coffeeMachine3Name ))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h), GameConstants.coffeeMachine4Name ))
+		{
+			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
 		}
 	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  displayEmployeeButton
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void displayEmployeeButton()
+	{
+		// Toggle whether employee(s) button has been pressed
+		if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),new GUIContent("Employees")))
+		{
+			empMenuIsVisible = !empMenuIsVisible;
+		}
+		
+		// Display employees menu if button is pressed
+		if(empMenuIsVisible)
+		{
+			GUI.Window(0,new Rect(empMenuX,empMenuY,empMenuW,empMenuH),empWindow,"");
+		}
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  empWindow
+  Purpose:  x
+  Receive:  x
+  Return :  x
+---------------------------------------------------------------------------*/	
+	void empWindow(int WindowId)
+	{
+		//int x = windowPaddingX; = 5;
+		int y = 10;
+		int lineHeight = 30;
+		int w = empMenuW - 2*windowPaddingX; // 10; //125;
+		int h = 20;
+		
+		// COMMENT MEE..............
+		if(GUI.Button(new Rect(windowPaddingX,y,w,h),"Hire an employee"))
+		{
+			// hire employee
+			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+		}
+		// COMMENT MEE..............
+		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),"Fire an employee"))
+		{
+			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+		}
+		// COMMENT MEE..............
+		//else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
+		//{
+		//	cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+		//}
+	}	
 	
 /*---------------------------------------------------------------------------
   Name   :  displayPriceSetter
@@ -349,7 +427,8 @@ public class Interface : MonoBehaviour {
   Receive:  nothing, just ui 
   Return :  nothing, just ui
 ---------------------------------------------------------------------------*/	
-	void displayPriceSetter(){
+	void displayPriceSetter()
+	{
 		//Box to display current price
 		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
 		//When slider changes value, updates cost of drinks

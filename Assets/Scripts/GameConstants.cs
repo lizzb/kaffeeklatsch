@@ -51,12 +51,14 @@ using System;
 	// Names of different coffee machine models
 	public const string coffeeMachine1Name = "Basic Pot 1";
 	public const string coffeeMachine2Name = "Nice 2";
-	public const string coffeeMachine3Name = "Triple Espresso Awesome 3";
+	public const string coffeeMachine3Name = "Nicer maker 3";
+	public const string coffeeMachine4Name = "Triple Orange Espresso Awesome 4";
 	
 	// Cost to purchase different coffee machine models
 	public const int coffeeMachine1Cost = 50;
 	public const int coffeeMachine2Cost = 175;
 	public const int coffeeMachine3Cost = 350;
+	public const int coffeeMachine4Cost = 500;
 	
 	
 	// Names of different advertising/marketing campaigns

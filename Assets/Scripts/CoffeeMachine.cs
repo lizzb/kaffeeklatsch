@@ -21,7 +21,7 @@ public class CoffeeMachine : MonoBehaviour
 
 // The quality of the drinks produced by this machine
 // Customers will pay more for higher quality drinks
-	enum qualityRating { low = 1, med = 2, high = 3}
+	enum qualityRating { low = 1, med = 2, high = 3, highest = 4 }
 
 
 // Whether or not this machine is in use
