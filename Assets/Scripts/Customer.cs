@@ -27,6 +27,19 @@ public class Customer : MonoBehaviour
 	// The level of patience of this particular customer
 	int patienceLevel = 50; 
 	
+	// If the customer runs out of patience waiting in line,
+	// they'll leave without ordering a drink (//longline)
+	// VERY negative impact on satisfaction
+	bool leftEarly = false;
+	
+	// Whether this customer has paid for a drink yet
+	bool paidForDrink = false;
+	
+	// The customer had the patience to wait in line,
+	// but had a long wait to pick up their drink (because they already paid, so...)
+	// Negative impact on satisfaction
+	bool longWait = false; // wait for drink
+	
 	
 	// TODO ???
 	// should there be a different patience level for waiting in line
@@ -37,8 +50,7 @@ public class Customer : MonoBehaviour
 	// Whether this customer's drink is ready for pickup
 	bool drinkIsReady = false;
 	
-	// Whether this customer has paid for a drink yet
-	bool paidForDrink = false;
+
 	
 	
 	// Dominant customer thought/opinion/emotion to display in thought bubble 
@@ -55,6 +67,7 @@ public class Customer : MonoBehaviour
 	public int custAction = (int) Actions.neutral;
 	
 	//All public variables on scale [0,10] with 0 being 'better'
+	// probably can get rid of these
 	public int cleanFreak;
 	public int impatience;
 	public int moneyGrubber;
@@ -135,8 +148,6 @@ public class Customer : MonoBehaviour
 		
 		// ----- end lizz's thoughts, start federico's code -----
 		
-		bool leftEarly = false; // longline
-		bool longWait = false; // wait for drink
 		
 		timeInShop -= Time.deltaTime;
 		

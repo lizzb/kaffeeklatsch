@@ -248,6 +248,8 @@ public class CoffeeShop : MonoBehaviour {
 	bool sellDrink (Customer c, GameConstants.Drinks drink)
 	{
 		
+		// An employee must be at the cash register to take the order
+		
 		// possibly determine if we have the ingredients necessary?
 		
 		// determine the price of the drink requested
@@ -350,14 +352,18 @@ public class CoffeeShop : MonoBehaviour {
   Name   :  sellDrinkToCustomer
   Purpose:  Selling a drink to customer in front of line
   Receive:  Nothing, use internal variables
-  Return :  nothing
+  Return :  void
 ---------------------------------------------------------------------------*/	
-	public void sellDrinkToCustomer(){
-		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
-			if(c.isFrontOfLine()){ //If customer is in front of line
-				sellDrink (c,GameConstants.Drinks.PlainCoffee); //Sell drink to customer
-				c.custAction = 3; //Set customer action to leaving shop
-				makingDrink = false; //Stop incrementing drink
+	public void sellDrinkToCustomer()
+	{
+		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
+		{
+			if(c.isFrontOfLine()) // If customer is in front of line
+			{ 
+				sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
+				c.custAction = 3; // Set customer action to leaving shop...
+				// *** not waiting for coffee???? TODO
+				makingDrink = false; // Stop incrementing drink
 			}
 		}
 	}
@@ -366,11 +372,14 @@ public class CoffeeShop : MonoBehaviour {
   Name   :  takeCustomerOrder
   Purpose:  Take customer order from front of line
   Receive:  Nothing, use internal variables
-  Return :  nothing
+  Return :  void
 ---------------------------------------------------------------------------*/	
-	public void takeCustomerOrder(){
-		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer))){
-			if(c.isFrontOfLine()){
+	public void takeCustomerOrder()
+	{
+		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
+		{
+			if(c.isFrontOfLine())
+			{
 				c.resetTime();
 				makingDrink = true;
 			}
