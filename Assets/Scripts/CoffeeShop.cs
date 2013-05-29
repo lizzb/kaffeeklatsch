@@ -361,7 +361,7 @@ public class CoffeeShop : MonoBehaviour {
 			if(c.isFrontOfLine()) // If customer is in front of line
 			{ 
 				sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
-				c.custAction = 3; // Set customer action to leaving shop...
+				c.custAction = Customer.Actions.walkingOut; // bug fix = 0 //3; // Set customer action to leaving shop...
 				// *** not waiting for coffee???? TODO
 				makingDrink = false; // Stop incrementing drink
 			}

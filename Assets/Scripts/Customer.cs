@@ -64,7 +64,9 @@ public class Customer : MonoBehaviour
 	public enum Actions { neutral, walkingIn, inLine, walkingOut };
 	
 	// This customer's current action
-	public int custAction = (int) Actions.neutral;
+	//public int custAction = (int) Actions.neutral;
+	// *** --> casting an enum back to an int completely defeats the purpose of enums
+	public Actions custAction = Actions.neutral;
 	
 	//All public variables on scale [0,10] with 0 being 'better'
 	// probably can get rid of these
@@ -154,7 +156,7 @@ public class Customer : MonoBehaviour
 		// Customer walks from door to its line position
 		if(transform.position.x == 5)
 		{
-			custAction = (int) Actions.walkingIn;
+			custAction = Actions.walkingIn; //(int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
 
@@ -163,24 +165,26 @@ public class Customer : MonoBehaviour
 		{
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
-		else if(transform.position.x >= 13-1.5*linePosition && custAction != (int) Actions.walkingOut)
+		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut)
 		{
-			custAction = (int) Actions.inLine;
+			custAction = Actions.inLine;
 		}
 		
 		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
 		// If the time a customer has been waiting in line (modify this *****)
 		// exceeds their patience limit, they leave unhappily
 		// leaveCafe(true, false);
-		if(timeInShop < 0 || custAction == (int) Actions.walkingOut)
+		if (timeInShop < 0)
 		{
-			custAction = (int) Actions.walkingOut;
-			leftEarly = true; // leave early, negative impact on satisfaction
+			custAction = Actions.walkingOut;
+			if(!paidForDrink){
+				leftEarly = true; // leave early, negative impact on satisfaction
+			}
 			leaveCafe();
 		}
 		
 		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
-		if(transform.position.x < 6 && transform.position.z < -1 && (timeInShop < 0 || custAction == (int) Actions.walkingOut))
+		if(transform.position.x < 6 && transform.position.z < -1 && (timeInShop < 0 || custAction == Actions.walkingOut))
 		{
 			int customerRemoved = this.linePosition;
 			Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
@@ -293,7 +297,7 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
-		print ("leaving");
+		//print ("leaving");
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
@@ -314,7 +318,7 @@ public class Customer : MonoBehaviour
 ---------------------------------------------------------------------------*/	
 	
 	public bool isFrontOfLine(){
-		if(custAction == (int) Actions.inLine && linePosition == 0 && paidForDrink == false){
+		if(custAction == Actions.inLine && linePosition == 0 && paidForDrink == false){
 			return true;
 		}
 		return false;

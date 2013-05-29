@@ -346,25 +346,31 @@ public class Interface : MonoBehaviour {
 		int w = buyMenuW - 2*windowPaddingX; //90;
 		int h = 20;
 		
-		// COMMENT MEE..............
-		if(GUI.Button(new Rect(windowPaddingX,y,w,h), GameConstants.coffeeMachine1Name ))
+		// Purchase Level 1 Coffee Machine
+		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
+			GameConstants.coffeeMachine1Name + ": $" + GameConstants.coffeeMachine1Cost ))
 		{
-			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			// TODO: this function should actually take parameters, but haven't written yet
+			// not sure if i like setup of advertisement call
+			cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 		}
-		// COMMENT MEE..............
-		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h), GameConstants.coffeeMachine2Name ))
+		// Purchase Level 2 Coffee Machine
+		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
+			GameConstants.coffeeMachine2Name + ": $" + GameConstants.coffeeMachine2Cost ))
 		{
-			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+			cafe.buyCoffeeMachine(2);
 		}
-		// COMMENT MEE..............
-		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h), GameConstants.coffeeMachine3Name ))
+		// Purchase Level 3 Coffee Machine
+		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
+			GameConstants.coffeeMachine3Name + ": $" + GameConstants.coffeeMachine3Cost ))
 		{
-			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+			cafe.buyCoffeeMachine(3);
 		}
-		// COMMENT MEE..............
-		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h), GameConstants.coffeeMachine4Name ))
+		// Purchase Level 4 Coffee Machine
+		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
+			GameConstants.coffeeMachine4Name + ": $" + GameConstants.coffeeMachine4Cost ))
 		{
-			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+			cafe.buyCoffeeMachine(4);
 		}
 	}
 	
