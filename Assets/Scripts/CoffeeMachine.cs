@@ -31,29 +31,7 @@ public class CoffeeMachine : MonoBehaviour
 	int drinkStartTime = 0;
 	
 	
-	//
-	// Use this for initialization
-	//
-	void Start ()
-	{
-	
-	}
-	
-	//
-	// Update is called once per frame
-	//
-	void Update ()
-	{
-	
-	}
-	
-	
-
-
-
-
-
-/*
+	/*
 
 // The rate at which (length of time?) that it takes to create a drink (specific to drinks???)
 
@@ -74,4 +52,39 @@ int calculateSuggestedPrice(string drinkName)
 
 instead of string drinkName, use enums across multiple files?
 */
+	
+	
+	//
+	// Use this for initialization
+	//
+	void Start ()
+	{
+	
+	}
+	
+	//
+	// Update is called once per frame
+	//
+	void Update ()
+	{
+	
+	}
+	
+	void OnGUI()
+	{
+		displayProgressBar();	
+	}
+	
+	void displayProgressBar()
+	{
+		
+		
+		
+	}
+
+
+
+
+
+
 }
