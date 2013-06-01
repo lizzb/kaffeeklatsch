@@ -15,6 +15,9 @@ public class Customer : MonoBehaviour
 {
 	// ADD OBJECT LABELS
 	
+	GUIText opinionText;
+	//string opinionText;
+	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
 	
@@ -22,51 +25,14 @@ public class Customer : MonoBehaviour
 	float arrivalTime = 0;
 	
 	// The time a customer paid money to cashier for a drink 
-	int transactionTime = 0;
+	float transactionTime = 0; //int or float?
 	
 	// The level of patience of this particular customer
 	int patienceLevel = 50; 
 	
-	// If the customer runs out of patience waiting in line,
-	// they'll leave without ordering a drink (//longline)
-	// VERY negative impact on satisfaction
-	bool leftEarly = false;
+	public float timeInShop; // Used to store how many seconds the customer will stay in the shop.
+							 // The customer will leave if(time==0)
 	
-	// Whether this customer has paid for a drink yet
-	bool paidForDrink = false;
-	
-	// The customer had the patience to wait in line,
-	// but had a long wait to pick up their drink (because they already paid, so...)
-	// Negative impact on satisfaction
-	bool longWait = false; // wait for drink
-	
-	
-	// TODO ???
-	// should there be a different patience level for waiting in line
-	// vs waiting to pick up drink?
-	
-	
-	// ---> dont really think this makes sense to be a customer variable???
-	// Whether this customer's drink is ready for pickup
-	bool drinkIsReady = false;
-	
-
-	
-	
-	// Dominant customer thought/opinion/emotion to display in thought bubble 
-	enum Opinions { neutral=0, priceGood, priceBad, qualityGood, qualityBad,
-							waitGood, waitBad, envGood, envBad };
-	
-	// This customer's opinion
-	int custOp = (int)Opinions.neutral;
-	
-	// Different actions customers can be doing
-	public enum Actions { neutral, walkingIn, inLine, walkingOut };
-	
-	// This customer's current action
-	//public int custAction = (int) Actions.neutral;
-	// *** --> casting an enum back to an int completely defeats the purpose of enums
-	public Actions custAction = Actions.neutral;
 	
 	//All public variables on scale [0,10] with 0 being 'better'
 	// probably can get rid of these
@@ -74,18 +40,73 @@ public class Customer : MonoBehaviour
 	public int impatience;
 	public int moneyGrubber;
 	
-	private int linePosition; // if linePosition==0 then customer is the first in line. This updates automatically
-	private int customerSpeed; // Determines how slow/fast a customer walks. The higher the faster.
+	// if linePosition==0 then customer is the first in line. This updates automatically.
+	private int linePosition; 
+		
+	// Determines how slow/fast a customer walks. The higher the faster.
+	private int customerSpeed; 
+	// TODO ???? is there a reason why customer speed isnt a constant??
 	
-	public float timeInShop; // Used to store how many seconds the customer will stay in the shop.
-								//The customer will leave if(time==0)
+	
+	
+	// Whether this customer has paid for a drink yet
+	bool paidForDrink = false;
+	
+// Sets paidfordrink (private variable) - pretty sure always set to true, for now
+// called by coffeeshop
+	public void setPaidForDrink(bool val) { paidForDrink = val; }
+	
+	// ---> dont really think this makes sense to be a customer variable???
+	// Whether this customer's drink is ready for pickup
+	bool drinkIsReady = false;
+	
+	// If the customer runs out of patience waiting in line,
+	// they'll leave without ordering/paying for a drink (//longline)
+	// VERY negative impact on satisfaction
+	bool leftEarly = false;
+	
+	// The customer had the patience to wait in line, (//waitForDrink)
+	// but had a long wait to pick up their drink (because they already paid, so...)
+	// Negative impact on satisfaction
+	bool longWait = false;
+	
+	
+	// TODO ???
+	// should there be different patience levels for waiting in line vs waiting to pick up drink?
+	
+	
 
-	//
-	// Use this for initialization
-	//
+	
+	// Different actions a customer can be doing
+	public enum Actions { neutral, walkingIn, inLine, payingForDrink, waitingForDrink, walkingOut };
+	
+	// This customer's current action
+	public Actions custAction = Actions.neutral; // not sure if should be public...?
+	
+	//public int custAction = (int) Actions.neutral;
+	// *** --> casting an enum back to an int completely defeats the purpose of enums
+	
+	
+	// Dominant customer thought/opinion/emotion to display in thought bubble 
+	public enum Opinions { neutral=0, priceGood, priceBad, qualityGood, qualityBad,
+							waitGood, waitBad, envGood, envBad };
+	
+	// The dominating? opinion of this customer
+	public Opinions custOp = Opinions.neutral; // not sure if should be public...?
+	
+	// This customer's opinion
+	//int custOp = (int)Opinions.neutral;
+	// again, this defeats the point of enums
+	
+	
+	// The color of a customer once they receive their coffee
+	Color gotCoffeeColor = new Color(0.65882f, 0.63137f, 1.0f); // Purple
+	
+	
+	
+	// ------------ Use this for initialization ------------ //
 	void Start ()
 	{
-
 		
 		// use built-in tag because i'm too lazy to make my own tag
 		GameObject room = GameObject.FindGameObjectWithTag("GameController");
@@ -93,14 +114,16 @@ public class Customer : MonoBehaviour
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
 		
-		// ----- start lizz's thoughts -----
+		opinionText = this.GetComponent<GUIText>();
+		//opinionText.transform.position = this.transform.position + Vector3.up;
+		
+		
 		
 		// Set arrivalTime to current time
-		//arrivalTime = current time
 		arrivalTime = Time.time;
 		
-		// ----- end lizz's thoughts, start federico's code -----
 		
+		// COMMENT MEEEEE......................................
 		System.Random random = new System.Random();
 		cleanFreak = random.Next(0, 11);
 		impatience = random.Next(0, 10);
@@ -108,50 +131,29 @@ public class Customer : MonoBehaviour
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
 		customerSpeed = 10;
 		resetTime();
+		
+		
+		
 	}
 	
-
-	//
-	// Update is called once per frame
-	//
-	void Update ()
+	void OnGUI()
 	{
 		
-		// ----- start lizz's thoughts -----
+		opinionText.text = ""+ custOp.ToString(); //Time.time; //opinionText = custOp.ToString();
+	} 
+
+	// ------------ Update is called once per frame ------------ //
+	void Update ()
+	{
+		// Units in world space to offset; 1 unit above object by default
+		//opinionText.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + Vector3.up);
 		
 		// If still not served (and/or have order taken?)
 		// decrease patienceLevel
 		
-		//if (!drinkIsReady)
+		// TODO ??? maybe this shouldnt start decreasing until they are in line????
+		timeInShop -= Time.deltaTime; 
 		
-		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
-		// If the time a customer has been waiting in line (modify this *****)
-		// exceeds their patience limit, they leave unhappily
-		// leaveCafe(true, false);
-
-		
-
-		// If the time a customer has been waiting in total (for a drink)
-		// exceeds their patience limit, they won't leave, since they have 
-		// already paid money - but this will negatively impact satisfaction
-		
-		
-		// leaveCafe(false, true);
-		
-		
-		// TODO ???
-		// does getting rang up fast, but waiting for drink for long time,
-		// have diff impact than waiting for both for a long time?
-		
-		
-		// If a customer successfully receives their drink
-		// without exceeding their patience limit, they leave the cafe	
-		
-		
-		// ----- end lizz's thoughts, start federico's code -----
-		
-		
-		timeInShop -= Time.deltaTime;
 		
 		// Customer walks from door to its line position
 		if(transform.position.x == 5)
@@ -159,31 +161,79 @@ public class Customer : MonoBehaviour
 			custAction = Actions.walkingIn; //(int) Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
-
+		
+		// USE CONSTANTS INSTEAD OF NUMBERS!!!! TODO what is 13-1.5?
+		
 		// Customer gets in line
+		// comment this.....................
 		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
+			// Move forward in line?????
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
+		// comment this.....................
 		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut)
 		{
 			custAction = Actions.inLine;
 		}
+			
+			
+
 		
-		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
-		// If the time a customer has been waiting in line (modify this *****)
-		// exceeds their patience limit, they leave unhappily
-		// leaveCafe(true, false);
-		if (timeInShop < 0)
+		// 
+		// Conditions for customer leaving the shop
+		//
+		if (timeInShop < 0 || custAction == Actions.walkingOut)
 		{
+			// If timeInShop < 0, customer walks out of the line and leaves the shop.
 			custAction = Actions.walkingOut;
-			if(!paidForDrink){
-				leftEarly = true; // leave early, negative impact on satisfaction
+			
+			// If the time a customer has been waiting in line (modify this *****)
+			// exceeds their patience limit, they leave unhappily without buying a drink
+			if(!paidForDrink)
+			{
+				leftEarly = true; // leave early, VERY negative impact on satisfaction
+				custOp = Opinions.waitBad;
 			}
+			
+			// If a customer has already paid money for a drink,
+			// but the time a customer has been waiting in total/(for a drink)
+			// exceeds their patience limit, they won't instantly leave,
+			// (since they have already paid money) but this will negatively impact satisfaction
+			//if(t
+				//if (!drinkIsReady)
+				// decrease patience
+				// leaveCafe(false, true);
+		
+			
+			
+			// If a customer successfully receives their drink
+			// without exceeding their patience limit, they leave the cafe	
+			// no variables need to be changed - calculateSatisfaction will do that internally
+			
+			// Trigger animation for leaving cafe
 			leaveCafe();
 		}
+
 		
-		// Checks if the customer is far enough from the shop after leaving it and destroys its object.
+
+		
+		// TODO ???
+		// does getting rang up fast, but waiting for drink for long time,
+		// have diff impact than waiting for both for a long time?
+		
+		
+
+		
+		
+		// Update the color of the customer
+		// Default color gives indication of their remaining patience (from green --> red)
+		// Purplish if they have received/paid for coffee...?????
+		ColorCustomer();
+
+		
+		// Checks if the customer is far enough from the shop after leaving it
+		// if it is, destroys its object.
 		if(transform.position.x < 6 && transform.position.z < -1 && (timeInShop < 0 || custAction == Actions.walkingOut))
 		{
 			int customerRemoved = this.linePosition;
@@ -197,27 +247,55 @@ public class Customer : MonoBehaviour
 					customer.linePosition--;
 			}
 			
+			// NOTE: moved this update satisfaction code higher,
+			// why do we have to wait for the customer to be destroyed to update cafe stats? - lizz
+			// nevermind, probably has to do with not calling update satisfaction more than once....
+			
+			// Update the customer satisfaction rating of the coffee shop
+			// Based on the satisfaction level of the customer that just left
 			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly, longWait));
+			
 			Destroy(this.gameObject);
 		}
 		
-		ColorCustomer();
 	}
 
-	
+/*---------------------------------------------------------------------------
+  Name   :  resetTime
+  Purpose:  Sets time to initial wait time ---> what is the PURPOSE of this??
+  Receive:  None but timeInShop is a function of impatience 
+  Return :  
+---------------------------------------------------------------------------*/	
+	public void resetTime()
+	{
+		transactionTime = Time.time; // not sure if doing this right... - lizz
+		timeInShop = (10-impatience)*2;
+	}	
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateLineWaitingTime
-  Purpose:  Determine number of minutes the customer has been waiting in line
+  Purpose:  Determine time the customer has been waiting in line
   Receive:  none, uses member variables
-  Return :  int - minutes the customer has been waiting in line
+  Return :  float - minutes(?) the customer has been waiting in line
 ---------------------------------------------------------------------------*/	
-	int calculateLineWaitingTime ()
+	float calculateLineWaitingTime ()
 	{
-		
-		return 0; // transactionTime - arrivalTime
+		// could cause problems if function called at wrong time...???
+		return transactionTime - arrivalTime; 
 	}
-
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  calculateDrinkWaitingTime
+  Purpose:  Determine time the customer has waited for a drink they paid for
+  Receive:  none
+  Return :  float - time the customer has been waiting for a drink they ordered
+---------------------------------------------------------------------------*/	
+	float calculateDrinkWaitingTime ()
+	{
+		// could cause problems if function called at wrong time...???
+		return Time.time - transactionTime; 
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateTotalWaitingTime
@@ -226,10 +304,13 @@ public class Customer : MonoBehaviour
   Return :  int - minutes the customer has been waiting total
   			(time in line + time waiting for drink)
 ---------------------------------------------------------------------------*/	
-	int calculateTotalWaitingTime ()
+	float calculateTotalWaitingTime ()
 	{
+		// used for generating shop stats?
 		
-		return 0; // current time - arrivalTime? 
+		// could cause problems if function called at wrong time...???
+		// Current time - arrivalTime // is this right?
+		return Time.time - arrivalTime;
 	}
 	
 
@@ -239,12 +320,14 @@ public class Customer : MonoBehaviour
   Receive:  ...
   Return :  the current dominant opinion of this Customer
 ---------------------------------------------------------------------------*/	
-	int getOpinion ()
+	Opinions getOpinion ()
 	{
 		
 		// Neutral is the default state of a customer, and
 		// does not display a thought bubble
-		return (int) Opinions.neutral;
+		
+		// all other opinions/emotions display in a thought bubble
+		return Opinions.neutral;
 	}	
 	
 	
@@ -253,17 +336,26 @@ public class Customer : MonoBehaviour
   Name   :  calculateSatisfactionLevel
   Purpose:  Calculate and return a customer's satisfaction with their
   			experience at the coffee shop upon their departure
-  Receive:  none, uses member variables
-  			--> could potentially take in variables like longLine, longWait
-  			--> could potentially take in variables like leftearly = true
-  			or a multiplier that leaveCafe generates based on leave conditions
+  Receive:  leftEarly - true if customer got tired of waiting in line,
+  						never ordered (or paid for) a drink [longLine]
+  			longWait - true if the customer paid for a drink,
+  						but had to wait a long time for it to be made/ready	 
   Return :  int satisfaction level - to use for other coffee shop functions 
 ---------------------------------------------------------------------------*/
 	int calculateSatisfactionLevel (bool leftEarly, bool longWait)
 	{
 		int satisfaction = GameConstants.defaultSatisfactionLevel;
 		
+		// Generate multiplier/adjustment based on leave conditions
+		
+		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
+		// If the time a customer has been waiting in line (modify this *****)
+		// exceeds their patience limit, they leave unhappily
+		// leaveCafe(true, false);
+		
 		if (leftEarly) satisfaction = satisfaction * -1;
+		
+		// TODO!! **** ACTUALLY calculate this stuff
 		
 		// A customer's satisfaction with their experience at the coffee shop
 		// depends on many factors:
@@ -273,19 +365,60 @@ public class Customer : MonoBehaviour
 		// quality of drink
 		// price of drink
 		
-		// TODO!! **** ACTUALLY calculate this stuff
-		// maybe dont need to feed longwait and stuff as bools in other function
+
 		
 		return satisfaction;
 	}
 	
 
+
+	
+
+
+	
+/*---------------------------------------------------------------------------
+  Name   :  isFrontOfLine
+  Purpose:  Determines if customer is in front of line
+  Receive:  uses internal variables
+  Return :  true if customer is front of line, false otherwise
+---------------------------------------------------------------------------*/	
+	public bool isFrontOfLine()
+	{
+		if(custAction == Actions.inLine && linePosition == 0 && paidForDrink == false)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+
+	
+	
+
+	
+/*---------------------------------------------------------------------------
+  Name   :  ColorCustomer
+  Purpose:  Colors the customer capsule according to how much time is left until they leave.
+  			Yellow = just arrived; Red = leaving; Green = successfully received coffee
+  Receive:  
+  Return :  
+---------------------------------------------------------------------------*/	
+	void ColorCustomer()
+	{
+		float ratio = timeInShop/((10-impatience)*2);
+		
+		if(paidForDrink)
+			renderer.material.color = gotCoffeeColor; //new Color(0.65882f, 0.63137f, 1.0f); // Purple
+		else
+			renderer.material.color = new Color(1-ratio, ratio, 0);
+	}
+	
+	
 /*---------------------------------------------------------------------------
   Name   :  leaveCafe
-  Purpose:  Customer leaves the cafe and calls appropriate functions
-  			to affect the coffee shop's variables ... ??
-  Receive:  --> could potentially take in variables like longLine, longWait
-  Return :  
+  Purpose:  Animation for customer leaving the cafe
+  Receive: 	null
+  Return :	void
 ---------------------------------------------------------------------------*/	
 	public void leaveCafe ()
 	{
@@ -302,60 +435,73 @@ public class Customer : MonoBehaviour
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
 	
+	
+	
+
+	
+}
 
 /*---------------------------------------------------------------------------
-  Name   :  moveForwardInLine
+  Name   :  ...
   Purpose:  ...
   Receive:  ...
   Return :  ...
 ---------------------------------------------------------------------------*/	
-	
-/*---------------------------------------------------------------------------
-  Name   :  isFrontOfLine
-  Purpose:  Determines if customer is in front of line
-  Receive:  uses internal variables
-  Return :  true if customer is front of line, false otherwise
----------------------------------------------------------------------------*/	
-	
-	public bool isFrontOfLine(){
-		if(custAction == Actions.inLine && linePosition == 0 && paidForDrink == false){
-			return true;
-		}
-		return false;
-	}
 
-	public void setPaidForDrink(bool val){
-		paidForDrink = val;
-	}
+/*
+ * ObjectLabel
+ * 
+ * Makes a GUIText label follow an object in 3D space.
+ * Useful for things like having name tags over players' heads.
+ * 
+ * Notes: from http://wiki.unity3d.com/index.php/ObjectLabel
+ 
+Usage: Attach this script to a GUIText object, and drag the object it should follow into the Target slot.
+For best results, the anchor of the GUIText should probably be set to lower center,
+depending on what you're doing.
+
+Note: This script also works with GUITextures.
+ 
+*/
+
+ /*
+//[RequireComponent (typeof(GUIText))]
+//public class ObjectLabel : MonoBehaviour
+//{
+ 	// Object that this label should follow... the one it is attached to... ??
+	public Transform target;  
+	
+	// Units in world space to offset; 1 unit above object by default
+	public Vector3 offset = Vector3.up;    
 	
 	
-/*---------------------------------------------------------------------------
-  Name   :  resetTime
-  Purpose:  Sets time to initial wait time
-  Receive:  None but timeInShop is a function of impatience
-  Return :  
----------------------------------------------------------------------------*/	
+	/*
+	If UseMainCamera is checked, the first camera in the scene tagged MainCamera will be used.
+	If it's not checked, you should drag the desired camera onto the CameraToUse slot,
+	which is otherwise unused if UseMainCamera is true.
+	*/
 	
-	public void resetTime()
+	/*
+	Camera cam ;
+	Transform thisTransform;
+	Transform camTransform;
+ 
+	void Start ()
 	{
-		timeInShop = (10-impatience)*2;
+		thisTransform = transform;
+		// Use the camera tagged MainCamera
+		cam = Camera.main;
+		camTransform = cam.transform;
 	}
-	
-/*---------------------------------------------------------------------------
-  Name   :  ColorCustomer
-  Purpose:  Colors the customer capsule according to how much time is left until they leave.
-  			Yellow = just arrived; Red = leaving; Green = successfully received coffee
-  Receive:  
-  Return :  
----------------------------------------------------------------------------*/	
-	
-	void ColorCustomer()
+ 
+	void Update ()
 	{
-		float ratio = timeInShop/((10-impatience)*2);
+
+		thisTransform.position = cam.WorldToViewportPoint (this.position + offset);
 		
-		if(paidForDrink)
-			renderer.material.color = new Color(0.65882f, 0.63137f, 1.0f); //Purple
-		else
-			renderer.material.color = new Color(1-ratio, ratio, 0);
+			// Units in world space to offset; 1 unit above object by default
+	public Vector3 offset = Vector3.up;   
+		thisTransform.position = cam.WorldToViewportPoint (this.position + Vector3.up);
 	}
 }
+	*/

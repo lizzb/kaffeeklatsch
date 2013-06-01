@@ -15,12 +15,21 @@ public class CustomerGeneration : MonoBehaviour {
 	// Probability [0, 100] that a customer will spawn each second.
 	public int probOfCustomerSpawn;
 	
+	CoffeeShop coffeeShop;
+	
 	
 	//
 	// Use this for initialization
 	//
 	void Start ()
 	{
+		// use built-in tag because i'm too lazy to make my own tag
+		//GameObject room = GameObject.FindGameObjectWithTag("GameController");
+		
+		// Grabs the CoffeeShop class (only once!)
+		//cafe = room.GetComponent<CoffeeShop>();
+		coffeeShop = (CoffeeShop) GameObject.FindObjectOfType(typeof(CoffeeShop));
+		
 		time = 0;
 	}
 	
@@ -29,8 +38,8 @@ public class CustomerGeneration : MonoBehaviour {
 	//
 	void Update ()
 	{
-		//Updates probOfCustomerSpawn according to shop's popularity
-		CoffeeShop coffeeShop = (CoffeeShop) GameObject.FindObjectOfType(typeof(CoffeeShop));
+		// Updates probOfCustomerSpawn according to shop's popularity
+		//CoffeeShop coffeeShop = (CoffeeShop) GameObject.FindObjectOfType(typeof(CoffeeShop));
 		probOfCustomerSpawn = coffeeShop.popularity/4;
 		
 		time += Time.deltaTime;

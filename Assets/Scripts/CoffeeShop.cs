@@ -380,7 +380,7 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			if(c.isFrontOfLine())
 			{
-				c.resetTime();
+				c.resetTime(); // lizz: i think that this fx should be renamed... really just setting the tiem of transaction, right?
 				makingDrink = true;
 			}
 		}
