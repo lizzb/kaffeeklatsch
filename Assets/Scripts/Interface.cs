@@ -17,6 +17,7 @@ public class Interface : MonoBehaviour {
 	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
+	Clock clock;
 	
 	// TODO: change font size/color of stuff *****
 	
@@ -141,6 +142,8 @@ public class Interface : MonoBehaviour {
 		
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
+		
+		clock = this.GetComponent<Clock>();
 	}
 	
 	//
@@ -215,9 +218,11 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayCurrentDayTime()
 	{
-		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: X" /*+ day in game */ );
+		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: " + clock.days);
 		
-		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), "Hour" + ":" + "Min" + "PM"); //........
+		//GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.displayTime2());
+		
+		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.getTimeOfDay()); //"Hour" + ":" + "Min" + "PM"); //........
 	}
 	
 

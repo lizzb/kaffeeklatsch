@@ -4,6 +4,8 @@
 using UnityEngine;
 using System;//.Collections;
 
+// promising: http://catlikecoding.com/unity/tutorials/clock/
+
 public class Clock : MonoBehaviour
 {
 	
@@ -14,8 +16,9 @@ public class Clock : MonoBehaviour
 	
 	// The number of days played in the game
 	public int days { get; set; }
-	//public Time time;
-	public TimeSpan time;
+	public TimeSpan time; //public Time time;
+	public float time1;
+	public float time2; 
 	
 	// The hours (in 24 hour format) that the work day begins and ends
 	int startWork = 8;
@@ -89,6 +92,8 @@ public class Clock : MonoBehaviour
 		//    this.DrawOrder = (int)Game1.DisplayOrder.UI;
 		// Give the player a starting lump sum of money
 		time = new TimeSpan (startWork, 1, 0);
+		time1 = Time.time;
+		time2 = Time.time;
 		days = 1;
 		//}
 	
@@ -156,8 +161,13 @@ public class Clock : MonoBehaviour
         }*/
 		
 		// Update game time
-		time += new TimeSpan ((long)(Time.deltaTime * Time.timeScale));
-			
+		//time += Time.deltaTime; //new TimeSpan ((long)(Time.deltaTime * Time.timeScale));
+		
+		time1 += Time.time;
+		time2 += Time.deltaTime * Time.timeScale;
+		//print (time.ToString());	
+		
+		
 		// Elapsed game time since the last update.
 		//gameTime.ElapsedGameTime.Ticks * (int)CurrTimeSpeed); //timeSpeed;
 			
@@ -201,10 +211,35 @@ public class Clock : MonoBehaviour
 		oldSpeed = o;
 	}*/
 
-	public string display ()
+	public string getTimeOfDay()
 	{
-		var dt = new DateTime ().Add (time).AddDays (days - 1);
-		return string.Format (timeFormat, dt);
+		// OLD way for XNA code... probably much better
+		//private const string timeFormat = "Day {0:d: hh:mm tt}"; (declared at top)
+		//var dt = new DateTime ().Add (time).AddDays (days - 1);
+		//return string.Format (timeFormat, dt);
+		
+		// Janky hacky-ish way.... - lizz
+		
+		string hrString = "";
+		string minString = "";
+		string ampmString = "AM";
+		int hrs = startWork + (int)time2 / 60;
+		if (hrs >= 12)
+		{
+			ampmString = "PM";
+			if (hrs > 12) hrs = hrs % 12;
+		}
+		
+		hrString = hrs.ToString();
+		
+		int min = (int)time2 % 60;
+		if (min<10)
+		{
+			minString = "0"+min.ToString();
+		}
+		else minString = min.ToString();
+		
+		return "Time: " + hrString + ":" + minString + " " + ampmString;
 	}
 
 	/// <summary>

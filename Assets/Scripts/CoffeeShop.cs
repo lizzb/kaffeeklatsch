@@ -114,24 +114,20 @@ public class CoffeeShop : MonoBehaviour {
 		// update satisfaction and update hype called elsewhere
 		popularity = satisfactionRating + hypeLevel;
 		
-		//Hack for augmenting funds and popularity
-		if(Input.GetKeyDown(KeyCode.M)){
-			funds += drinkCost;
-		}
-		if(Input.GetKeyDown (KeyCode.N)){
-			funds -= drinkCost;
-		}
-		if(Input.GetKeyDown(KeyCode.P)){
-			hypeLevel += 10;
-		}
-		if(Input.GetKeyDown(KeyCode.O)){
-			hypeLevel -= 10;
-		}
+		// --- Hacks for augmenting funds and popularity --- //
+		if(Input.GetKeyDown(KeyCode.M)) { funds += drinkCost; }
+		
+		if(Input.GetKeyDown (KeyCode.N)) { funds -= drinkCost; }
+		
+		if(Input.GetKeyDown(KeyCode.P)) { hypeLevel += 10; }
+		
+		if(Input.GetKeyDown(KeyCode.O)){ hypeLevel -= 10; }
 		
 		//Take 3 seconds to make drink
 		if(makingDrink){
 			time += Time.deltaTime;
-			if(time > 3.0f){
+			if(time > 3.0f)
+			{
 				sellDrinkToCustomer(); //Sell drink to customer and reset timer
 				time = 0;
 			}

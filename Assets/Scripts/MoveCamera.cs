@@ -31,23 +31,51 @@ public class MoveCamera : MonoBehaviour
 			mousePositionX = Input.mousePosition.x;
 			mousePositionY = Input.mousePosition.y;
 		}
-		if(Input.GetMouseButtonUp(0))
-			isDown = false;
 		
-		// Camera manipulation with keyboard
-		if(Input.GetKey(KeyCode.Comma)) // To rotate left
+		if(Input.GetMouseButtonUp(0)) isDown = false;
+		
+		// ----- Camera manipulation with keyboard ----- //
+		
+		// ROTATE LEFT: </, key
+		if(Input.GetKey(KeyCode.Comma))
 			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), 1.0f);
-		if(Input.GetKey(KeyCode.Period)) // To rotate right
+		
+		// ROTATE RIGHT: >/. key
+		if(Input.GetKey(KeyCode.Period))
 			this.transform.RotateAround(new Vector3(10f, 0f, 10f), new Vector3(0f, 1f, 0f), -1.0f);
-		if(Input.GetKey(KeyCode.Minus)) // To zoom in
+		
+		// ZOOM IN: +/= key
+		if(Input.GetKey(KeyCode.Minus))
 			this.camera.orthographicSize += 0.1f;
-		if(Input.GetKey (KeyCode.Equals) && this.camera.orthographicSize > 3.0f) // To zoom out
+		
+		// ZOOM OUT: -/_ key
+		if(Input.GetKey (KeyCode.Equals) && this.camera.orthographicSize > 3.0f)
 			this.camera.orthographicSize -= 0.1f;
+		
+		// PAN LEFT: left arrow key
+		if(Input.GetKey(KeyCode.LeftArrow))
+			this.camera.transform.position += new Vector3(-.5f, 0f, 0f); // Vector3.left;
+		
+		// PAN RIGHT: right arrow key
+		if(Input.GetKey(KeyCode.RightArrow))
+			this.camera.transform.position += new Vector3(.5f, 0f, 0f); //Vector3.right;
+		
+		// PAN UP: up arrow key
+		if(Input.GetKey(KeyCode.UpArrow))
+			this.camera.transform.position += new Vector3(0f, .5f, 0f); //Vector3.up;
+		
+		// PAN DOWN: left arrow key
+		if(Input.GetKey(KeyCode.DownArrow))
+			this.camera.transform.position += new Vector3(0f, -.5f, 0f); //Vector3.down;
 	}
 	
-	bool mouseWithinSliderBox(){
-		if(mousePositionX > Screen.width - 10 || mousePositionX < Screen.width - 110){
-			if(mousePositionY < 100 || mousePositionY > 150){
+	// COMMENT MEEE..........
+	bool mouseWithinSliderBox()
+	{
+		if(mousePositionX > Screen.width - 10 || mousePositionX < Screen.width - 110)
+		{
+			if(mousePositionY < 100 || mousePositionY > 150)
+			{
 				return false;
 			}
 		}
