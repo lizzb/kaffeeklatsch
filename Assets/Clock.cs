@@ -16,15 +16,15 @@ public class Clock : MonoBehaviour
 	
 	// The number of days played in the game
 	public int days { get; set; }
-	public TimeSpan time; //public Time time;
-	public float time1;
-	public float time2; 
+	//public TimeSpan time; //public Time time;
+	public float time;
 	
 	// The hours (in 24 hour format) that the work day begins and ends
-	int startWork = 8;
-	int goHomeTime = 17;
-	int endWork = 18;
+	int startWork = 8; // 8am
+	int goHomeTime = 17; // 5pm
+	int endWork = 18; // 6pm
 	
+	// Time.timeScale;
 	// Unity variable for controlling speed of time
 	// The scale at which the time is passing. This can be used for slow motion effects.
 	// timeScale = 1.0 : time passing as fast as realtime
@@ -33,80 +33,40 @@ public class Clock : MonoBehaviour
 	
 	// Except for realtimeSinceStartup,
 	// timeScale affects all the time and delta time measuring variables of the Time class.
-
-	// If you lower timeScale it is recommended to
-	// also lower Time.fixedDeltaTime by the same amount.
-	//Time.timeScale;
+	// If you lower timeScale it is recommended to also lower Time.fixedDeltaTime by the same amount.
 	
 	// http://rezzable.com/blogs/foolish-frost/unity-tutorial-scripting-pausing-and-time-control
-	//You can change this variable, and all time variables will follow the new time scale.  All except "Time.realtimeSinceStartup". 
-	//	This float will ALWAYS be the real time since the program started.
+	// You can change this variable, and all time variables will follow the new time scale.  All except "Time.realtimeSinceStartup". 
+	// This float will ALWAYS be the real time since the program started.
 	
-	// Different time speeds...........
-	
+	// Different time speeds
+	// Using constants because enums can't be floats, only ints or bytes(?)
 	const float Paused = 0.0f;
 	const float SpeedPlay = 1.0f;
 	const float SpeedFF = 2.0f;
-	const float SpeedFFF = 3.0f;
-	
-	// enums can't be floats....
-	/* public enum TimeSpeed
-    {
-        // The 60 is to convert from seconds to minutes
-        /*Paused = 0,
-        SpeedPlay = 1 * 4 * 60, // lizz likes 4 (5 pushing a little) as the multiplier... was at 10
-        SpeedFF = 4 * 4 * 60,
-        SpeedFFF = 16 * 4 * 60
-        *
-		Paused = 0,
-		SpeedPlay = 1.0,
-		SpeedFF = 2.0,
-		SpeedFFF = 3.0
-    }*/
-	
-	//public TimeSpeed CurrTimeSpeed = TimeSpeed.SpeedPlay;
-	//public TimeSpeed oldSpeed = TimeSpeed.Paused;
+	const float SpeedFFF = 4.0f;
 	
 	public float CurrTimeSpeed = SpeedPlay;
 	public float oldSpeed = Paused;
-	
-	//public Time.timeScale CurrTimeSpeed = TimeSpeed.SpeedPlay;
-	//public Time.timeScale oldSpeed = TimeSpeed.Paused;
-	
-	
-	// Get the Game1 object stored by the base class
-	//private Game1 game1 { get { return (Game1)Game; } }
-
-	
 	
 	// ------------ Use this for initialization ------------ //
 	void Start ()
 	{
 		
-		// IN XNA (MSDN), TimeSpan represents a time interval
+		// Used this in XNA (MSDN), TimeSpan represents a time interval
 		// equivalent in Unity is .... actually maybe can use it, since c#?
 		
-		
-		//public Clock(Game1 game): base(game)
-		//{
-		//    this.DrawOrder = (int)Game1.DisplayOrder.UI;
-		// Give the player a starting lump sum of money
-		time = new TimeSpan (startWork, 1, 0);
-		time1 = Time.time;
-		time2 = Time.time;
-		days = 1;
-		//}
-	
+		// Initialize TimeSpan with.......???
+		//time = new TimeSpan (startWork, 1, 0);
+		time = Time.time;
+		days = 1; // or 0???
 	}
 	
 	// ------------ Update is called once per frame ------------ //
 	void Update ()
 	{
-		//-- Keyboard user controls for game speed --//
-		//KeyboardState keys = Keyboard.GetState();
 
 		// 1 = normal speed
-		//if (keys.IsKeyDown(Keys.D1)) CurrTimeSpeed = TimeSpeed.SpeedPlay;
 		if (Input.GetKeyDown (KeyCode.Alpha1))
 		{
 			oldSpeed = CurrTimeSpeed;
@@ -115,7 +75,6 @@ public class Clock : MonoBehaviour
 		}
 		
         // 2 = fast forward (speed x2)
-        //else if (keys.IsKeyDown(Keys.D2)) CurrTimeSpeed = TimeSpeed.SpeedFF;
 		else if (Input.GetKeyDown (KeyCode.Alpha2))
 		{
 			oldSpeed = CurrTimeSpeed;
@@ -123,8 +82,7 @@ public class Clock : MonoBehaviour
 			Time.timeScale = SpeedFF; //TimeSpeed.SpeedFF;
 		}
 		
-        // 3 = super fast forward (speed x3)
-        //else if (keys.IsKeyDown(Keys.D3)) CurrTimeSpeed = TimeSpeed.SpeedFFF;
+        // 3 = super fast forward (speed x4)
 		else if (Input.GetKeyDown (KeyCode.Alpha3))
 		{
 			oldSpeed = CurrTimeSpeed;
@@ -133,7 +91,7 @@ public class Clock : MonoBehaviour
 		}
 		
         // 0, space, or P = pause or unpause
-		else if (Input.GetKeyDown (KeyCode.Alpha0) || Input.GetKeyDown (KeyCode.P))
+		else if (Input.GetKeyDown (KeyCode.Alpha0) || Input.GetKeyDown (KeyCode.P) || Input.GetKeyDown(KeyCode.Space))
 		{
 			// If currently paused, return to last time speed
 			if (CurrTimeSpeed == Paused)
@@ -153,23 +111,18 @@ public class Clock : MonoBehaviour
 			// pretty sure this isnt being called right....
 			//PauseUnpause();
 		}
-		/*else if ((keys.IsKeyDown(Keys.P) && game1.oldks.IsKeyUp(Keys.P))
-            || (keys.IsKeyDown(Keys.OemTilde) && game1.oldks.IsKeyUp(Keys.OemTilde))
-            || (keys.IsKeyDown(Keys.Space) && game1.oldks.IsKeyUp(Keys.Space)))
-        {
-            PauseUnpause();
-        }*/
-		
+
 		// Update game time
-		//time += Time.deltaTime; //new TimeSpan ((long)(Time.deltaTime * Time.timeScale));
+		// Elapsed game time since the last update.
+		//gameTime.ElapsedGameTime.Ticks * (int)CurrTimeSpeed); //timeSpeed;
 		
-		time1 += Time.time;
-		time2 += Time.deltaTime * Time.timeScale;
+		
+		//time += Time.deltaTime; //new TimeSpan ((long)(Time.deltaTime * Time.timeScale));		
+		time += Time.deltaTime * Time.timeScale;
 		//print (time.ToString());	
 		
 		
-		// Elapsed game time since the last update.
-		//gameTime.ElapsedGameTime.Ticks * (int)CurrTimeSpeed); //timeSpeed;
+		
 			
 		//Time.deltaTime
 		//The time in seconds it took to complete the last frame (Read Only).
@@ -199,18 +152,22 @@ public class Clock : MonoBehaviour
             days++;
             oldSpeed = CurrTimeSpeed;
             CurrTimeSpeed = TimeSpeed.Paused;
-        } */
-		//base.Update(gameTime);
+        } */ 
+		
+		// ****** TODO this isn't working
+		// End of day stuff
+		if (ReachedEOD())
+		{
+			// Pause game, display some stuff
+			Time.timeScale = Paused; 
+			CurrTimeSpeed = Paused;
+		}
 	}
-        
-	/*public void PauseUnpause ()
-	{
-		/*TimeSpeed
-		float o = CurrTimeSpeed;
-		CurrTimeSpeed = oldSpeed;
-		oldSpeed = o;
-	}*/
 
+	/// <summary>
+	/// Get the time of day (to display in the user interface)
+	/// </summary>
+	/// <returns>time in string format</returns>
 	public string getTimeOfDay()
 	{
 		// OLD way for XNA code... probably much better
@@ -220,24 +177,19 @@ public class Clock : MonoBehaviour
 		
 		// Janky hacky-ish way.... - lizz
 		
-		string hrString = "";
-		string minString = "";
 		string ampmString = "AM";
-		int hrs = startWork + (int)time2 / 60;
+		int hrs = startWork + (int)time / 60;
 		if (hrs >= 12)
 		{
 			ampmString = "PM";
 			if (hrs > 12) hrs = hrs % 12;
 		}
 		
-		hrString = hrs.ToString();
+		string hrString = hrs.ToString();
 		
-		int min = (int)time2 % 60;
-		if (min<10)
-		{
-			minString = "0"+min.ToString();
-		}
-		else minString = min.ToString();
+		int min = (int)time % 60;
+		string minString = min.ToString();
+		if (min<10) minString = "0"+minString;
 		
 		return "Time: " + hrString + ":" + minString + " " + ampmString;
 	}
@@ -248,7 +200,8 @@ public class Clock : MonoBehaviour
 	/// <returns>true if end of day reached</returns>
 	public bool ReachedEOD ()
 	{
-		return time.Hours == startWork && time.Minutes == 0;
+		return (startWork + (int)time / 60) >= endWork;
+		//return time.Hours == endWork && time.Minutes == 0; //startWork && time.Minutes == 0;
 	}      
 
 
