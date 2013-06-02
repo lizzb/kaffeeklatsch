@@ -48,7 +48,7 @@ public class CoffeeShop : MonoBehaviour {
 	
 	// The daily rent for this coffee shop
 	// .....not sure if we'll get to implementing functionality requiring this
-	int rent; 
+	public int rent; 
 
 	
 	// TODO: Figure out how to determine how long "hype" lasts for,
@@ -67,10 +67,10 @@ public class CoffeeShop : MonoBehaviour {
 	// 
 	
 	// Money earned during 1 simulation day
-	int dailyRevenue = 0;
+	public int dailyRevenue = 0;
 	
 	// Number of drinks sold during 1 simulation day
-	int dailyNumDrinksSold = 0;
+	public int dailyNumDrinksSold = 0;
 	
 	
 	// List for history of revenue
@@ -97,8 +97,7 @@ public class CoffeeShop : MonoBehaviour {
 		hypeLevel = GameConstants.initialHypeLevel;
 		popularity = satisfactionRating + hypeLevel;
 		
-		//empManager = EmployeeManager(); //(this);
-		//empManager.hireEmployee();
+		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
 		
 		
 	}
@@ -132,6 +131,7 @@ public class CoffeeShop : MonoBehaviour {
 				time = 0;
 			}
 		}
+		
 	}
 
 	
@@ -168,7 +168,7 @@ public class CoffeeShop : MonoBehaviour {
   Receive:  none, uses internal variables
   Return :  costs for the day
 ---------------------------------------------------------------------------*/	
-	int calculateDailyCosts()
+	public int calculateDailyCosts()
 	{
 		int totalDailyCosts = 0;
 		
@@ -190,7 +190,7 @@ public class CoffeeShop : MonoBehaviour {
   Receive:  All internal variables
   Return :  the cost of paying wages to all employees for a particular day
 ---------------------------------------------------------------------------*/
-	int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
+	public int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
 	{
 		int total = 0;
 		foreach(Employee e in empManager.employees)
@@ -211,7 +211,7 @@ public class CoffeeShop : MonoBehaviour {
   Receive:  none, uses internal variables
   Return :  void
 ---------------------------------------------------------------------------*/	
-	void EODreport()
+	public void EODreport()
 	{
 		// don't need to add revenue to funds,
 		// since they are added at time of sale
@@ -224,6 +224,7 @@ public class CoffeeShop : MonoBehaviour {
 		
 		// Update cafe popularity (both satisfaction and hype)
 		// ...
+		hypeLevel = GameConstants.initialHypeLevel;
 	}
 	
 	
@@ -316,31 +317,6 @@ public class CoffeeShop : MonoBehaviour {
 	
 	public void setDrinkCost(int cost){
 		drinkCost = cost;
-	}
-	
-	
-/*---------------------------------------------------------------------------
-  Name   :  addEmployee
-  Purpose:  Hire employee to shop
-  Receive:  Employee to add
-  Return :  false if employee was not hired (insufficient funds or reach limit)
----------------------------------------------------------------------------*/	
-	/* **** this needs TO BE FIXED TO BE HANDLED BY EMPLOYEEMANAGER ***/
-	public void addEmployee(Employee emp)
-	{
-		// use built-in tag because i'm too lazy to make my own tag
-		//room = GameObject.FindGameObjectWithTag("GameController");
-		
-		// Grabs the CoffeeShop class (only once!)
-		//cafe = room.GetComponent<CoffeeShop>();
-		//cafe.empManager.hireEmployee(this);
-		
-		//if (cafe.funds < GameConstants.employeeHiringCost) return false;
-		//Employee emp = new Employee();
-		//print("yay hire an employee!");
-		//employees.Add(emp);
-		empManager.employees.Add (emp);
-		// THIS ALL NEEDS TO BE FIXED *********
 	}
 	
 	

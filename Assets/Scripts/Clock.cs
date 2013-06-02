@@ -9,6 +9,7 @@ using System;//.Collections;
 public class Clock : MonoBehaviour
 {
 	
+	
 	private const string timeFormat = "Day {0:d: hh:mm tt}";
 	
 	// The current time

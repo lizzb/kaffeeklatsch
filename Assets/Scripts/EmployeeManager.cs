@@ -14,7 +14,7 @@ using System.Collections;
 
 public class EmployeeManager : MonoBehaviour {
 	
-	CoffeeShop cafe; // the cafe this employeemanager belongs to
+	private CoffeeShop cafe; // the cafe this employeemanager belongs to
 	
 	//public void EmployeeManager(CoffeeShop) {}
 	
@@ -29,9 +29,11 @@ public class EmployeeManager : MonoBehaviour {
 		
 		// use built-in tag because i'm too lazy to make my own tag
 		GameObject room = GameObject.FindGameObjectWithTag("GameController");
-		
+	
 		// Grabs the CoffeeShop class (only once!)
 		cafe = room.GetComponent<CoffeeShop>();
+		
+		employees.Add(room.AddComponent<Employee>());
 	
 	}
 	
@@ -65,9 +67,8 @@ public class EmployeeManager : MonoBehaviour {
 		}
 		*/
 		
-		Employee emp = new Employee();
-		//print("yay hire an employee!");
-		employees.Add(emp);
+		cafe.funds -= GameConstants.employeeHiringCost;
+		employees.Add(gameObject.AddComponent<Employee>());
 		return true;
 		
 		// THIS ALL NEEDS TO BE FIXED *********
@@ -80,19 +81,17 @@ public class EmployeeManager : MonoBehaviour {
   Return :  true if employee was fired successfully
   			(don't know if there's ever a false condition??)
 ---------------------------------------------------------------------------*/	
-	public bool fireEmployee(Employee emp)
+	public bool fireEmployee()
 	{	
 		
-		/*
 		// Your coffee shop must have at least 1 employee
-		if (employees.length <= 1)
+		if (employees.Count <= 1)
 		{
 			// TODO: notify user they can't fired their only employee ****
 			return false;
 		}
-		*/
-
-		employees.Remove(emp);
+		;
+		employees.RemoveAt(employees.Count - 1);
 		return true;
 		
 		// THIS ALL NEEDS TO BE FIXED *********

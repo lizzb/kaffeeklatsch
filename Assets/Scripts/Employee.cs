@@ -48,12 +48,6 @@ public class Employee : MonoBehaviour {
 		// THIS NEEDS TO BE FIXED TO BE HANDLED BY EMPLOYEEMANAGER
 		// use built-in tag because i'm too lazy to make my own tag
 		GameObject room = GameObject.FindGameObjectWithTag("GameController");
-		
-		// Grabs the CoffeeShop class (only once!)
-		cafe = room.GetComponent<CoffeeShop>();
-		//cafe.empManager.hireEmployee(this);
-		cafe.addEmployee(this);
-		// Give them a name
 	
 	}
 	

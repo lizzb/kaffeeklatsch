@@ -122,8 +122,11 @@ public class Interface : MonoBehaviour {
 	const int empMenuW = 135; //100
 	const int empMenuH = 80; //100
 	
-	
-
+	// ---End of Day Report Window --
+	const int eodWindowX = 100;
+	const int eodWindowY = 50;
+	int eodWindowW = Screen.width - 200;
+	int eodWindowH = Screen.height - 100;
 	
 	
 	
@@ -178,6 +181,10 @@ public class Interface : MonoBehaviour {
 		
 		// Input for changing costs
 		displayPriceSetter();
+		
+		if(clock.ReachedEOD()){
+			displayEODReport();
+		}
 		
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
@@ -417,13 +424,12 @@ public class Interface : MonoBehaviour {
 		// COMMENT MEE..............
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),"Hire an employee"))
 		{
-			// hire employee
-			// cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			cafe.empManager.hireEmployee();
 		}
 		// COMMENT MEE..............
 		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),"Fire an employee"))
 		{
-			//cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+			cafe.empManager.fireEmployee();
 		}
 		// COMMENT MEE..............
 		//else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
@@ -444,5 +450,25 @@ public class Interface : MonoBehaviour {
 		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
 		//When slider changes value, updates cost of drinks
 		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, 10.0f);
+	}
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  displaEODReport
+  Purpose:  displays end of day report
+  Receive:  nothing, just ui 
+  Return :  nothing, just ui
+---------------------------------------------------------------------------*/
+	void displayEODReport(){
+		GUI.Window(3,new Rect(eodWindowX,eodWindowY,eodWindowW,eodWindowH),EODWindow,"End of Day Report");
+	}
+	
+	void EODWindow(int windowID){
+		int y = 20;
+		int w = eodWindowW - windowPaddingX * 2;
+		int h = 20;
+		GUI.Box (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
+		GUI.Box (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
+		GUI.Box (new Rect(windowPaddingX,y + h * 2,w,h * 3),"Daily Costs: " + cafe.calculateDailyCosts() + "\nRent: " + cafe.rent + "\nEmployee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
 	}
 }
