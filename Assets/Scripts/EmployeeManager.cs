@@ -105,9 +105,9 @@ public class EmployeeManager : MonoBehaviour {
   Return :  return employee who is available
 ---------------------------------------------------------------------------*/
 	public Employee findAvailableEmployee(){
-		foreach (Employee e in employees){
-			if(e.getAction() == Employee.Actions.Nothing){
-				return e;
+		foreach (Employee e in employees){ //Iterate through employees
+			if(e.getAction() == Employee.Actions.Nothing){ //If doing nothing
+				return e; //return
 			}
 		}
 		return null;
@@ -120,9 +120,9 @@ public class EmployeeManager : MonoBehaviour {
   Return :  return employee who is working
 ---------------------------------------------------------------------------*/
 	public Employee findWorkingEmployee(){
-		foreach (Employee e in employees){
-			if(e.getAction() == Employee.Actions.MakingDrink){
-				return e;
+		foreach (Employee e in employees){ //Iterate through employees
+			if(e.getAction() == Employee.Actions.MakingDrink){ //If making drink
+				return e; //return
 			}
 		}
 		return null;

@@ -128,6 +128,15 @@ public class Interface : MonoBehaviour {
 	int eodWindowW = Screen.width - 200;
 	int eodWindowH = Screen.height - 100;
 	
+	// --- Progress Bars
+	int barX = Screen.width / 2 - 30;
+	const int barY = 40;
+	const int barW = 60;
+	const int barH = 20;
+	float progress = 0;
+	Texture2D progressBarEmpty;
+	Texture2D progressBarFull;
+	
 	
 	
 	// drinkssoldtoday
@@ -147,6 +156,9 @@ public class Interface : MonoBehaviour {
 		cafe = room.GetComponent<CoffeeShop>();
 		
 		clock = this.GetComponent<Clock>();
+		
+		progressBarEmpty = new Texture2D(0,barH); //Progress bar while empty
+		progressBarFull = new Texture2D(barW,barH); //Progress bar while full
 	}
 	
 	//
@@ -186,6 +198,14 @@ public class Interface : MonoBehaviour {
 			displayEODReport();
 		}
 		
+		//If making drink
+		if(cafe.makingDrink){
+			drawProgressBar(); //display progress bar
+			progress += Time.deltaTime; //Increment progress
+		} else{
+			progress = 0f; //Otherwise set progress to 0
+		}
+				
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
 		GUI.Label (new Rect (x-10,65,120,20), "Revenue for today: " + imp.currentMotivationLevel);
@@ -476,5 +496,17 @@ public class Interface : MonoBehaviour {
 		GUI.Box (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
 		GUI.Box (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
 		GUI.Box (new Rect(windowPaddingX,y + h * 2,w,h * 3),"Daily Costs: " + cafe.calculateDailyCosts() + "\nRent: " + cafe.rent + "\nEmployee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+	}
+	
+	
+/*---------------------------------------------------------------------------
+  Name   :  drawProgressBar
+  Purpose:  draws progress bar to display while making drink
+  Receive:  nothing, just ui 
+  Return :  nothing, just ui
+---------------------------------------------------------------------------*/
+	void drawProgressBar(){
+		GUI.DrawTexture(new Rect(barX,barY,barW,barH),progressBarEmpty); //Draw progress bar as empty
+		GUI.DrawTexture(new Rect(barX,barY,barW * progress / 6.0f,barH),progressBarFull); //Depending on progress, fill bar
 	}
 }

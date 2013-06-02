@@ -79,7 +79,7 @@ public class CoffeeShop : MonoBehaviour {
 	// List of history of satisfaction ratings at EOD
 	
 	//Variables to simulate drink making, will probably go away with employees
-	bool makingDrink = false;
+	public bool makingDrink = false;
 	private float time = 0;
 	
 	//
@@ -125,6 +125,7 @@ public class CoffeeShop : MonoBehaviour {
 		//Take 3 seconds to make drink
 		if(makingDrink){
 			time += Time.deltaTime;
+			print (time);
 			if(time > 3.0f)
 			{
 				sellDrinkToCustomer(); //Sell drink to customer and reset timer
