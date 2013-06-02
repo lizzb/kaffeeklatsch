@@ -96,7 +96,36 @@ public class EmployeeManager : MonoBehaviour {
 		
 		// THIS ALL NEEDS TO BE FIXED *********
 	}	
+
 	
+/*---------------------------------------------------------------------------
+  Name   :  findAvailableEmployee
+  Purpose:  find a employee who is availabl
+  Receive:  nothing
+  Return :  return employee who is available
+---------------------------------------------------------------------------*/
+	public Employee findAvailableEmployee(){
+		foreach (Employee e in employees){
+			if(e.getAction() == Employee.Actions.Nothing){
+				return e;
+			}
+		}
+		return null;
+	}
 	
+/*---------------------------------------------------------------------------
+  Name   :  findWorkingEmployee
+  Purpose:  find a employee who is currently working
+  Receive:  Nothing
+  Return :  return employee who is working
+---------------------------------------------------------------------------*/
+	public Employee findWorkingEmployee(){
+		foreach (Employee e in employees){
+			if(e.getAction() == Employee.Actions.MakingDrink){
+				return e;
+			}
+		}
+		return null;
+	}
 	
 }

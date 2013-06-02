@@ -67,15 +67,15 @@ public class Interface : MonoBehaviour {
 	
 	// --- Display of current day and time ---
 	// Near upper right hand corner
-	int dateX = Screen.width - 110;
+	int dateX = Screen.width - 120;
 	const int dateY = 10;
-	const int dateW = 100;
+	const int dateW = 110;
 	const int dateH = 65;
 	
 	// --- Display of Price Setter Input ---
-	int priceX = Screen.width - 110;
+	int priceX = Screen.width - 120;
 	const int priceY = 100;
-	const int priceW = 100;
+	const int priceW = 110;
 	const int priceH = 50;
 	
 	
@@ -395,7 +395,7 @@ public class Interface : MonoBehaviour {
 	void displayEmployeeButton()
 	{
 		// Toggle whether employee(s) button has been pressed
-		if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),new GUIContent("Employees")))
+		if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),"Employees: " + cafe.empManager.employees.Count))
 		{
 			empMenuIsVisible = !empMenuIsVisible;
 		}
@@ -454,7 +454,7 @@ public class Interface : MonoBehaviour {
 	
 	
 /*---------------------------------------------------------------------------
-  Name   :  displaEODReport
+  Name   :  displayEODReport
   Purpose:  displays end of day report
   Receive:  nothing, just ui 
   Return :  nothing, just ui
@@ -463,6 +463,12 @@ public class Interface : MonoBehaviour {
 		GUI.Window(3,new Rect(eodWindowX,eodWindowY,eodWindowW,eodWindowH),EODWindow,"End of Day Report");
 	}
 	
+/*---------------------------------------------------------------------------
+  Name   :  EODWindow
+  Purpose:  displays end of day report
+  Receive:  nothing, just ui 
+  Return :  nothing, just ui
+---------------------------------------------------------------------------*/
 	void EODWindow(int windowID){
 		int y = 20;
 		int w = eodWindowW - windowPaddingX * 2;

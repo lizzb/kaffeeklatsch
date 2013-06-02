@@ -332,10 +332,14 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			if(c.isFrontOfLine()) // If customer is in front of line
 			{ 
-				sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
-				c.custAction = Customer.Actions.walkingOut; // bug fix = 0 //3; // Set customer action to leaving shop...
-				// *** not waiting for coffee???? TODO
-				makingDrink = false; // Stop incrementing drink
+				Employee e = empManager.findWorkingEmployee(); //Find working employee
+				if(e != null){
+					sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
+					c.custAction = Customer.Actions.walkingOut; // bug fix = 0 //3; // Set customer action to leaving shop...
+					// *** not waiting for coffee???? TODO
+					makingDrink = false; // Stop incrementing drink
+					e.setAction(Employee.Actions.Nothing); //set employee to doing nothing
+				}
 			}
 		}
 	}
@@ -352,8 +356,12 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			if(c.isFrontOfLine())
 			{
-				c.resetTime(); // lizz: i think that this fx should be renamed... really just setting the tiem of transaction, right?
-				makingDrink = true;
+				Employee e = empManager.findAvailableEmployee(); //Find next available employee
+				if(e != null){
+					c.resetTime(); // lizz: i think that this fx should be renamed... really just setting the tiem of transaction, right?
+					makingDrink = true;
+					e.setAction(Employee.Actions.MakingDrink); //Set employee to making drink
+				}
 			}
 		}
 	}

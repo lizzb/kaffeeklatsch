@@ -23,10 +23,10 @@ public class Employee : MonoBehaviour {
 	// Whether this employee is currently busy or not
 	bool isBusy = false;
 	
-	enum Actions { Nothing=0, Cashier, MakingDrink }
+	public enum Actions { Nothing=0, Cashier, MakingDrink }
 	
 	// The current action of this employee
-	int currentAction = (int)Actions.Nothing;
+	Actions currentAction = Actions.Nothing;
 	
 	
 	// Skill --> higher quality drinks, but also requires higher pay
@@ -66,6 +66,14 @@ public class Employee : MonoBehaviour {
 	// Get pay Rate
 	public int getPayrate(){
 		return payRate;
+	}
+	
+	public Actions getAction(){
+		return currentAction;
+	}
+	
+	public void setAction(Actions a){
+		currentAction = a;
 	}
 	
 }
