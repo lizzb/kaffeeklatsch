@@ -72,7 +72,7 @@ instead of string drinkName, use enums across multiple files?
 	
 	void OnGUI()
 	{
-		displayProgressBar();	
+		displayProgressBar();
 	}
 	
 	void displayProgressBar()

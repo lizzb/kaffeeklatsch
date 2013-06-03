@@ -375,7 +375,10 @@ public class Customer : MonoBehaviour
 		print("Waiting: " + waitingSatisfaction + ", Cash: " + cashSatisfaction + ", Quality: "
 			+ drinkQuality + ", Total: " + (waitingSatisfaction+cashSatisfaction+drinkQuality));
 		
-		return (waitingSatisfaction+cashSatisfaction+drinkQuality);
+		int x = waitingSatisfaction, y = cashSatisfaction, z = drinkQuality; // For clarity
+		int avg = (x+y+z)/3;
+		// Returns Max(x,y,z) if average is positive, or Min(x,y,z) if average is negative
+		return avg==0 ? 0 : avg > 0 ? Mathf.Max(Mathf.Max(x,y), z) : Mathf.Min(Mathf.Min(x, y), z);
 	}
 	
 
