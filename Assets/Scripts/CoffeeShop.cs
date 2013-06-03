@@ -60,7 +60,7 @@ public class CoffeeShop : MonoBehaviour {
 	// drinksMenu []
 	
 	//Initial Cost of Drink
-	int drinkCost = GameConstants.initialDrinkCost; 
+	public int drinkCost = GameConstants.initialDrinkCost; 
 	
 	//
 	// Daily statistics - implement later if time
@@ -125,10 +125,10 @@ public class CoffeeShop : MonoBehaviour {
 		//Take 3 seconds to make drink
 		if(makingDrink){
 			time += Time.deltaTime;
-			print (time);
+			//print (time);
 			if(time > 3.0f)
 			{
-				sellDrinkToCustomer(); //Sell drink to customer and reset timer
+				sellDrinkToCustomer(); //Sell drink to customer
 				time = 0;
 			}
 		}
@@ -359,7 +359,6 @@ public class CoffeeShop : MonoBehaviour {
 			{
 				Employee e = empManager.findAvailableEmployee(); //Find next available employee
 				if(e != null){
-					c.resetTime(); // lizz: i think that this fx should be renamed... really just setting the tiem of transaction, right?
 					makingDrink = true;
 					e.setAction(Employee.Actions.MakingDrink); //Set employee to making drink
 				}

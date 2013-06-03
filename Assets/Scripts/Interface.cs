@@ -469,7 +469,7 @@ public class Interface : MonoBehaviour {
 		//Box to display current price
 		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
 		//When slider changes value, updates cost of drinks
-		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, 10.0f);
+		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, GameConstants.maximumDrinkCost);
 	}
 	
 	

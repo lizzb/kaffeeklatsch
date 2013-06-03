@@ -35,8 +35,7 @@ public class Customer : MonoBehaviour
 	
 	
 	//All public variables on scale [0,10] with 0 being 'better'
-	// probably can get rid of these
-	public int cleanFreak;
+	public int ambianceLover;
 	public int impatience;
 	public int moneyGrubber;
 	
@@ -125,7 +124,7 @@ public class Customer : MonoBehaviour
 		
 		// COMMENT MEEEEE......................................
 		System.Random random = new System.Random();
-		cleanFreak = random.Next(0, 11);
+		ambianceLover = random.Next(0, 11);
 		impatience = random.Next(0, 10);
 		moneyGrubber = random.Next(0, 11);
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
@@ -151,8 +150,10 @@ public class Customer : MonoBehaviour
 		// If still not served (and/or have order taken?)
 		// decrease patienceLevel
 		
-		// TODO ??? maybe this shouldnt start decreasing until they are in line????
-		timeInShop -= Time.deltaTime; 
+		if(custAction == Actions.inLine)
+		{
+			timeInShop -= Time.deltaTime;
+		}
 		
 		
 		// Customer walks from door to its line position
@@ -162,19 +163,20 @@ public class Customer : MonoBehaviour
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
 		
-		// USE CONSTANTS INSTEAD OF NUMBERS!!!! TODO what is 13-1.5?
+		// USE CONSTANTS INSTEAD OF NUMBERS!!!! TODO what is 13?
 		
 		// Customer gets in line
 		// comment this.....................
 		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
 			// Move forward in line?????
+			custAction = Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
 		// comment this.....................
-		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut)
+		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut && linePosition == 0)
 		{
-			custAction = Actions.inLine;
+			custAction = Actions.waitingForDrink;
 		}
 			
 			
@@ -253,7 +255,7 @@ public class Customer : MonoBehaviour
 			
 			// Update the customer satisfaction rating of the coffee shop
 			// Based on the satisfaction level of the customer that just left
-			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly, longWait));
+			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly));
 			
 			Destroy(this.gameObject);
 		}
@@ -342,21 +344,17 @@ public class Customer : MonoBehaviour
   						but had to wait a long time for it to be made/ready	 
   Return :  int satisfaction level - to use for other coffee shop functions 
 ---------------------------------------------------------------------------*/
-	int calculateSatisfactionLevel (bool leftEarly, bool longWait)
+	int calculateSatisfactionLevel (bool leftEarly)
 	{
-		int satisfaction = GameConstants.defaultSatisfactionLevel;
+		//int satisfaction = GameConstants.defaultSatisfactionLevel;
 		
 		// Generate multiplier/adjustment based on leave conditions
 		
 		// Customer walks out of the line and leaves the shop if timeInShop < 0.	
 		// If the time a customer has been waiting in line (modify this *****)
 		// exceeds their patience limit, they leave unhappily
-		// leaveCafe(true, false);
-		
-		if (leftEarly) satisfaction = satisfaction * -1;
-		
-		// TODO!! **** ACTUALLY calculate this stuff
-		
+		// leaveCafe(true);
+						
 		// A customer's satisfaction with their experience at the coffee shop
 		// depends on many factors:
 		
@@ -365,9 +363,19 @@ public class Customer : MonoBehaviour
 		// quality of drink
 		// price of drink
 		
-
+		// All satisfaction sublevels below will be [-10, 10]
 		
-		return satisfaction;
+		// Linear function f:[0, 1] → [-10, 10] that maps a ratio of their current time in shop / initial time to a scale [-10, 10]
+		int waitingSatisfaction = 20*((int) timeInShop)/((10-impatience)*2)-10;
+		// Function that calculates a customer's satisfaction according to moneyGrubber value
+		int cashSatisfaction =
+			GameConstants.maximumDrinkCost-cafe.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
+		// Drink quality purely pseudorandom for now, since drinks have no quality value.
+		int drinkQuality = (new System.Random()).Next(-10, 11);
+		print("Waiting: " + waitingSatisfaction + ", Cash: " + cashSatisfaction + ", Quality: "
+			+ drinkQuality + ", Total: " + (waitingSatisfaction+cashSatisfaction+drinkQuality));
+		
+		return (waitingSatisfaction+cashSatisfaction+drinkQuality);
 	}
 	
 
@@ -384,7 +392,7 @@ public class Customer : MonoBehaviour
 ---------------------------------------------------------------------------*/	
 	public bool isFrontOfLine()
 	{
-		if(custAction == Actions.inLine && linePosition == 0 && paidForDrink == false)
+		if(custAction == Actions.waitingForDrink && linePosition == 0 && paidForDrink == false)
 		{
 			return true;
 		}

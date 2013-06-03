@@ -42,6 +42,7 @@ using System;
 	
 	//Initial Drink Cost for Coffee Shop
 	public const int initialDrinkCost = 5;
+	public const int maximumDrinkCost = 10;
 	
 	
 	//
