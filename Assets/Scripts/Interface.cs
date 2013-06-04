@@ -129,13 +129,15 @@ public class Interface : MonoBehaviour {
 	int eodWindowH = Screen.height - 100;
 	
 	// --- Progress Bars
-	int barX = Screen.width / 2 - 30;
-	const int barY = 40;
-	const int barW = 60;
-	const int barH = 20;
+	int barX = 0;
+	const int barY = 0;
+	const int barW = 10;
+	const int barH = 50;
 	float progress = 0;
-	Texture2D progressBarEmpty;
 	Texture2D progressBarFull;
+	
+	GameObject progressBarFill;
+	GUITexture progressBarFillTexture;
 	
 	
 	
@@ -156,9 +158,17 @@ public class Interface : MonoBehaviour {
 		cafe = room.GetComponent<CoffeeShop>();
 		
 		clock = this.GetComponent<Clock>();
-		
-		progressBarEmpty = new Texture2D(0,barH); //Progress bar while empty
+	
 		progressBarFull = new Texture2D(barW,barH); //Progress bar while full
+		
+		
+		//Setting up progress Bar object
+		progressBarFill = new GameObject("ProgressBarFill");
+		progressBarFillTexture = progressBarFill.AddComponent<GUITexture>();
+		progressBarFillTexture.texture = progressBarFull;
+		progressBarFill.transform.localScale = Vector3.zero;
+		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>();
+		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform;
 	}
 	
 	//
@@ -511,7 +521,6 @@ public class Interface : MonoBehaviour {
   Return :  nothing, just ui
 ---------------------------------------------------------------------------*/
 	void drawProgressBar(){
-		GUI.DrawTexture(new Rect(barX,barY,barW,barH),progressBarEmpty); //Draw progress bar as empty
-		GUI.DrawTexture(new Rect(barX,barY,barW * progress / 6.0f,barH),progressBarFull); //Depending on progress, fill bar
+		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f);
 	}
 }
