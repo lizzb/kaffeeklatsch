@@ -493,9 +493,12 @@ public class Interface : MonoBehaviour {
 		int y = 20;
 		int w = eodWindowW - windowPaddingX * 2;
 		int h = 20;
-		GUI.Box (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
-		GUI.Box (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
-		GUI.Box (new Rect(windowPaddingX,y + h * 2,w,h * 3),"Daily Costs: " + cafe.calculateDailyCosts() + "\nRent: " + cafe.rent + "\nEmployee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
+		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
+		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h * 3),"Daily Costs: " + cafe.calculateDailyCosts() + "\nRent: " + cafe.rent + "\nEmployee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day")){
+			clock.advanceDay();
+		}
 	}
 	
 	

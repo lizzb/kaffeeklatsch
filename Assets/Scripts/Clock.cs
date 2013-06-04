@@ -204,10 +204,15 @@ public class Clock : MonoBehaviour
 		return (startWork + (int)time / 60) >= endWork;
 		//return time.Hours == endWork && time.Minutes == 0; //startWork && time.Minutes == 0;
 	}      
-
-
-
-
+	
+	
+	//Advances a day forward
+	public void advanceDay(){
+		days++;
+		CurrTimeSpeed = SpeedPlay;
+		Time.timeScale = SpeedPlay;
+		time = 0;
+	}
 
 
 
