@@ -123,9 +123,9 @@ public class Interface : MonoBehaviour {
 	const int empMenuH = 80; //100
 	
 	// ---End of Day Report Window --
-	const int eodWindowX = 100;
+	const int eodWindowX = 200;
 	const int eodWindowY = 50;
-	int eodWindowW = Screen.width - 200;
+	int eodWindowW = Screen.width - 400;
 	int eodWindowH = Screen.height - 100;
 	
 	// --- Progress Bars
@@ -495,9 +495,11 @@ public class Interface : MonoBehaviour {
 		int h = 20;
 		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
 		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
-		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h * 3),"Daily Costs: " + cafe.calculateDailyCosts() + "\nRent: " + cafe.rent + "\nEmployee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
-		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day")){
-			clock.advanceDay();
+		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.calculateDailyCosts());
+		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.rent);
+		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day")){ //If click on advance day button
+			clock.advanceDay(); //Advances day
 		}
 	}
 	
