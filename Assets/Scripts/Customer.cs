@@ -234,7 +234,6 @@ public class Customer : MonoBehaviour
 		// does getting rang up fast, but waiting for drink for long time,
 		// have diff impact than waiting for both for a long time?
 		
-		
 
 		
 		

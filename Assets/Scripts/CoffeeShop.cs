@@ -19,6 +19,9 @@ public class CoffeeShop : MonoBehaviour {
 	//CoffeMakers
 	public CoffeeMachine coffeeMachine;
 	
+	//List of Advertisements bought
+	public ArrayList advertisements;
+	
 	
 	// TODO ???
 	// Not sure if we should have a "MoneyManager" class...
@@ -99,6 +102,8 @@ public class CoffeeShop : MonoBehaviour {
 		hypeLevel = GameConstants.initialHypeLevel;
 		popularity = satisfactionRating + hypeLevel;
 		
+		advertisements = new ArrayList();
+		
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
 		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
 	}
@@ -159,6 +164,29 @@ public class CoffeeShop : MonoBehaviour {
 	public void updateHype(int hype)
 	{
 		hypeLevel += hype;
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  updateHypeLength
+  Purpose:  update length of hype for advertisements at the end of day
+  Receive:  nothing
+  Return :  void
+---------------------------------------------------------------------------*/
+	void updateHypeLength(){
+		ArrayList deleteAds = new ArrayList();
+		
+		foreach(Advertisement ad in advertisements){
+			ad.decrementHypeLength(); //Decrease hype length
+			if(ad.getHypeLength() == 0){ //If hypelength
+				hypeLevel -= ad.getHype(); //Decrease hype level
+				deleteAds.Add(ad); //Add it to delete list
+			}
+		}
+		
+		//Need delete list so that you don't delete while looping through list
+		foreach(Advertisement ad in deleteAds){
+			advertisements.Remove(ad); //delete from advertisement list
+		}
 	}
 	
 	
@@ -226,7 +254,13 @@ public class CoffeeShop : MonoBehaviour {
 		
 		// Update cafe popularity (both satisfaction and hype)
 		// ...
-		hypeLevel = GameConstants.initialHypeLevel;
+		
+		//Decrease hypelength of advertisements
+		updateHypeLength();
+		
+		//Reset counters
+		dailyRevenue = 0;
+		dailyNumDrinksSold = 0;
 	}
 	
 	
@@ -307,6 +341,7 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		if(funds > ad.getCost()) //If advertisement costs less than available funds
 		{
+			advertisements.Add(ad);
 			funds -= ad.getCost(); //Decrease funds
 			updateHype(ad.getHype()); //hypeLevel += ad.getHype(); //Increase hype
 			return true;
