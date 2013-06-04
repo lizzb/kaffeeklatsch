@@ -64,7 +64,7 @@ using System;
 	
 	// Names of different advertising/marketing campaigns
 	public const string adType1Name = "Flyer";
-	public const string adType2Name = "Internet Ad";
+	public const string adType2Name = "Television Ad";
 	public const string adType3Name = "Billboard";
 	
 	

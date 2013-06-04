@@ -82,7 +82,6 @@ public class CoffeeShop : MonoBehaviour {
 	// List of history of satisfaction ratings at EOD
 	
 	//Variables to simulate drink making, will probably go away with employees
-	public bool coffeeMachine.inUse = false;
 	private float time = 0;
 	
 	//
@@ -101,9 +100,7 @@ public class CoffeeShop : MonoBehaviour {
 		popularity = satisfactionRating + hypeLevel;
 		
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
-		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>();
-		
-		
+		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
 	}
 	
 	//

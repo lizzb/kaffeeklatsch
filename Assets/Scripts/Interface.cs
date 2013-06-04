@@ -289,25 +289,21 @@ public class Interface : MonoBehaviour {
 		int x = 5;
 		int y = 10;
 		int lineHeight = 30;
-		int w = 30;
-		int buttonWidth = 80;
+		int buttonWidth = 120;
 		int h = 20;
 		
-		GUI.Label(new Rect(x,y,w,h),"$" + GameConstants.adType1Cost);
-		GUI.Label(new Rect(x,y + lineHeight,w,h),"$" + GameConstants.adType2Cost);
-		GUI.Label(new Rect(x,y + 2 * lineHeight,w,h),"$" + GameConstants.adType3Cost);
 		// If user clicks on flyers, buy a flyer
-		if(GUI.Button(new Rect(x + w,y,buttonWidth,h),GameConstants.adType1Name))
+		if(GUI.Button(new Rect(x,y,buttonWidth,h),"$" + GameConstants.adType1Cost + " " + GameConstants.adType1Name))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 		}
 		// If user clicks on Intenet Ads, buy internet ads
-		else if(GUI.Button(new Rect(x + w,y+lineHeight,buttonWidth,h),GameConstants.adType2Name))
+		else if(GUI.Button(new Rect(x,y+lineHeight,buttonWidth,h),"$" + GameConstants.adType2Cost + " " + GameConstants.adType2Name))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.InternetAd));
+			cafe.buyAdvertisement(new Advertisement(AdvertisementType.TelevisionAd));
 		}
 		//If user clicks on billboard, buy billboard
-		else if(GUI.Button(new Rect(x + w, y+2*lineHeight,buttonWidth,h),GameConstants.adType3Name))
+		else if(GUI.Button(new Rect(x, y+2*lineHeight,buttonWidth,h),"$" + GameConstants.adType3Cost + " " + GameConstants.adType3Name))
 		{
 			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
 		}

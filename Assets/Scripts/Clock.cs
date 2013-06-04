@@ -8,7 +8,7 @@ using System;//.Collections;
 
 public class Clock : MonoBehaviour
 {
-	
+	CoffeeShop cafe;
 	
 	private const string timeFormat = "Day {0:d: hh:mm tt}";
 	
@@ -61,6 +61,9 @@ public class Clock : MonoBehaviour
 		//time = new TimeSpan (startWork, 1, 0);
 		time = Time.time;
 		days = 1; // or 0???
+		
+		
+		cafe = GameObject.FindGameObjectWithTag("GameController").GetComponent<CoffeeShop>();
 	}
 	
 	// ------------ Update is called once per frame ------------ //
@@ -212,6 +215,7 @@ public class Clock : MonoBehaviour
 		CurrTimeSpeed = SpeedPlay;
 		Time.timeScale = SpeedPlay;
 		time = 0;
+		cafe.EODreport();
 	}
 
 

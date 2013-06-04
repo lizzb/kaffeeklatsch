@@ -3,7 +3,7 @@ using System;
 public enum AdvertisementType
 {
 	Flyer,
-	InternetAd,
+	TelevisionAd,
 	Billboard
 }
 	
@@ -24,7 +24,7 @@ public class Advertisement
 			cost = GameConstants.adType1Cost;
 			hypeFactor = GameConstants.adType1Hype;
 		}
-		else if(type == AdvertisementType.InternetAd)
+		else if(type == AdvertisementType.TelevisionAd)
 		{
 			cost = GameConstants.adType2Cost;
 			hypeFactor = GameConstants.adType2Hype;
