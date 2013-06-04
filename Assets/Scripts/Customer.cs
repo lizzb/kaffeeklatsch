@@ -15,6 +15,7 @@ public class Customer : MonoBehaviour
 {
 	// ADD OBJECT LABELS
 	
+	Texture2D thoughtBubble;
 	GUIText opinionText;
 	//string opinionText;
 	
@@ -38,6 +39,7 @@ public class Customer : MonoBehaviour
 	public int ambianceLover;
 	public int impatience;
 	public int moneyGrubber;
+	public int drinkQuality; // Temporary while drink quality is implemented.
 	
 	// if linePosition==0 then customer is the first in line. This updates automatically.
 	private int linePosition; 
@@ -127,9 +129,12 @@ public class Customer : MonoBehaviour
 		ambianceLover = random.Next(0, 11);
 		impatience = random.Next(0, 10);
 		moneyGrubber = random.Next(0, 11);
+		drinkQuality = random.Next(-10, 11);
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
 		customerSpeed = 10;
 		resetTime();
+		
+		thoughtBubble = setOpinionImage(getOpinion());
 		
 		
 		
@@ -139,6 +144,11 @@ public class Customer : MonoBehaviour
 	{
 		
 		opinionText.text = ""+ custOp.ToString(); //Time.time; //opinionText = custOp.ToString();
+		
+		// Sets a thought bubble for each customer
+		float xPosition = Camera.main.WorldToScreenPoint(transform.position).x-10;
+		float yPosition = Screen.height-Camera.main.WorldToScreenPoint(transform.position).y-75;
+		GUI.Label(new Rect(xPosition, yPosition, 60, 60), thoughtBubble);
 	} 
 
 	// ------------ Update is called once per frame ------------ //
@@ -255,7 +265,7 @@ public class Customer : MonoBehaviour
 			
 			// Update the customer satisfaction rating of the coffee shop
 			// Based on the satisfaction level of the customer that just left
-			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(leftEarly));
+			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(true));
 			
 			Destroy(this.gameObject);
 		}
@@ -329,22 +339,62 @@ public class Customer : MonoBehaviour
 		// does not display a thought bubble
 		
 		// all other opinions/emotions display in a thought bubble
-		return Opinions.neutral;
-	}	
+		int satisfaction = calculateSatisfactionLevel(false);
+		if(satisfaction == 0)
+			return Opinions.neutral;
+		else
+		{
+			int x = 2*(10-impatience)-10; // Cannot use calculatePatienceSatisfactionLevel() because it is time based.
+			int y = calculateMoneySatisfactionLevel();
+			int z = calculateQualitySatisfactionLevel();
+			if(satisfaction > 0)
+			{
+				int max = Mathf.Max(Mathf.Max(x, y), z);
+				return max == x? Opinions.waitGood : max == y? Opinions.priceGood : Opinions.qualityGood;
+				
+			}
+			else
+			{
+				int min = Mathf.Min(Mathf.Min(x, y), z);
+				return min == x? Opinions.waitBad : min == y? Opinions.priceBad : Opinions.qualityBad;
+			}
+		}
+	}
 	
+/*---------------------------------------------------------------------------
+  Name   :  setOpinionImage
+  Purpose:  Selects which image the customer will have following it
+  Receive:  Customer's opinion
+  Return :  the image path according to the opinion of this Customer
+---------------------------------------------------------------------------*/	
 	
+	Texture2D setOpinionImage(Opinions opinion)
+	{
+		if(opinion == Opinions.qualityBad)
+			return (Texture2D) Resources.Load("BadQuality");
+		else if(opinion == Opinions.qualityGood)
+			return (Texture2D) Resources.Load("GoodQuality");
+		else if(opinion == Opinions.waitBad)
+			return (Texture2D) Resources.Load("BadWait");
+		else if(opinion == Opinions.waitGood)
+			return (Texture2D) Resources.Load("GoodWait");
+		else if(opinion == Opinions.priceBad)
+			return (Texture2D) Resources.Load("BadMoney");
+		else if(opinion == Opinions.priceGood)
+			return (Texture2D) Resources.Load("GoodMoney");
+		return null;
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateSatisfactionLevel
   Purpose:  Calculate and return a customer's satisfaction with their
   			experience at the coffee shop upon their departure
-  Receive:  leftEarly - true if customer got tired of waiting in line,
-  						never ordered (or paid for) a drink [longLine]
-  			longWait - true if the customer paid for a drink,
-  						but had to wait a long time for it to be made/ready	 
+  Receive:  Determines whether patience satisfaction level is calculated using
+  			the time the customer has been in the shop or only using his
+  			impatience level.
   Return :  int satisfaction level - to use for other coffee shop functions 
 ---------------------------------------------------------------------------*/
-	int calculateSatisfactionLevel (bool leftEarly)
+	int calculateSatisfactionLevel(bool useTime)
 	{
 		//int satisfaction = GameConstants.defaultSatisfactionLevel;
 		
@@ -365,27 +415,55 @@ public class Customer : MonoBehaviour
 		
 		// All satisfaction sublevels below will be [-10, 10]
 		
-		// Linear function f:[0, 1] → [-10, 10] that maps a ratio of their current time in shop / initial time to a scale [-10, 10]
-		int waitingSatisfaction = 20*((int) timeInShop)/((10-impatience)*2)-10;
-		// Function that calculates a customer's satisfaction according to moneyGrubber value
-		int cashSatisfaction =
-			GameConstants.maximumDrinkCost-cafe.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
-		// Drink quality purely pseudorandom for now, since drinks have no quality value.
-		int drinkQuality = (new System.Random()).Next(-10, 11);
-		print("Waiting: " + waitingSatisfaction + ", Cash: " + cashSatisfaction + ", Quality: "
-			+ drinkQuality + ", Total: " + (waitingSatisfaction+cashSatisfaction+drinkQuality));
+		int x = useTime? calculatePatienceSatisfactionLevel() : 2*(10-impatience)-10;
+		int y = calculateMoneySatisfactionLevel();
+		int z = calculateQualitySatisfactionLevel();
+		print("Waiting: " + x + ", Cash: " + y + ", Quality: " + z);
 		
-		int x = waitingSatisfaction, y = cashSatisfaction, z = drinkQuality; // For clarity
 		int avg = (x+y+z)/3;
 		// Returns Max(x,y,z) if average is positive, or Min(x,y,z) if average is negative
 		return avg==0 ? 0 : avg > 0 ? Mathf.Max(Mathf.Max(x,y), z) : Mathf.Min(Mathf.Min(x, y), z);
 	}
 	
+/*---------------------------------------------------------------------------
+  Name   :  calculatePatienceSatisfactionLevel()
+  Purpose:  Calculate and return a customer's patience satisfaction as
+  			a of their impatience and time in shop.
+  Receive:  
+  Return :  int patience satisfaction level
+---------------------------------------------------------------------------*/
 
+	int calculatePatienceSatisfactionLevel()
+	{
+		// Linear function f:[0, 1] → [-10, 10] that maps a ratio of their current time in shop / initial time to a scale [-10, 10]
+		return 20*((int) timeInShop)/((10-impatience)*2)-10;
+	}
 
+/*---------------------------------------------------------------------------
+  Name   :  calculateMoneySatisfactionLevel()
+  Purpose:  Calculate and return a customer's money satisfaction
+  			as a function of their moneyGrubber value
+  Receive:  
+  Return :  int patience satisfaction level
+---------------------------------------------------------------------------*/
 	
-
-
+	int calculateMoneySatisfactionLevel()
+	{
+		return GameConstants.maximumDrinkCost-cafe.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
+	}
+	
+/*---------------------------------------------------------------------------
+  Name   :  calculateQualitySatisfactionLevel()
+  Purpose:  Calculate and return a customer's drink quality satisfaction.
+  			Currently pseudorandom as there is no drink quality implemented.
+  Receive:  
+  Return :  int patience satisfaction level
+---------------------------------------------------------------------------*/
+	
+	int calculateQualitySatisfactionLevel()
+	{
+		return drinkQuality;
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  isFrontOfLine
@@ -441,7 +519,6 @@ public class Customer : MonoBehaviour
 		else
 			transform.Translate(0f, 0f, -customerSpeed*Time.deltaTime);
 		
-		//print ("leaving");
 		// shop.updateSatisfaction(calculateSatisfactionLevel());
 		//cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 	}	
