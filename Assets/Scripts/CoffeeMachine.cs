@@ -25,7 +25,7 @@ public class CoffeeMachine : MonoBehaviour
 
 
 // Whether or not this machine is in use
-	bool inUse = false;
+	public bool inUse = false;
 
 // If machine is in use, time that current drink was started
 	int drinkStartTime = 0;
@@ -53,13 +53,30 @@ int calculateSuggestedPrice(string drinkName)
 instead of string drinkName, use enums across multiple files?
 */
 	
+	// --- Progress Bars
+	int barX = 0;
+	const int barY = 0;
+	const int barW = 10;
+	const int barH = 50;
+	float progress = 0;
+	Texture2D progressBarFull;
+	
+	GameObject progressBarFill;
+	GUITexture progressBarFillTexture;
 	
 	//
 	// Use this for initialization
 	//
 	void Start ()
-	{
-	
+	{		
+		//Setting up progress Bar object
+		progressBarFull = new Texture2D(barW,barH); //Progress bar while full
+		progressBarFill = new GameObject("ProgressBarFill"); //Create new game object
+		progressBarFillTexture = progressBarFill.AddComponent<GUITexture>(); //Add Texture
+		progressBarFillTexture.texture = progressBarFull; //Set texture as progress bar full texture
+		progressBarFill.transform.localScale = Vector3.zero; //Set scale to 0 so it doesn't become huge
+		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
+		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform; //Bind label to coffemachine
 	}
 	
 	//
@@ -72,19 +89,23 @@ instead of string drinkName, use enums across multiple files?
 	
 	void OnGUI()
 	{
-		displayProgressBar();
+		//If making drink
+		if(inUse){
+			drawProgressBar(); //display progress bar
+			progress += Time.deltaTime; //Increment progress
+		} else{
+			progress = 0f; //Otherwise set progress to 0
+		}
 	}
 	
-	void displayProgressBar()
-	{
-		
-		
-		
+/*---------------------------------------------------------------------------
+  Name   :  drawProgressBar
+  Purpose:  draws progress bar to display while making drink
+  Receive:  nothing, just ui 
+  Return :  nothing, just ui
+---------------------------------------------------------------------------*/
+	void drawProgressBar(){
+		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f); //Based on progress, alter height
 	}
-
-
-
-
-
 
 }

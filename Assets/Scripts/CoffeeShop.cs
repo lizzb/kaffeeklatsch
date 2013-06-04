@@ -16,6 +16,9 @@ public class CoffeeShop : MonoBehaviour {
 	// Manages employees.... more later ****
 	public EmployeeManager empManager;
 	
+	//CoffeMakers
+	public CoffeeMachine coffeeMachine;
+	
 	
 	// TODO ???
 	// Not sure if we should have a "MoneyManager" class...
@@ -79,7 +82,7 @@ public class CoffeeShop : MonoBehaviour {
 	// List of history of satisfaction ratings at EOD
 	
 	//Variables to simulate drink making, will probably go away with employees
-	public bool makingDrink = false;
+	public bool coffeeMachine.inUse = false;
 	private float time = 0;
 	
 	//
@@ -98,6 +101,7 @@ public class CoffeeShop : MonoBehaviour {
 		popularity = satisfactionRating + hypeLevel;
 		
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
+		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>();
 		
 		
 	}
@@ -123,7 +127,7 @@ public class CoffeeShop : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.O)){ hypeLevel -= 10; }
 		
 		//Take 3 seconds to make drink
-		if(makingDrink){
+		if(coffeeMachine.inUse){
 			time += Time.deltaTime;
 			//print (time);
 			if(time > 3.0f)
@@ -338,7 +342,7 @@ public class CoffeeShop : MonoBehaviour {
 					sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
 					c.custAction = Customer.Actions.walkingOut; // bug fix = 0 //3; // Set customer action to leaving shop...
 					// *** not waiting for coffee???? TODO
-					makingDrink = false; // Stop incrementing drink
+					coffeeMachine.inUse = false; // Stop incrementing drink
 					e.setAction(Employee.Actions.Nothing); //set employee to doing nothing
 				}
 			}
@@ -359,7 +363,7 @@ public class CoffeeShop : MonoBehaviour {
 			{
 				Employee e = empManager.findAvailableEmployee(); //Find next available employee
 				if(e != null){
-					makingDrink = true;
+					coffeeMachine.inUse = true;
 					e.setAction(Employee.Actions.MakingDrink); //Set employee to making drink
 				}
 			}

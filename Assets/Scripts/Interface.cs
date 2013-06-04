@@ -128,18 +128,6 @@ public class Interface : MonoBehaviour {
 	int eodWindowW = Screen.width - 400;
 	int eodWindowH = Screen.height - 100;
 	
-	// --- Progress Bars
-	int barX = 0;
-	const int barY = 0;
-	const int barW = 10;
-	const int barH = 50;
-	float progress = 0;
-	Texture2D progressBarFull;
-	
-	GameObject progressBarFill;
-	GUITexture progressBarFillTexture;
-	
-	
 	
 	// drinkssoldtoday
 	// revenue today
@@ -159,16 +147,6 @@ public class Interface : MonoBehaviour {
 		
 		clock = this.GetComponent<Clock>();
 	
-		progressBarFull = new Texture2D(barW,barH); //Progress bar while full
-		
-		
-		//Setting up progress Bar object
-		progressBarFill = new GameObject("ProgressBarFill");
-		progressBarFillTexture = progressBarFill.AddComponent<GUITexture>();
-		progressBarFillTexture.texture = progressBarFull;
-		progressBarFill.transform.localScale = Vector3.zero;
-		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>();
-		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform;
 	}
 	
 	//
@@ -206,14 +184,6 @@ public class Interface : MonoBehaviour {
 		
 		if(clock.ReachedEOD()){
 			displayEODReport();
-		}
-		
-		//If making drink
-		if(cafe.makingDrink){
-			drawProgressBar(); //display progress bar
-			progress += Time.deltaTime; //Increment progress
-		} else{
-			progress = 0f; //Otherwise set progress to 0
 		}
 				
 		/*		
@@ -513,14 +483,5 @@ public class Interface : MonoBehaviour {
 		}
 	}
 	
-	
-/*---------------------------------------------------------------------------
-  Name   :  drawProgressBar
-  Purpose:  draws progress bar to display while making drink
-  Receive:  nothing, just ui 
-  Return :  nothing, just ui
----------------------------------------------------------------------------*/
-	void drawProgressBar(){
-		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f);
-	}
+
 }
