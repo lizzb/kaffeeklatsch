@@ -98,7 +98,7 @@ using System;
 	
 	
 	
-	
+	public const float timeToMakeCoffee = 3.0f;
 	
 	
 	

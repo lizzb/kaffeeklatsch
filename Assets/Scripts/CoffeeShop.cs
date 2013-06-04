@@ -130,7 +130,7 @@ public class CoffeeShop : MonoBehaviour {
 		if(coffeeMachine.inUse){
 			time += Time.deltaTime;
 			//print (time);
-			if(time > 3.0f)
+			if(time > GameConstants.timeToMakeCoffee)
 			{
 				sellDrinkToCustomer(); //Sell drink to customer
 				time = 0;
