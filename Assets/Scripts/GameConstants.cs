@@ -16,6 +16,7 @@ using System;
 		// static classes cannot have instance constructors
 		/*	public GameConstants () { }*/
 	
+	// not using drink list
 	public enum Drinks { PlainCoffee = 1, Tea, Latte, IcedCoffee }
 	
 	//
@@ -62,6 +63,9 @@ using System;
 	public const int coffeeMachine4Cost = 500;
 	
 	
+	public const float timeToMakeCoffee = 3.0f;
+	
+	
 	// Names of different advertising/marketing campaigns
 	public const string adType1Name = "Flyer";
 	public const string adType2Name = "Television Ad";
@@ -69,7 +73,6 @@ using System;
 	
 	
 	// Cost to purchase different advertising/marketing campaigns
-	
 	public const int adType1Cost = 30;
 	public const int adType2Cost = 60;
 	public const int adType3Cost = 100;
@@ -98,7 +101,7 @@ using System;
 	
 	
 	
-	public const float timeToMakeCoffee = 3.0f;
+
 	
 	
 	

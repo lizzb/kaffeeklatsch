@@ -360,25 +360,26 @@ public class Interface : MonoBehaviour {
 		{
 			// TODO: this function should actually take parameters, but haven't written yet
 			// not sure if i like setup of advertisement call
-			cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			//cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			cafe.buyCoffeeMachine(new CoffeeMachine(1));
 		}
 		// Purchase Level 2 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
 			GameConstants.coffeeMachine2Name + ": $" + GameConstants.coffeeMachine2Cost ))
 		{
-			cafe.buyCoffeeMachine(2);
+			cafe.buyCoffeeMachine(new CoffeeMachine(2)); //cafe.buyCoffeeMachine(2);
 		}
 		// Purchase Level 3 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
 			GameConstants.coffeeMachine3Name + ": $" + GameConstants.coffeeMachine3Cost ))
 		{
-			cafe.buyCoffeeMachine(3);
+			cafe.buyCoffeeMachine(new CoffeeMachine(3)); //cafe.buyCoffeeMachine(3);
 		}
 		// Purchase Level 4 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
 			GameConstants.coffeeMachine4Name + ": $" + GameConstants.coffeeMachine4Cost ))
 		{
-			cafe.buyCoffeeMachine(4);
+			cafe.buyCoffeeMachine(new CoffeeMachine(4)); //cafe.buyCoffeeMachine(4);
 		}
 	}
 	

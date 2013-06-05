@@ -19,6 +19,11 @@ public class CoffeeShop : MonoBehaviour {
 	//CoffeMakers
 	public CoffeeMachine coffeeMachine;
 	
+	//CoffeeMachine coffeeMakerLevel1;
+	//CoffeeMachine coffeeMakerLevel2;
+	//CoffeeMachine coffeeMakerLevel3;
+	//CoffeeMachine coffeeMakerLevel4;
+	
 	
 	// TODO ???
 	// Not sure if we should have a "MoneyManager" class...
@@ -107,10 +112,10 @@ public class CoffeeShop : MonoBehaviour {
 	// Update is called once per frame
 	//
 	void Update () {
-		//Detect if customer is ready to buy drink
+		// Detect if customer is ready to buy drink
 		takeCustomerOrder();
 		
-		//updatePopularity();
+		// updatePopularity();
 		// update satisfaction and update hype called elsewhere
 		popularity = satisfactionRating + hypeLevel;
 		
@@ -124,7 +129,8 @@ public class CoffeeShop : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.O)){ hypeLevel -= 10; }
 		
 		//Take 3 seconds to make drink
-		if(coffeeMachine.inUse){
+		if(coffeeMachine.inUse)
+		{
 			time += Time.deltaTime;
 			//print (time);
 			if(time > GameConstants.timeToMakeCoffee)
@@ -317,9 +323,7 @@ public class CoffeeShop : MonoBehaviour {
 
 
 	
-	public void setDrinkCost(int cost){
-		drinkCost = cost;
-	}
+	public void setDrinkCost(int cost) { drinkCost = cost; }
 	
 	
 /*---------------------------------------------------------------------------
@@ -335,7 +339,8 @@ public class CoffeeShop : MonoBehaviour {
 			if(c.isFrontOfLine()) // If customer is in front of line
 			{ 
 				Employee e = empManager.findWorkingEmployee(); //Find working employee
-				if(e != null){
+				if(e != null)
+				{
 					sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
 					c.custAction = Customer.Actions.walkingOut; // bug fix = 0 //3; // Set customer action to leaving shop...
 					// *** not waiting for coffee???? TODO
@@ -359,7 +364,8 @@ public class CoffeeShop : MonoBehaviour {
 			if(c.isFrontOfLine())
 			{
 				Employee e = empManager.findAvailableEmployee(); //Find next available employee
-				if(e != null){
+				if(e != null)
+				{
 					coffeeMachine.inUse = true;
 					e.setAction(Employee.Actions.MakingDrink); //Set employee to making drink
 				}
@@ -374,10 +380,17 @@ public class CoffeeShop : MonoBehaviour {
   Return :  true if purchase was successful,
   			false if machine not bought (insufficient funds or reach limit)
 ---------------------------------------------------------------------------*/	
-	public bool buyCoffeeMachine(int coffeeMachineLevel)
+	public bool buyCoffeeMachine(CoffeeMachine coffeeMach) //(int coffeeMachineLevel)
 	{
+		if(funds > coffeeMach.getCost()) //If advertisement costs less than available funds
+		{
+			funds -= coffeeMach.getCost(); // Decrease funds
+			coffeeMach.isPurchased = true;
+			return true;
+		}
 		
-		
+		// insufficient funds - NOTIFY USER
 		return false;
+		
 	}
 }

@@ -14,6 +14,8 @@ public class Advertisement
 	private int cost;
 	private int hypeFactor;
 		
+
+	
 	//Constructor for Advertisement, depending on type sets values for cost and hype
 	//To be balanced later.
 	public Advertisement (AdvertisementType adType)
@@ -34,8 +36,29 @@ public class Advertisement
 			cost = GameConstants.adType3Cost;
 			hypeFactor = GameConstants.adType3Hype;
 		}
-	}
 		
+		// this might be better form.... 
+		/*
+		switch (adType)
+		{
+		case AdvertisementType.Flyer:
+			cost = GameConstants.adType1Cost;
+			hypeFactor = GameConstants.adType1Hype;
+			break;
+		case AdvertisementType.TelevisionAd:
+			cost = GameConstants.adType2Cost;
+			hypeFactor = GameConstants.adType2Hype;
+			break;
+		case AdvertisementType.Billboard:
+			cost = GameConstants.adType3Cost;
+			hypeFactor = GameConstants.adType3Hype;
+		}*/
+	}
+	
+	public AdvertisementType getType () { return type; }
+	public int getCost () { return cost; }
+	public int getHype () { return hypeFactor; }
+	/*	
 	public AdvertisementType getType ()
 	{
 		return type;
@@ -49,6 +72,6 @@ public class Advertisement
 	public int getHype ()
 	{
 		return hypeFactor;
-	}
+	}*/
 }
 
