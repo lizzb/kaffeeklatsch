@@ -19,15 +19,14 @@ public class CoffeeShop : MonoBehaviour {
 	//CoffeMakers
 	public CoffeeMachine coffeeMachine;
 	
-<<<<<<< HEAD
+
 	//CoffeeMachine coffeeMakerLevel1;
 	//CoffeeMachine coffeeMakerLevel2;
 	//CoffeeMachine coffeeMakerLevel3;
 	//CoffeeMachine coffeeMakerLevel4;
-=======
+
 	//List of Advertisements bought
 	public ArrayList advertisements;
->>>>>>> 4254860ab2c4ba565c2cbcd4c6c2e47a093379a7
 	
 	
 	// TODO ???

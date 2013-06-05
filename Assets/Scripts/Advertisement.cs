@@ -62,6 +62,10 @@ public class Advertisement
 	public AdvertisementType getType () { return type; }
 	public int getCost () { return cost; }
 	public int getHype () { return hypeFactor; }
+	public int getHypeLength() { return hypeLength; }
+	public void decrementHypeLength() { hypeLength--; }
+	
+	
 	/*	
 	public AdvertisementType getType ()
 	{
@@ -76,18 +80,8 @@ public class Advertisement
 	public int getHype ()
 	{
 		return hypeFactor;
-<<<<<<< HEAD
 	}*/
-=======
-	}
 	
-	public int getHypeLength(){
-		return hypeLength;
-	}
 	
-	public void decrementHypeLength(){
-		hypeLength--;
-	}
->>>>>>> 4254860ab2c4ba565c2cbcd4c6c2e47a093379a7
 }
 
