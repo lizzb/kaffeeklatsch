@@ -15,9 +15,8 @@ public class Customer : MonoBehaviour
 {
 	// ADD OBJECT LABELS
 	
-	Texture2D thoughtBubble;
+	public Texture2D thoughtBubble;
 	GUIText opinionText;
-	//string opinionText;
 	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
@@ -134,10 +133,7 @@ public class Customer : MonoBehaviour
 		customerSpeed = 10;
 		resetTime();
 		
-		thoughtBubble = setOpinionImage(getOpinion());
-		
-		
-		
+		thoughtBubble = null;
 	}
 	
 	void OnGUI()
@@ -199,6 +195,7 @@ public class Customer : MonoBehaviour
 		{
 			// If timeInShop < 0, customer walks out of the line and leaves the shop.
 			custAction = Actions.walkingOut;
+			thoughtBubble = setOpinionImage(getOpinion()); // Set thought bubble representing Opinion
 			
 			// If the time a customer has been waiting in line (modify this *****)
 			// exceeds their patience limit, they leave unhappily without buying a drink
@@ -234,7 +231,6 @@ public class Customer : MonoBehaviour
 		// does getting rang up fast, but waiting for drink for long time,
 		// have diff impact than waiting for both for a long time?
 		
-		
 
 		
 		
@@ -265,7 +261,7 @@ public class Customer : MonoBehaviour
 			
 			// Update the customer satisfaction rating of the coffee shop
 			// Based on the satisfaction level of the customer that just left
-			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel(true));
+			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 			
 			Destroy(this.gameObject);
 		}
@@ -332,19 +328,19 @@ public class Customer : MonoBehaviour
   Receive:  ...
   Return :  the current dominant opinion of this Customer
 ---------------------------------------------------------------------------*/	
-	Opinions getOpinion ()
+	public Opinions getOpinion ()
 	{
 		
 		// Neutral is the default state of a customer, and
 		// does not display a thought bubble
 		
 		// all other opinions/emotions display in a thought bubble
-		int satisfaction = calculateSatisfactionLevel(false);
+		int satisfaction = calculateSatisfactionLevel();
 		if(satisfaction == 0)
 			return Opinions.neutral;
 		else
 		{
-			int x = 2*(10-impatience)-10; // Cannot use calculatePatienceSatisfactionLevel() because it is time based.
+			int x = calculatePatienceSatisfactionLevel();
 			int y = calculateMoneySatisfactionLevel();
 			int z = calculateQualitySatisfactionLevel();
 			if(satisfaction > 0)
@@ -368,7 +364,7 @@ public class Customer : MonoBehaviour
   Return :  the image path according to the opinion of this Customer
 ---------------------------------------------------------------------------*/	
 	
-	Texture2D setOpinionImage(Opinions opinion)
+	public Texture2D setOpinionImage(Opinions opinion)
 	{
 		if(opinion == Opinions.qualityBad)
 			return (Texture2D) Resources.Load("BadQuality");
@@ -382,7 +378,7 @@ public class Customer : MonoBehaviour
 			return (Texture2D) Resources.Load("BadMoney");
 		else if(opinion == Opinions.priceGood)
 			return (Texture2D) Resources.Load("GoodMoney");
-		return null;
+		return (Texture2D) Resources.Load("Neutral");
 	}
 	
 /*---------------------------------------------------------------------------
@@ -394,7 +390,7 @@ public class Customer : MonoBehaviour
   			impatience level.
   Return :  int satisfaction level - to use for other coffee shop functions 
 ---------------------------------------------------------------------------*/
-	int calculateSatisfactionLevel(bool useTime)
+	int calculateSatisfactionLevel()
 	{
 		//int satisfaction = GameConstants.defaultSatisfactionLevel;
 		
@@ -415,7 +411,7 @@ public class Customer : MonoBehaviour
 		
 		// All satisfaction sublevels below will be [-10, 10]
 		
-		int x = useTime? calculatePatienceSatisfactionLevel() : 2*(10-impatience)-10;
+		int x = calculatePatienceSatisfactionLevel();
 		int y = calculateMoneySatisfactionLevel();
 		int z = calculateQualitySatisfactionLevel();
 		print("Waiting: " + x + ", Cash: " + y + ", Quality: " + z);

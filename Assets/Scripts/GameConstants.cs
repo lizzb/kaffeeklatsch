@@ -82,7 +82,10 @@ using System;
 	public const int adType2Hype = 15;
 	public const int adType3Hype = 40;
 	
-	// *** TODO: maybe also duration of hype....??
+	//Duration of hype
+	public const int adType1Length = 1;
+	public const int adType2Length = 2;
+	public const int adType3Length = 3;
 	
 	
 	
