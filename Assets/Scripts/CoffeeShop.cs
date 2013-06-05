@@ -17,13 +17,12 @@ public class CoffeeShop : MonoBehaviour {
 	public EmployeeManager empManager;
 	
 	//CoffeMakers
-	public CoffeeMachine coffeeMachine;
+	public CoffeeMachine coffeeMachine; // reevaluate later
 	
-
-	//CoffeeMachine coffeeMakerLevel1;
-	//CoffeeMachine coffeeMakerLevel2;
-	//CoffeeMachine coffeeMakerLevel3;
-	//CoffeeMachine coffeeMakerLevel4;
+	CoffeeMachine coffeeMakerLevel1;
+	CoffeeMachine coffeeMakerLevel2;
+	CoffeeMachine coffeeMakerLevel3;
+	CoffeeMachine coffeeMakerLevel4;
 
 	//List of Advertisements bought
 	public ArrayList advertisements;
@@ -111,13 +110,18 @@ public class CoffeeShop : MonoBehaviour {
 		advertisements = new ArrayList();
 		
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
-		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
+		//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
+	
+		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
+		coffeeMachine = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
+	
 	}
 	
 	//
 	// Update is called once per frame
 	//
-	void Update () {
+	void Update ()
+	{
 		// Detect if customer is ready to buy drink
 		takeCustomerOrder();
 		
@@ -420,10 +424,15 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		if(funds > coffeeMach.getCost()) //If advertisement costs less than available funds
 		{
+			coffeeMakerLevel1 = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
 			funds -= coffeeMach.getCost(); // Decrease funds
 			coffeeMach.isPurchased = true;
 			return true;
 		}
+		
+		//Instantiate(coffeeMachineLevel1, new Vector3(16.13379, -3.482452, 6.18842), Quaternion.identity);
+		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
+		
 		
 		// insufficient funds - NOTIFY USER
 		return false;

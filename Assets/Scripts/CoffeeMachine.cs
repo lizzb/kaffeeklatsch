@@ -83,7 +83,7 @@ public class CoffeeMachine : MonoBehaviour
 		}
 		
 		//SetActive(false);
-		renderer.enabled = false;
+		//renderer.enabled = false;
 	}
 	
 	// PROGRESS BAR SHOULD BE ITS OWN CLASS THAT ATTACHES ABOVE AN OBJECT, LIKE THOUGHT BUBBLES
