@@ -50,6 +50,8 @@ using System;
 	// ---------- GAME OBJECTS / variables ----------
 	//
 	
+	// COFFEE MACHINES
+	
 	// Names of different coffee machine models
 	public const string coffeeMachine1Name = "Basic Pot 1";
 	public const string coffeeMachine2Name = "Nice 2";
@@ -62,6 +64,11 @@ using System;
 	public const int coffeeMachine3Cost = 350;
 	public const int coffeeMachine4Cost = 500;
 	
+
+
+	
+	//public Vector3 cashRegister1Pos = new Vector3(0,0,0);
+	// no const allowed
 	
 	public const float timeToMakeCoffee = 3.0f;
 	

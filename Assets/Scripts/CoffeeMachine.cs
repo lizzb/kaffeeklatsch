@@ -24,6 +24,28 @@ public enum CoffeeMachineType
 		*/
 public class CoffeeMachine : MonoBehaviour
 {
+		// not sure if this posiiton was effecting the next 4 positions...
+		//public Vector3 CoffeeMachinesPos = new Vector3(2.615282f, 5.342656f, 7.862321f);
+	
+	//public Vector3 coffeeMachine1Pos = new Vector3(16.13379f, -3.482452f, 6.18842f);
+	// coffeeMakerLevel1		tag: coffeeMaker1
+	// coffeeMachine1Rot = new Vector3(0, 270, 0);
+	// coffeeMachine1Scale = new Vector3(225, 225, 225);
+	
+	//public Vector3 coffeeMachine2Pos = new Vector3(17.22975f, -3.470431f, 9.385904f);
+	// coffeeMachine2Rot = new Vector3(0, 0, 0);
+	// coffeeMachine2Scale = new Vector3(225, 225, 225);
+	
+	//public Vector3 coffeeMachine3Pos = new Vector3(14.50232f, -3.636328f, 1.99104f);
+	// coffeeMakerLevel3		tag: coffeeMaker3
+	// coffeeMachine3Scale = new Vector3(200, 200, 200);
+	
+	//public Vector3 coffeeMachine4Pos = new Vector3(6.751243f, -3.515523f, 11.89497f);
+	// coffeeMachine4Rot = new Vector3(0, 270, 0);
+	// coffeeMachine4Scale = new Vector3(225, 225, 225);
+	
+	
+	
 	// Whether this coffee machine has been purchased
 	public bool isPurchased = false;
 	
@@ -56,7 +78,7 @@ public class CoffeeMachine : MonoBehaviour
 		switch (machineLevel) //switch (machineType)
 		{
 			case 1:
-				name = GameConstants.coffeeMachine1Name;	
+				objectName = GameConstants.coffeeMachine1Name;	
 				cost = GameConstants.coffeeMachine1Cost;
 				drinkQuality = QualityRating.low;
 			break;
@@ -123,11 +145,11 @@ public class CoffeeMachine : MonoBehaviour
 	void Update ()
 	{
 		// only draw the machine if it has been purchased
-		if (isPurchased)
-		{
-			gameObject.SetActive(true);
-			renderer.enabled = true;
-		}
+		//if (isPurchased)
+		//{
+			//gameObject.SetActive(true);
+			//renderer.enabled = true;
+		//}
 	}
 	
 	void OnGUI()

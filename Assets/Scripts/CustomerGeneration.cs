@@ -30,6 +30,7 @@ public class CustomerGeneration : MonoBehaviour {
 		//cafe = room.GetComponent<CoffeeShop>();
 		coffeeShop = (CoffeeShop) GameObject.FindObjectOfType(typeof(CoffeeShop));
 		
+		// comment meeeeeeeee
 		time = 0;
 	}
 	
