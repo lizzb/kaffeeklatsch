@@ -1,72 +1,59 @@
-using System;
+using UnityEngine;
+using System.Collections;
 
-public enum AdvertisementType
+public class Advertisement : MonoBehaviour
 {
-	Flyer,
-	TelevisionAd,
-	Billboard
-}
+	public enum AdvertisementType
+	{
+		Flyer,
+		TelevisionAd,
+		Billboard
+	}
 	
-//Class for Advertisements to increase hype of shop
-public class Advertisement
-{
 	private AdvertisementType type;
 	private int cost;
 	private int hypeFactor;
-	private int hypeLength;
-		
-
+	private float hypeLength;
+	public bool hypeEnd;
 	
-	//Constructor for Advertisement, depending on type sets values for cost and hype
-	//To be balanced later.
-	public Advertisement (AdvertisementType adType)
+	private Clock clock;
+	float currentTime;
+	
+	
+	// Use this for initialization
+	void Start ()
 	{
-		type = adType;
-		if(type == AdvertisementType.Flyer)
-		{
-			cost = GameConstants.adType1Cost;
-			hypeFactor = GameConstants.adType1Hype;
-			hypeLength = GameConstants.adType1Length;
-		}
-		else if(type == AdvertisementType.TelevisionAd)
-		{
-			cost = GameConstants.adType2Cost;
-			hypeFactor = GameConstants.adType2Hype;
-			hypeLength = GameConstants.adType2Length;
-		}
-		else if(type == AdvertisementType.Billboard)
-		{
-			cost = GameConstants.adType3Cost;
-			hypeFactor = GameConstants.adType3Hype;
-			hypeLength = GameConstants.adType3Length;
-		}
-		
-		// this might be better form.... 
-		/*
-		switch (adType)
-		{
-		case AdvertisementType.Flyer:
-			cost = GameConstants.adType1Cost;
-			hypeFactor = GameConstants.adType1Hype;
-			break;
-		case AdvertisementType.TelevisionAd:
-			cost = GameConstants.adType2Cost;
-			hypeFactor = GameConstants.adType2Hype;
-			break;
-		case AdvertisementType.Billboard:
-			cost = GameConstants.adType3Cost;
-			hypeFactor = GameConstants.adType3Hype;
-		}*/
+		clock = GameObject.Find("GUI").GetComponent<Clock>();
+		currentTime = clock.time;
+		hypeEnd = false;
 	}
 	
-	public AdvertisementType getType () { return type; }
-	public int getCost () { return cost; }
-	public int getHype () { return hypeFactor; }
-	public int getHypeLength() { return hypeLength; }
-	public void decrementHypeLength() { hypeLength--; }
+	// Update is called once per frame
+	void Update ()
+	{
+		print (clock.time);
+		if(clock.time >= hypeLength){
+			hypeEnd = true;
+		}
+	}
 	
+	public void setType(AdvertisementType adType){
+		type = adType;
+		if (type == AdvertisementType.Flyer) {
+			cost = GameConstants.adType1Cost;
+			hypeFactor = GameConstants.adType1Hype;
+			hypeLength = GameConstants.adType1Length + currentTime;
+		} else if (type == AdvertisementType.TelevisionAd) {
+			cost = GameConstants.adType2Cost;
+			hypeFactor = GameConstants.adType2Hype;
+			hypeLength = GameConstants.adType2Length + currentTime;
+		} else if (type == AdvertisementType.Billboard) {
+			cost = GameConstants.adType3Cost;
+			hypeFactor = GameConstants.adType3Hype;
+			hypeLength = GameConstants.adType3Length + currentTime;
+		}
+	}
 	
-	/*	
 	public AdvertisementType getType ()
 	{
 		return type;
@@ -80,8 +67,12 @@ public class Advertisement
 	public int getHype ()
 	{
 		return hypeFactor;
-	}*/
-	
+	}
+
+	public float getHypeLength ()
+	{
+		return hypeLength;
+	}
 	
 }
 

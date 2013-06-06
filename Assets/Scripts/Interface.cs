@@ -295,17 +295,17 @@ public class Interface : MonoBehaviour {
 		// If user clicks on flyers, buy a flyer
 		if(GUI.Button(new Rect(x,y,buttonWidth,h),"$" + GameConstants.adType1Cost + " " + GameConstants.adType1Name))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
+			cafe.buyAdvertisement(Advertisement.AdvertisementType.Flyer,GameConstants.adType1Cost);
 		}
 		// If user clicks on Intenet Ads, buy internet ads
 		else if(GUI.Button(new Rect(x,y+lineHeight,buttonWidth,h),"$" + GameConstants.adType2Cost + " " + GameConstants.adType2Name))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.TelevisionAd));
+			cafe.buyAdvertisement(Advertisement.AdvertisementType.TelevisionAd,GameConstants.adType2Cost);
 		}
 		//If user clicks on billboard, buy billboard
 		else if(GUI.Button(new Rect(x, y+2*lineHeight,buttonWidth,h),"$" + GameConstants.adType3Cost + " " + GameConstants.adType3Name))
 		{
-			cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
+			cafe.buyAdvertisement(Advertisement.AdvertisementType.Billboard,GameConstants.adType3Cost);
 		}
 	}
 	

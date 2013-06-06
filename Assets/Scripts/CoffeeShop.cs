@@ -276,6 +276,8 @@ public class CoffeeShop : MonoBehaviour {
 		// update satisfaction and update hype called elsewhere
 		popularity = satisfactionRating + hypeLevel;
 		
+		updateHypeLength();
+		
 		// --- Hacks for augmenting funds and popularity --- //
 		if(Input.GetKeyDown(KeyCode.M)) { funds += drinkCost; }
 		
@@ -334,8 +336,7 @@ public class CoffeeShop : MonoBehaviour {
 		ArrayList deleteAds = new ArrayList();
 		
 		foreach(Advertisement ad in advertisements){
-			ad.decrementHypeLength(); //Decrease hype length
-			if(ad.getHypeLength() == 0){ //If hypelength
+			if(ad.hypeEnd){ //If hypelength
 				hypeLevel -= ad.getHype(); //Decrease hype level
 				deleteAds.Add(ad); //Add it to delete list
 			}
@@ -344,6 +345,7 @@ public class CoffeeShop : MonoBehaviour {
 		//Need delete list so that you don't delete while looping through list
 		foreach(Advertisement ad in deleteAds){
 			advertisements.Remove(ad); //delete from advertisement list
+			Destroy (ad);
 		}
 	}
 	
@@ -412,9 +414,6 @@ public class CoffeeShop : MonoBehaviour {
 		
 		// Update cafe popularity (both satisfaction and hype)
 		// ...
-		
-		//Decrease hypelength of advertisements
-		updateHypeLength();
 		
 		//Reset counters
 		dailyRevenue = 0;
@@ -495,10 +494,12 @@ public class CoffeeShop : MonoBehaviour {
   Receive:  The Advertisement to be purchased
   Return :  Return true if shop has enough money to buy, false if not enough
 ---------------------------------------------------------------------------*/	
-	public bool buyAdvertisement(Advertisement ad)
+	public bool buyAdvertisement(Advertisement.AdvertisementType adType,int cost)
 	{
-		if(funds > ad.getCost()) //If advertisement costs less than available funds
+		if(funds > cost) //If advertisement costs less than available funds
 		{
+			Advertisement ad = gameObject.AddComponent<Advertisement>();
+			ad.setType(adType);
 			advertisements.Add(ad);
 			funds -= ad.getCost(); //Decrease funds
 			updateHype(ad.getHype()); //hypeLevel += ad.getHype(); //Increase hype
