@@ -167,9 +167,9 @@ public class CoffeeShop : MonoBehaviour {
 		
 		if(Input.GetKeyDown (KeyCode.N)) { funds -= drinkCost; }
 		
-		if(Input.GetKeyDown(KeyCode.P)) { hypeLevel += 10; }
+		if(Input.GetKeyDown(KeyCode.T)) { hypeLevel += 10; }
 		
-		if(Input.GetKeyDown(KeyCode.O)){ hypeLevel -= 10; }
+		if(Input.GetKeyDown(KeyCode.Y)){ hypeLevel -= 10; }
 		
 		//Take 3 seconds to make drink
 		if(coffeeMachine!= null && coffeeMachine.inUse)

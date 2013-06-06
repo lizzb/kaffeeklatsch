@@ -130,14 +130,13 @@ public class Interface : MonoBehaviour {
 	
 	// ---End of Day Report Window --
 	const int eodWindowX = 200;
-	const int eodWindowY = 50;
+	const int eodWindowY = 100;
 	int eodWindowW = Screen.width - 400;
-	int eodWindowH = Screen.height - 100;
+	int eodWindowH = Screen.height - 200;
 	
 	
 	// drinkssoldtoday
 	// revenue today
-	
 	int costVal = GameConstants.initialDrinkCost;
 		
 	//
@@ -302,17 +301,17 @@ public class Interface : MonoBehaviour {
 		int h = 20;
 		
 		// If user clicks on flyers, buy a flyer
-		if(GUI.Button(new Rect(x,y,buttonWidth,h),"$" + GameConstants.adType1Cost + " " + GameConstants.adType1Name))
+		if(GUI.Button(new Rect(x,y,buttonWidth,h),"$" + GameConstants.adType1Cost + ": " + GameConstants.adType1Name))
 		{
 			cafe.buyAdvertisement(Advertisement.AdvertisementType.Flyer,GameConstants.adType1Cost);
 		}
 		// If user clicks on Intenet Ads, buy internet ads
-		else if(GUI.Button(new Rect(x,y+lineHeight,buttonWidth,h),"$" + GameConstants.adType2Cost + " " + GameConstants.adType2Name))
+		else if(GUI.Button(new Rect(x,y+lineHeight,buttonWidth,h),"$" + GameConstants.adType2Cost + ": " + GameConstants.adType2Name))
 		{
 			cafe.buyAdvertisement(Advertisement.AdvertisementType.TelevisionAd,GameConstants.adType2Cost);
 		}
 		//If user clicks on billboard, buy billboard
-		else if(GUI.Button(new Rect(x, y+2*lineHeight,buttonWidth,h),"$" + GameConstants.adType3Cost + " " + GameConstants.adType3Name))
+		else if(GUI.Button(new Rect(x, y+2*lineHeight,buttonWidth,h),"$" + GameConstants.adType3Cost + ": " + GameConstants.adType3Name))
 		{
 			cafe.buyAdvertisement(Advertisement.AdvertisementType.Billboard,GameConstants.adType3Cost);
 		}
@@ -489,16 +488,15 @@ public class Interface : MonoBehaviour {
 		int y = 20;
 		int w = eodWindowW - windowPaddingX * 2;
 		int h = 20;
-		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
+		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: $" + cafe.dailyRevenue);
 		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
-		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.calculateDailyCosts());
-		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.rent);
-		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: -$" + cafe.calculateDailyCosts());
+		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: -$" + cafe.rent);
+		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: -$" + cafe.calculateDailyTotalEmployeesWagesTotal());
 		
 		// If click on advance day button
-		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day"))
+		if(GUI.Button(new Rect(windowPaddingX, eodWindowH - y * 2,w,h),"Advance Day"))
 		{ 
-			
 			clock.advanceDay(); //Advances day
 		}
 	}
