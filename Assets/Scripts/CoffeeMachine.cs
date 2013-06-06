@@ -22,8 +22,12 @@ public enum CoffeeMachineType
 	private int cost;
 	private int hypeFactor;
 		*/
+        
 public class CoffeeMachine : MonoBehaviour
 {
+
+	//Clock
+	Clock clock;
 	
 	public GameObject coffeeMachineModel1;
 	public GameObject coffeeMachineModel2;
@@ -77,6 +81,7 @@ public class CoffeeMachine : MonoBehaviour
 	//
 	void Start ()
 	{		
+		clock = GameObject.Find("GUI").GetComponent<Clock>();
 		//gameObject.SetActive(false);
 		
 		// Setting up progress Bar object
@@ -89,9 +94,8 @@ public class CoffeeMachine : MonoBehaviour
 		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform; //Bind label to coffeemachine
 	}
 	
-	//
-	// Update is called once per frame
-	//
+
+	// ----- Update is called once per frame ----- //
 	void Update ()
 	{
 		
@@ -115,7 +119,7 @@ public class CoffeeMachine : MonoBehaviour
 	//new Vector3(16.13379f, -3.482452f, 6.18842f);
 	// coffeeMakerLevel1		tag: coffeeMaker1
 	Vector3 coffeeMachine1Rot = new Vector3(0, 180, 0);
-	
+
 	Vector3 coffeeMachine1Pos = new Vector3(18.96623f, 1.854218f, 13.51166f);//(18.96623f, 1.854218f, 13.51166f);
 	Vector3 coffeeMachine1Scale = new Vector3(250, 250, 250);
 	
@@ -254,20 +258,7 @@ public class CoffeeMachine : MonoBehaviour
 		
 
 	}
-	
-	void OnGUI()
-	{
-		// If making drink
-		if(inUse)
-		{
-			drawProgressBar(); 			// display progress bar
-			progress += Time.deltaTime; // Increment progress
-		}
-		else
-		{
-			progress = 0f; // Otherwise set progress to 0
-		}
-	}
+
 	
 /*---------------------------------------------------------------------------
   Name   :  drawProgressBar
@@ -394,14 +385,7 @@ instead of string drinkName, use enums across multiple files?
 		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
 		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform; //Bind label to coffeemachine
 	}
-	
-	//
-	// Update is called once per frame
-	//
-	void Update ()
-	{
-	
-	}
+
 	
 	void OnGUI()
 	{
@@ -409,7 +393,7 @@ instead of string drinkName, use enums across multiple files?
 		if(inUse)
 		{
 			drawProgressBar(); 			// display progress bar
-			progress += Time.deltaTime; // Increment progress
+			progress += clock.deltaTime; //Time.deltaTime; // Increment progress
 		}
 		else
 		{
