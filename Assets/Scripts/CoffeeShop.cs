@@ -17,40 +17,25 @@ public class CoffeeShop : MonoBehaviour {
 	public EmployeeManager empManager;
 	
 	// CoffeeMakers
-	//public CoffeeMachine coffeeMachine; // reevaluate later
+	// need to choose the best coffee machine....
+	public CoffeeMachine coffeeMachine; // reevaluate later
 	
-	CoffeeMachine coffeeMakerLevel1;
-	CoffeeMachine coffeeMakerLevel2;
-	CoffeeMachine coffeeMakerLevel3;
-	CoffeeMachine coffeeMakerLevel4;
-	
-	public GameObject coffeeMachineModel1;
-	public GameObject coffeeMachineModel2;
-	public GameObject coffeeMachineModel3;
-	public GameObject coffeeMachineModel4;
-	public CoffeeMachine coffeeMachine; //cm1script;
-	
-	/*
-	public GameObject CoffeeMachine1;
-	public GameObject CoffeeMachine2;
-	public GameObject CoffeeMachine3;
-	public GameObject CoffeeMachine4;
-	*/
-	Object cm1;
-	Object cm2;
-	Object cm3;
-	Object cm4;
+	public CoffeeMachine coffeeM1; //MakerLevel1;
+	public CoffeeMachine coffeeM2; //MakerLevel2;
+	public CoffeeMachine coffeeM3; //akerLevel3;
+	public CoffeeMachine coffeeM4; //akerLevel4;
 
+
+	
 	//List of Advertisements bought
 	public ArrayList advertisements;
 	
 	
-	// TODO ???
-	// Not sure if we should have a "MoneyManager" class...
-	//
+	// TODO ???Not sure if we should have a "MoneyManager" class...
 	
 	// TODO: make sure you can't purchase things that will make you go into debt
 	// however, paying your employees at end of day CAN make you go into debt
+	// then you lose
 	
 	
 	
@@ -106,92 +91,11 @@ public class CoffeeShop : MonoBehaviour {
 	// List for history of costs at EOD
 	// List of history of satisfaction ratings at EOD
 	
-	//Variables to simulate drink making, will probably go away with employees
+	// Variables to simulate drink making, will probably go away with employees
 	private float time = 0;
 	
 	
-			// not sure if this posiiton was effecting the next 4 positions...
-	//public Vector3 CoffeeMachinesPos = new Vector3(2.615282f, 5.342656f, 7.862321f);
-	
-	
-	//new Vector3(16.13379f, -3.482452f, 6.18842f);
-	// coffeeMakerLevel1		tag: coffeeMaker1
-	Vector3 coffeeMachine1Rot = new Vector3(0, 180, 0);
-	
-	Vector3 coffeeMachine1Pos = new Vector3(18.96623f, 1.854218f, 13.51166f);//(18.96623f, 1.854218f, 13.51166f);
-	Vector3 coffeeMachine1Scale = new Vector3(250, 250, 250);
-	
-	Vector3 coffeeMachine2Pos = new Vector3(19.81675f, 1.848863f, 17.21671f); //(19.81675f, 1.906335f, 17.21671f); //(19.81675f, 1.906335f, 17.21671f); //(25.96623f, 1.854218f, 13.51166f); //(0.01065969f, -0.002764772f, 0.03486542f); //(17.22975f, -3.470431f, 9.385904f);
-	Vector3 coffeeMachine2Rot = new Vector3(0, 0, 0);
-	Vector3 coffeeMachine2Scale = new Vector3(225, 225, 225);
-	
-	Vector3 coffeeMachine3Pos = new Vector3(17.08269f, 1.744937f, 9.790641f); //14.50232f, -3.636328f, 1.99104f);
-	// coffeeMakerLevel3		tag: coffeeMaker3
-	Vector3 coffeeMachine3Rot = new Vector3(0, 0, 0);
-	Vector3 coffeeMachine3Scale = new Vector3(200, 200, 200);
-	
-	Vector3 coffeeMachine4Pos = new Vector3(9.193657f, 1.906335f, 19.72051f); //18.11771f); //(9.193657f, 1.906335f, 18.11771f); //(6.751243f, -3.515523f, 11.89497f);
-	Vector3 coffeeMachine4Rot = new Vector3(0, 270, 0);
-	Vector3 coffeeMachine4Scale = new Vector3(225, 225, 225);
-	
-	//private later
-	public void addCoffeeMachine(int machineLevelNum)
-	{
-		switch (machineLevelNum)
-		{
-			case 1:
-				coffeeMachineModel1 = (GameObject)Instantiate(Resources.Load("CoffeeMachine1")); //, coffeeMachine1Pos, Quaternion.identity);
-				coffeeMachineModel1.transform.localScale = coffeeMachine1Scale;	
-				coffeeMachineModel1.transform.position = coffeeMachine1Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);	
-			break;
-		case 2:
-				coffeeMachineModel2 = (GameObject)Instantiate(Resources.Load("CoffeeMachine2"));
-				coffeeMachineModel2.transform.localScale = coffeeMachine2Scale;	
-				coffeeMachineModel2.transform.position = coffeeMachine2Pos; 
-				coffeeMachineModel2.transform.Rotate(coffeeMachine2Rot);	
-				//print ("position3");
-				//print (coffeeMachineModel2.transform.localPosition);
-				//print (coffeeMachineModel2.transform.position);
-				
-			break;
-		case 3:
-				coffeeMachineModel3 = (GameObject)Instantiate(Resources.Load("CoffeeMachine3")); //, coffeeMachine1Pos, Quaternion.identity);
-				coffeeMachineModel3.transform.localScale = coffeeMachine3Scale;	
-				coffeeMachineModel3.transform.position = coffeeMachine3Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				coffeeMachineModel3.transform.Rotate(coffeeMachine3Rot);
-			break;
-		case 4:
-				coffeeMachineModel4 = (GameObject)Instantiate(Resources.Load("CoffeeMachine4")); //, coffeeMachine1Pos, Quaternion.identity);
-				coffeeMachineModel4.transform.localScale = coffeeMachine4Scale;	
-				coffeeMachineModel4.transform.position = coffeeMachine4Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				coffeeMachineModel4.transform.Rotate(coffeeMachine4Rot);
-			break;
-		default:
-			break;
-		}
-		
-		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
-		coffeeMachine.setCoffeeMachineType(machineLevelNum);
-		
-		/*Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		coffeeMakerLevel1 = GameObject.FindGameObjectWithTag("coffeeMaker1").AddComponent<CoffeeMachine>(); //(this);
-		*/
-		//coffeeMakerLevel1 = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		//Instantiate(coffeeMachineLevel1, new Vector3(16.13379, -3.482452, 6.18842), Quaternion.identity);
-		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
-		
-				// try 3 based on atlas sneezed code
-		/*
-		coffeeMachineModel = (GameObject)Instantiate(CoffeeMachine1, new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		cm1script = coffeeMachine.AddComponent<CoffeeMachine>();
-		coffeeMachine = coffeeMachineModel.AddComponent<CoffeeMachine>();*/
-		//coffeeMachine = transform.position = new Vector3(xPosition, 40.0f, 0.0f);
-		
-		
-		
-		//return true;
-	}
+
 	
 	//
 	// Use this for initialization
@@ -215,25 +119,8 @@ public class CoffeeShop : MonoBehaviour {
 		// original hack by KG for one machine
 		//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
 	
-		// first attempt by lizz ------------
+		/*	
 		// 4 diff prefabs, with scripts arleady attached, and unique tags
-		/*
-		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
-		//coffeeMachine = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		cm1 = Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		
-		// WHY CANT I FIGURE OUT HOW TO INSTANTIATE AND CAST THIS DAMN THING ----------------
-		coffeeMachine = (CoffeeMachine) cm1; //GameObject.FindGameObjectWithTag("coffeeMaker1");
-		
-		/*GameObject coffMak1 = GameObject.FindGameObjectWithTag("coffeeMaker1");
-		if (coffMak1.tag == CoffeeMachine)
-		{
-			coffeeMakerLevel1 = (CoffeeMachine) coffMak1;
-		}*/
-		
-		// second attempt by lizz
-		// 4 diff prefabs, NO script attached, that way can attach and reference from this class
-		
 		/*
 		 * Prefab names:						Tag
 		 * CoffeeMachine1						coffeeMaker1
@@ -242,27 +129,14 @@ public class CoffeeShop : MonoBehaviour {
 		 * CoffeeMachine4						coffeeMaker4
 		 */
 		
-		//Instantiate(CoffeeMachine1, new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		// makes an object, not gameobject, so can't find...?
-		//Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		//coffeeMakerLevel1 = GameObject.FindGameObjectWithTag("coffeeMaker1").AddComponent<CoffeeMachine>(); //(this);
-		//coffeeMachine = GameObject.FindGameObjectWithTag("coffeeMaker1").AddComponent<CoffeeMachine>(); //(this);
-		//just kidding, still tried scripts attached there
-		//tried adding mesh renderer, didnt work
-		
-		//addCoffeeMachine(1);
-		//coffeeMachineModel = (GameObject)Instantiate("CoffeeMachine1", new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		
-
-		
-		//cm1script = coffeeMachineModel.AddComponent<CoffeeMachine>();
-		//coffeeMachine = coffeeMachineModel.AddComponent<CoffeeMachine>();
-		
+		// By default, Instantiate makes an object, so cast to GameObject
 		//coffeeMachineModel1 = (GameObject)Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
+		//cm1script =//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
 		
-		//addCoffeeMachine(1);
-		addCoffeeMachine(2);
+		addCoffeeMachine(1);
+		
+		// need to figure out a better way to update which coffee machine will be used for dirnk making...
+		coffeeMachine = coffeeM1; 
 	}
 	
 	//
@@ -270,6 +144,10 @@ public class CoffeeShop : MonoBehaviour {
 	//
 	void Update ()
 	{
+		if (coffeeM2 != null) coffeeMachine = coffeeM2; 
+		if (coffeeM3 != null) coffeeMachine = coffeeM3; 
+		if (coffeeM4 != null) coffeeMachine = coffeeM4; 
+		
 		// Detect if customer is ready to buy drink
 		takeCustomerOrder();
 		
@@ -336,15 +214,18 @@ public class CoffeeShop : MonoBehaviour {
 	void updateHypeLength(){
 		ArrayList deleteAds = new ArrayList();
 		
-		foreach(Advertisement ad in advertisements){
-			if(ad.hypeEnd){ //If hypelength
+		foreach(Advertisement ad in advertisements)
+		{
+			if(ad.hypeEnd)
+			{ //If hypelength
 				hypeLevel -= ad.getHype(); //Decrease hype level
 				deleteAds.Add(ad); //Add it to delete list
 			}
 		}
 		
-		//Need delete list so that you don't delete while looping through list
-		foreach(Advertisement ad in deleteAds){
+		// Need delete list so that you don't delete while looping through list
+		foreach(Advertisement ad in deleteAds)
+		{
 			advertisements.Remove(ad); //delete from advertisement list
 			Destroy (ad);
 		}
@@ -462,6 +343,7 @@ public class CoffeeShop : MonoBehaviour {
 		// Would like to trigger animation to show money earned displayed, floating up
 		
 		c.setPaidForDrink(true);
+		
 		// for now, all transactions assumed to be successful
 		return true;
 	}
@@ -527,7 +409,8 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			if(c.isFrontOfLine()) // If customer is in front of line
 			{ 
-				Employee e = empManager.findWorkingEmployee(); //Find working employee
+				// Find working employee
+				Employee e = empManager.findWorkingEmployee(); 
 				if(e != null)
 				{
 					sellDrink (c,GameConstants.Drinks.PlainCoffee); // Sell drink to customer
@@ -588,21 +471,16 @@ public class CoffeeShop : MonoBehaviour {
 			break;
 		}
 		
-		// TO FIX LATER *******
-		if(funds >= cost) //coffeeMach.getCost()) //If advertisement costs less than available funds
+		// Player can afford to buy selected item
+		if(funds >= cost) //coffeeMach.getCost()) 
 		{
 			//coffeeMakerLevel1 = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-			addCoffeeMachine(coffeeMachineLevel);
 			
-			//fix later ****************
 			funds -= cost; //coffeeMach.getCost(); // Decrease funds
 			//coffeeMach.isPurchased = true;
 			addCoffeeMachine(coffeeMachineLevel);
 			return true;
 		}
-		
-		//Instantiate(coffeeMachineLevel1, new Vector3(16.13379, -3.482452, 6.18842), Quaternion.identity);
-		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
 		
 		
 		// insufficient funds - NOTIFY USER
@@ -610,5 +488,109 @@ public class CoffeeShop : MonoBehaviour {
 		
 	}
 	
+	
+	
+	//private later
+	private void addCoffeeMachine(int machineLevelNum)
+	{
+		/*
+		switch (machineLevelNum)
+		{
+			case 1:
+				coffeeMachineModel1 = (GameObject)Instantiate(Resources.Load("CoffeeMachine1")); //, coffeeMachine1Pos, Quaternion.identity);
+				coffeeMachineModel1.transform.localScale = coffeeMachine1Scale;	
+				coffeeMachineModel1.transform.position = coffeeMachine1Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
+				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);	
+			break;
+		case 2:
+				coffeeMachineModel2 = (GameObject)Instantiate(Resources.Load("CoffeeMachine2"));
+				coffeeMachineModel2.transform.localScale = coffeeMachine2Scale;	
+				coffeeMachineModel2.transform.position = coffeeMachine2Pos; 
+				coffeeMachineModel2.transform.Rotate(coffeeMachine2Rot);	
+				//print ("position3");
+				//print (coffeeMachineModel2.transform.localPosition);
+				//print (coffeeMachineModel2.transform.position);
+				
+			break;
+		case 3:
+				coffeeMachineModel3 = (GameObject)Instantiate(Resources.Load("CoffeeMachine3")); //, coffeeMachine1Pos, Quaternion.identity);
+				coffeeMachineModel3.transform.localScale = coffeeMachine3Scale;	
+				coffeeMachineModel3.transform.position = coffeeMachine3Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
+				coffeeMachineModel3.transform.Rotate(coffeeMachine3Rot);
+			break;
+		case 4:
+				coffeeMachineModel4 = (GameObject)Instantiate(Resources.Load("CoffeeMachine4")); //, coffeeMachine1Pos, Quaternion.identity);
+				coffeeMachineModel4.transform.localScale = coffeeMachine4Scale;	
+				coffeeMachineModel4.transform.position = coffeeMachine4Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
+				coffeeMachineModel4.transform.Rotate(coffeeMachine4Rot);
+			break;
+		default:
+			break;
+		}*/
+		
+		switch (machineLevelNum)
+		{
+		case 1: 
+			//coffeeMachineModel1 = (GameObject)
+			Instantiate(Resources.Load("CoffeeMachine1"));
+			if (GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>() != null)
+			{
+				coffeeM1 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>();
+				coffeeM1.createCoffeeMachineType(machineLevelNum);
+			}
+			break;
+		case 2: 
+			//coffeeMachineModel2 = (GameObject)
+			Instantiate(Resources.Load("CoffeeMachine2"));
+			//coffeeM2 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker2");
+			//if (coffeeM2 != null) coffeeM1.createCoffeeMachineType(machineLevelNum);
+			if (GameObject.FindGameObjectWithTag("coffeeMaker2").GetComponent<CoffeeMachine>() != null)
+			{
+				coffeeM2 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker2").GetComponent<CoffeeMachine>();
+				coffeeM2.createCoffeeMachineType(machineLevelNum);
+			}
+			break;
+		case 3: 
+			//coffeeMachineModel3 = (GameObject)
+			Instantiate(Resources.Load("CoffeeMachine3"));
+			//coffeeM3 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker3");
+			if (GameObject.FindGameObjectWithTag("coffeeMaker3").GetComponent<CoffeeMachine>() != null)
+			{
+				coffeeM3 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker3").GetComponent<CoffeeMachine>();
+				coffeeM3.createCoffeeMachineType(machineLevelNum);
+			}
+			break;
+		case 4: 
+			//coffeeMachineModel4 = (GameObject)
+			Instantiate(Resources.Load("CoffeeMachine4"));
+			//coffeeM4 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker4");
+			if (GameObject.FindGameObjectWithTag("coffeeMaker4").GetComponent<CoffeeMachine>() != null)
+			{
+				coffeeM4 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker4").GetComponent<CoffeeMachine>();
+				coffeeM4.createCoffeeMachineType(machineLevelNum);
+			}
+			break;
+		}
+		//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
+		//coffeeMachine.setCoffeeMachineType(machineLevelNum);
+		
+		/*Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
+		coffeeMakerLevel1 = GameObject.FindGameObjectWithTag("coffeeMaker1").AddComponent<CoffeeMachine>(); //(this);
+		*/
+		//coffeeMakerLevel1 = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
+		//Instantiate(coffeeMachineLevel1, new Vector3(16.13379, -3.482452, 6.18842), Quaternion.identity);
+		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
+		
+		// try 3 based on atlas sneezed code
+		/*
+		coffeeMachineModel = (GameObject)Instantiate(CoffeeMachine1, new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
+		cm1script = coffeeMachine.AddComponent<CoffeeMachine>();
+		coffeeMachine = coffeeMachineModel.AddComponent<CoffeeMachine>();*/
+		//coffeeMachine = transform.position = new Vector3(xPosition, 40.0f, 0.0f);
+		
+		
+		
+		//return true;
+	}
 
 }

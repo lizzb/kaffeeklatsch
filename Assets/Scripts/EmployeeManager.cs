@@ -105,9 +105,12 @@ public class EmployeeManager : MonoBehaviour {
   Return :  return employee who is available
 ---------------------------------------------------------------------------*/
 	public Employee findAvailableEmployee(){
-		foreach (Employee e in employees){ //Iterate through employees
-			if(e.getAction() == Employee.Actions.Nothing){ //If doing nothing
-				return e; //return
+		// Iterate through employees
+		foreach (Employee e in employees)
+		{ 
+			if(e.getAction() == Employee.Actions.Nothing)
+			{ //If doing nothing (idle)
+				return e; //return firstavailable employee
 			}
 		}
 		return null;
@@ -115,12 +118,15 @@ public class EmployeeManager : MonoBehaviour {
 	
 /*---------------------------------------------------------------------------
   Name   :  findWorkingEmployee
-  Purpose:  find a employee who is currently working
+  Purpose:  find a employee who is currently working.... why?
   Receive:  Nothing
   Return :  return employee who is working
 ---------------------------------------------------------------------------*/
-	public Employee findWorkingEmployee(){
-		foreach (Employee e in employees){ //Iterate through employees
+	public Employee findWorkingEmployee()
+	{
+		// Iterate through employees
+		foreach (Employee e in employees)
+		{ 
 			if(e.getAction() == Employee.Actions.MakingDrink){ //If making drink
 				return e; //return
 			}

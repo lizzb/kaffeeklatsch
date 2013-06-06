@@ -12,14 +12,20 @@ using UnityEngine;
 using System;
 using System.Collections;
 
+// TODO: change font size/color of stuff *****
+// TODO: maybe add functions canAfford or alreadyHave to disable buttons/display text in red or something???
 
 public class Interface : MonoBehaviour {
+	
+	//need to instantiate.... want to get icons ON to the buttons!!
+	public Texture employeeIcon; // GUITexture??
+	public Texture coffeeCupIcon;
 	
 	// Access to the coffee shop object
 	CoffeeShop cafe;
 	Clock clock;
 	
-	// TODO: change font size/color of stuff *****
+	
 	
 	
 	// Note: for private variable booleans, use an "IsX" naming convention
@@ -91,7 +97,7 @@ public class Interface : MonoBehaviour {
 	
 	const int buyMenuX = buyButtonW + 25; //.......fixing of buttons/menus TODO
 	const int buyMenuY = buyButtonY; 
-	const int buyMenuW = 250; //200; //100;
+	const int buyMenuW = 265; //200; //100;
 	const int buyMenuH = 150; //100;
 	
 	
@@ -147,6 +153,8 @@ public class Interface : MonoBehaviour {
 		
 		clock = this.GetComponent<Clock>();
 	
+		//employeeIcon = (Texture) GameObject.FindGameObjectWithTag("employeeIcon").GetComponent<GUITexture>();
+		//coffeeCupIcon = (Texture) GameObject.FindGameObjectWithTag("coffeeCupIcon").GetComponent<GUITexture>();
 	}
 	
 	//
@@ -182,7 +190,8 @@ public class Interface : MonoBehaviour {
 		// Input for changing costs
 		displayPriceSetter();
 		
-		if(clock.ReachedEOD()){
+		if(clock.ReachedEOD())
+		{
 			displayEODReport();
 		}
 				
@@ -228,8 +237,8 @@ public class Interface : MonoBehaviour {
 		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: " + clock.days);
 		
 		//GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.displayTime2());
-		
-		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.getTimeOfDay()); //"Hour" + ":" + "Min" + "PM"); //........
+		//"Hour" + ":" + "Min" + "PM"); //........
+		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.getTimeOfDay()); 
 	}
 	
 
@@ -328,7 +337,7 @@ public class Interface : MonoBehaviour {
 	void displayBuyButton()
 	{
 		// Toggle whether the Buy/Shop Upgrades button has been pressed
-		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH),new GUIContent("Shop Upgrades")))
+		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH), new GUIContent("Shop Upgrades"))) //coffeeCupIcon))
 		{
 			buyMenuIsVisible = !buyMenuIsVisible;
 		}
@@ -354,6 +363,11 @@ public class Interface : MonoBehaviour {
 		int w = buyMenuW - 2*windowPaddingX; //90;
 		int h = 20;
 		
+		//fix SO DON'T ENABLE BUTTONS WHEN object already purchased
+		
+		//GUI.Button btn1 = GUI.Button(new Rect(windowPaddingX,y,w,h),
+		//	"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name );
+		
 		// Purchase Level 1 Coffee Machine
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
 			"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name ))
@@ -362,8 +376,10 @@ public class Interface : MonoBehaviour {
 			// not sure if i like setup of advertisement call
 			//cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
 			//cafe.addCoffeeMachine(1);
-			cafe.buyCoffeeMachine(1);
 			//cafe.buyCoffeeMachine(new CoffeeMachine(1));
+			
+			cafe.buyCoffeeMachine(1);
+			
 		}
 		// Purchase Level 2 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
