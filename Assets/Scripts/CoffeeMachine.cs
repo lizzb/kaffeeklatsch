@@ -91,7 +91,7 @@ public class CoffeeMachine : MonoBehaviour
 		progressBarFillTexture.texture = progressBarFull; // Set texture as progress bar full texture
 		progressBarFill.transform.localScale = Vector3.zero; // Set scale to 0 so it doesn't become huge
 		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
-		progressBarFillObjectLabel.target = GameObject.Find("coffeeMachineL").transform; //Bind label to coffeemachine
+		progressBarFillObjectLabel.target = GameObject.FindGameObjectWithTag("coffeeMaker1").transform;
 	}
 	
 
@@ -258,6 +258,20 @@ public class CoffeeMachine : MonoBehaviour
 		
 
 	}
+	
+	void OnGUI()
+	{
+		// If making drink
+		if(inUse)
+		{
+			drawProgressBar(); 			// display progress bar
+			progress += clock.deltaTime; //Time.deltaTime; // Increment progress
+		}
+		else
+		{
+			progress = 0f; // Otherwise set progress to 0
+		}
+	}
 
 	
 /*---------------------------------------------------------------------------
@@ -400,18 +414,4 @@ instead of string drinkName, use enums across multiple files?
 			progress = 0f; // Otherwise set progress to 0
 		}
 	}
-	
-/*---------------------------------------------------------------------------
-  Name   :  drawProgressBar
-  Purpose:  draws progress bar to display while making drink
-  Receive:  nothing, just ui 
-  Return :  nothing, just ui
----------------------------------------------------------------------------*
-	void drawProgressBar()
-	{
-		// Based on progress, alter height
-		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f); 
-	}
-
-}
 */
