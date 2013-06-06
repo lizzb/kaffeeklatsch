@@ -72,41 +72,7 @@ public class CoffeeMachine : MonoBehaviour
 	public bool drinkIsReady = false;
 	
 
-	public CoffeeMachine (int machineLevel) //(CoffeeMachineType machineType)
-	{
-		
-		switch (machineLevel) //switch (machineType)
-		{
-			case 1:
-				objectName = GameConstants.coffeeMachine1Name;	
-				cost = GameConstants.coffeeMachine1Cost;
-				drinkQuality = QualityRating.low;
-			break;
-			case 2:
-				objectName = GameConstants.coffeeMachine2Name;	
-				cost = GameConstants.coffeeMachine2Cost;
-				drinkQuality = QualityRating.med;
-			break;
-			case 3:
-				objectName = GameConstants.coffeeMachine3Name;	
-				cost = GameConstants.coffeeMachine3Cost;
-				drinkQuality = QualityRating.high;
-			break;
-			case 4:
-				objectName = GameConstants.coffeeMachine4Name;	
-				cost = GameConstants.coffeeMachine4Cost;
-				drinkQuality = QualityRating.highest;
-			break;
-			default: // case 1
-				objectName = GameConstants.coffeeMachine1Name;	
-				cost = GameConstants.coffeeMachine1Cost;
-				drinkQuality = QualityRating.low;
-			break;
-		}
-		
-		//SetActive(false);
-		//renderer.enabled = false;
-	}
+
 	
 	// PROGRESS BAR SHOULD BE ITS OWN CLASS THAT ATTACHES ABOVE AN OBJECT, LIKE THOUGHT BUBBLES
 	// TODO *** actually nah
@@ -150,6 +116,47 @@ public class CoffeeMachine : MonoBehaviour
 			//gameObject.SetActive(true);
 			//renderer.enabled = true;
 		//}
+	}
+	
+	public bool setCoffeeMachineType (int machineLevel) //public CoffeeMachine (int machineLevel) //(CoffeeMachineType machineType)
+	{
+		
+		switch (machineLevel) //switch (machineType)
+		{
+			case 1:
+				objectName = GameConstants.coffeeMachine1Name;	
+				cost = GameConstants.coffeeMachine1Cost;
+				drinkQuality = QualityRating.low;
+				return true;
+			break;
+			case 2:
+				objectName = GameConstants.coffeeMachine2Name;	
+				cost = GameConstants.coffeeMachine2Cost;
+				drinkQuality = QualityRating.med;
+				return true;
+			break;
+			case 3:
+				objectName = GameConstants.coffeeMachine3Name;	
+				cost = GameConstants.coffeeMachine3Cost;
+				drinkQuality = QualityRating.high;
+				return true;
+			break;
+			case 4:
+				objectName = GameConstants.coffeeMachine4Name;	
+				cost = GameConstants.coffeeMachine4Cost;
+				drinkQuality = QualityRating.highest;
+				return true;
+			break;
+			default: // case 1
+				objectName = GameConstants.coffeeMachine1Name;	
+				cost = GameConstants.coffeeMachine1Cost;
+				drinkQuality = QualityRating.low;
+				return false;
+			break;
+		}
+		
+		//SetActive(false);
+		//renderer.enabled = false;
 	}
 	
 	void OnGUI()

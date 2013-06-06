@@ -91,7 +91,7 @@ public class Interface : MonoBehaviour {
 	
 	const int buyMenuX = buyButtonW + 25; //.......fixing of buttons/menus TODO
 	const int buyMenuY = buyButtonY; 
-	const int buyMenuW = 200; //100;
+	const int buyMenuW = 250; //200; //100;
 	const int buyMenuH = 150; //100;
 	
 	
@@ -356,7 +356,7 @@ public class Interface : MonoBehaviour {
 		
 		// Purchase Level 1 Coffee Machine
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
-			GameConstants.coffeeMachine1Name + ": $" + GameConstants.coffeeMachine1Cost ))
+			"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name ))
 		{
 			// TODO: this function should actually take parameters, but haven't written yet
 			// not sure if i like setup of advertisement call
@@ -367,21 +367,21 @@ public class Interface : MonoBehaviour {
 		}
 		// Purchase Level 2 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
-			GameConstants.coffeeMachine2Name + ": $" + GameConstants.coffeeMachine2Cost ))
+			"$" + GameConstants.coffeeMachine2Cost + ":  " + GameConstants.coffeeMachine2Name))
 		{
 			cafe.buyCoffeeMachine(2);
 			//cafe.buyCoffeeMachine(new CoffeeMachine(2)); //cafe.buyCoffeeMachine(2);
 		}
 		// Purchase Level 3 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
-			GameConstants.coffeeMachine3Name + ": $" + GameConstants.coffeeMachine3Cost ))
+			"$" + GameConstants.coffeeMachine3Cost + ":  " + GameConstants.coffeeMachine3Name))
 		{
 			cafe.buyCoffeeMachine(3);
 			//cafe.buyCoffeeMachine(new CoffeeMachine(3)); //cafe.buyCoffeeMachine(3);
 		}
 		// Purchase Level 4 Coffee Machine
 		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
-			GameConstants.coffeeMachine4Name + ": $" + GameConstants.coffeeMachine4Cost ))
+			"$" + GameConstants.coffeeMachine4Cost + ":  " + GameConstants.coffeeMachine4Name))
 		{
 			cafe.buyCoffeeMachine(4);
 			//cafe.buyCoffeeMachine(new CoffeeMachine(4)); //cafe.buyCoffeeMachine(4);
@@ -433,11 +433,6 @@ public class Interface : MonoBehaviour {
 		{
 			cafe.empManager.fireEmployee();
 		}
-		// COMMENT MEE..............
-		//else if(GUI.Button(new Rect(x, y+2*lineHeight,w,h),"Billboard"))
-		//{
-		//	cafe.buyAdvertisement(new Advertisement(AdvertisementType.Billboard));
-		//}
 	}	
 	
 /*---------------------------------------------------------------------------
@@ -448,10 +443,12 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void displayPriceSetter()
 	{
-		//Box to display current price
+		// Box to display current price
 		GUI.Box (new Rect (priceX,priceY,priceW,priceH),"Price: $" + costVal);
-		//When slider changes value, updates cost of drinks
-		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20), (float)costVal, 0.0f, GameConstants.maximumDrinkCost);
+		
+		// When slider changes value, updates cost of drinks
+		costVal = (int) GUI.HorizontalSlider (new Rect (priceX,priceY + 20,priceW,priceH - 20),
+			(float)costVal, 0.0f, GameConstants.maximumDrinkCost);
 	}
 	
 	
@@ -461,7 +458,8 @@ public class Interface : MonoBehaviour {
   Receive:  nothing, just ui 
   Return :  nothing, just ui
 ---------------------------------------------------------------------------*/
-	void displayEODReport(){
+	void displayEODReport()
+	{
 		GUI.Window(3,new Rect(eodWindowX,eodWindowY,eodWindowW,eodWindowH),EODWindow,"End of Day Report");
 	}
 	
@@ -480,7 +478,11 @@ public class Interface : MonoBehaviour {
 		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.calculateDailyCosts());
 		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.rent);
 		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
-		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day")){ //If click on advance day button
+		
+		// If click on advance day button
+		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day"))
+		{ 
+			
 			clock.advanceDay(); //Advances day
 		}
 	}

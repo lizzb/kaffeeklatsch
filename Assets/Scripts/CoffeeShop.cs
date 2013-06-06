@@ -121,15 +121,16 @@ public class CoffeeShop : MonoBehaviour {
 	Vector3 coffeeMachine1Pos = new Vector3(18.96623f, 1.854218f, 13.51166f);//(18.96623f, 1.854218f, 13.51166f);
 	Vector3 coffeeMachine1Scale = new Vector3(250, 250, 250);
 	
-	Vector3 coffeeMachine2Pos = new Vector3(19.81675f, 1.906335f, 17.21671f); //(19.81675f, 1.906335f, 17.21671f); //(25.96623f, 1.854218f, 13.51166f); //(0.01065969f, -0.002764772f, 0.03486542f); //(17.22975f, -3.470431f, 9.385904f);
+	Vector3 coffeeMachine2Pos = new Vector3(19.81675f, 1.848863f, 17.21671f); //(19.81675f, 1.906335f, 17.21671f); //(19.81675f, 1.906335f, 17.21671f); //(25.96623f, 1.854218f, 13.51166f); //(0.01065969f, -0.002764772f, 0.03486542f); //(17.22975f, -3.470431f, 9.385904f);
 	Vector3 coffeeMachine2Rot = new Vector3(0, 0, 0);
 	Vector3 coffeeMachine2Scale = new Vector3(225, 225, 225);
 	
-	Vector3 coffeeMachine3Pos = new Vector3(14.50232f, -3.636328f, 1.99104f);
+	Vector3 coffeeMachine3Pos = new Vector3(17.08269f, 1.744937f, 9.790641f); //14.50232f, -3.636328f, 1.99104f);
 	// coffeeMakerLevel3		tag: coffeeMaker3
+	Vector3 coffeeMachine3Rot = new Vector3(0, 0, 0);
 	Vector3 coffeeMachine3Scale = new Vector3(200, 200, 200);
 	
-	Vector3 coffeeMachine4Pos = new Vector3(6.751243f, -3.515523f, 11.89497f);
+	Vector3 coffeeMachine4Pos = new Vector3(9.193657f, 1.906335f, 19.72051f); //18.11771f); //(9.193657f, 1.906335f, 18.11771f); //(6.751243f, -3.515523f, 11.89497f);
 	Vector3 coffeeMachine4Rot = new Vector3(0, 270, 0);
 	Vector3 coffeeMachine4Scale = new Vector3(225, 225, 225);
 	
@@ -158,7 +159,7 @@ public class CoffeeShop : MonoBehaviour {
 				coffeeMachineModel3 = (GameObject)Instantiate(Resources.Load("CoffeeMachine3")); //, coffeeMachine1Pos, Quaternion.identity);
 				coffeeMachineModel3.transform.localScale = coffeeMachine3Scale;	
 				coffeeMachineModel3.transform.position = coffeeMachine3Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				//coffeeMachineModel3.transform.Rotate(coffeeMachine3Rot);
+				coffeeMachineModel3.transform.Rotate(coffeeMachine3Rot);
 			break;
 		case 4:
 				coffeeMachineModel4 = (GameObject)Instantiate(Resources.Load("CoffeeMachine4")); //, coffeeMachine1Pos, Quaternion.identity);
@@ -171,7 +172,7 @@ public class CoffeeShop : MonoBehaviour {
 		}
 		
 		coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
-		
+		coffeeMachine.setCoffeeMachineType(machineLevelNum);
 		
 		/*Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
 		coffeeMakerLevel1 = GameObject.FindGameObjectWithTag("coffeeMaker1").AddComponent<CoffeeMachine>(); //(this);
@@ -568,28 +569,44 @@ public class CoffeeShop : MonoBehaviour {
   Return :  true if purchase was successful,
   			false if machine not bought (insufficient funds or reach limit)
 ---------------------------------------------------------------------------*/	
-	public bool buyCoffeeMachine(int coffeeMachineLevel) // <summary>
-	/// The coffee mac.
-	/// </summary>(CoffeeMachine coffeeMac, int coffeeMachineLevel) //(CoffeeMachine coffeeMach) //
+	public bool buyCoffeeMachine(int coffeeMachineLevel)
+	//(CoffeeMachine coffeeMac, int coffeeMachineLevel) //(CoffeeMachine coffeeMach) //
 	{
+		int cost = 0;
+		switch (coffeeMachineLevel)
+		{
+			case 1: cost = GameConstants.coffeeMachine1Cost;
+			break;
+			case 2: cost = GameConstants.coffeeMachine2Cost;
+			break;
+			case 3: cost = GameConstants.coffeeMachine3Cost;
+			break;
+			case 4: cost = GameConstants.coffeeMachine4Cost;
+			break;
+			default:
+				return false;
+			break;
+		}
+		
 		// TO FIX LATER *******
-		//if(funds > coffeeMach.getCost()) //If advertisement costs less than available funds
-		//{
+		if(funds >= cost) //coffeeMach.getCost()) //If advertisement costs less than available funds
+		{
 			//coffeeMakerLevel1 = (CoffeeMachine) Instantiate(Resources.Load("coffeeMachineLevel1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
 			addCoffeeMachine(coffeeMachineLevel);
 			
 			//fix later ****************
-			//funds -= coffeeMach.getCost(); // Decrease funds
+			funds -= cost; //coffeeMach.getCost(); // Decrease funds
 			//coffeeMach.isPurchased = true;
+			addCoffeeMachine(coffeeMachineLevel);
 			return true;
-		//}
+		}
 		
 		//Instantiate(coffeeMachineLevel1, new Vector3(16.13379, -3.482452, 6.18842), Quaternion.identity);
 		//Instantiate(Resources.Load("Customer"), new Vector3(5, 1, 0), Quaternion.identity);
 		
 		
 		// insufficient funds - NOTIFY USER
-		//return false;
+		return false;
 		
 	}
 	
