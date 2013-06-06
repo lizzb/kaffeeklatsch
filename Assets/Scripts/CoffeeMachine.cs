@@ -24,6 +24,9 @@ public enum CoffeeMachineType
 		*/
 public class CoffeeMachine : MonoBehaviour
 {
+	//Clock
+	Clock clock;
+	
 		// not sure if this posiiton was effecting the next 4 positions...
 		//public Vector3 CoffeeMachinesPos = new Vector3(2.615282f, 5.342656f, 7.862321f);
 	
@@ -127,6 +130,7 @@ public class CoffeeMachine : MonoBehaviour
 	//
 	void Start ()
 	{		
+		clock = GameObject.Find("GUI").GetComponent<Clock>();
 		//gameObject.SetActive(false);
 		
 		// Setting up progress Bar object
@@ -160,7 +164,7 @@ public class CoffeeMachine : MonoBehaviour
 		if(inUse)
 		{
 			drawProgressBar(); 			// display progress bar
-			progress += Time.deltaTime; // Increment progress
+			progress += clock.deltaTime; // Increment progress
 		}
 		else
 		{
