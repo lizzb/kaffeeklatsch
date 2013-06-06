@@ -76,9 +76,8 @@ public class CoffeeMachine : MonoBehaviour
 	GameObject progressBarFill;
 	GUITexture progressBarFillTexture;
 	
-	//
-	// Use this for initialization
-	//
+
+	// ---------- Use this for initialization ---------- //
 	void Start ()
 	{		
 		clock = GameObject.Find("GUI").GetComponent<Clock>();
@@ -95,7 +94,7 @@ public class CoffeeMachine : MonoBehaviour
 	}
 	
 
-	// ----- Update is called once per frame ----- //
+	// ---------- Update is called once per frame ---------- //
 	void Update ()
 	{
 		
@@ -211,7 +210,7 @@ public class CoffeeMachine : MonoBehaviour
 				coffeeMachineModel1.transform.position = coffeeMachine1Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
 				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);	
 				return true;
-			break;
+			//break;
 			case 2:
 				objectName = GameConstants.coffeeMachine2Name;	
 				cost = GameConstants.coffeeMachine2Cost;
@@ -222,7 +221,7 @@ public class CoffeeMachine : MonoBehaviour
 				coffeeMachineModel2.transform.position = coffeeMachine2Pos; 
 				coffeeMachineModel2.transform.Rotate(coffeeMachine2Rot);
 				return true;
-			break;
+			//break;
 			case 3:
 				objectName = GameConstants.coffeeMachine3Name;	
 				cost = GameConstants.coffeeMachine3Cost;
@@ -234,7 +233,7 @@ public class CoffeeMachine : MonoBehaviour
 				//new Vector3(16.13379f, -3.482452f, 6.18842f);	
 				coffeeMachineModel3.transform.Rotate(coffeeMachine3Rot);
 				return true;
-			break;
+			//break;
 			case 4:
 				objectName = GameConstants.coffeeMachine4Name;	
 				cost = GameConstants.coffeeMachine4Cost;
@@ -246,14 +245,14 @@ public class CoffeeMachine : MonoBehaviour
 				//new Vector3(16.13379f, -3.482452f, 6.18842f);	
 				coffeeMachineModel4.transform.Rotate(coffeeMachine4Rot);
 				return true;
-			break;
+			//break;
 			
 			default: // case 1
 				//objectName = GameConstants.coffeeMachine1Name;	
 				//cost = GameConstants.coffeeMachine1Cost;
 				//drinkQuality = QualityRating.low;
 				return false;
-			break;
+			//break;
 		}
 		
 

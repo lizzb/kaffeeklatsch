@@ -53,7 +53,7 @@ public class EmployeeManager : MonoBehaviour {
 		// was in customer class...
 		//cafe.empManager.hireEmployee(this);
 		
-		if (cafe.funds < GameConstants.employeeHiringCost)
+		if (cafe.moneyManager.funds < GameConstants.employeeHiringCost)
 		{
 			// TODO: notify user through UI that funds are insufficient ***
 			return false;
@@ -67,7 +67,7 @@ public class EmployeeManager : MonoBehaviour {
 		}
 		*/
 		
-		cafe.funds -= GameConstants.employeeHiringCost;
+		cafe.moneyManager.funds -= GameConstants.employeeHiringCost;
 		employees.Add(gameObject.AddComponent<Employee>());
 		return true;
 		

@@ -414,7 +414,7 @@ public class Customer : MonoBehaviour
 		int x = calculatePatienceSatisfactionLevel();
 		int y = calculateMoneySatisfactionLevel();
 		int z = calculateQualitySatisfactionLevel();
-		print("Waiting: " + x + ", Cash: " + y + ", Quality: " + z);
+		//print("Waiting: " + x + ", Cash: " + y + ", Quality: " + z);
 		
 		int avg = (x+y+z)/3;
 		// Returns Max(x,y,z) if average is positive, or Min(x,y,z) if average is negative
@@ -445,7 +445,7 @@ public class Customer : MonoBehaviour
 	
 	int calculateMoneySatisfactionLevel()
 	{
-		return GameConstants.maximumDrinkCost-cafe.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
+		return GameConstants.maximumDrinkCost-cafe.moneyManager.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
 	}
 	
 /*---------------------------------------------------------------------------
