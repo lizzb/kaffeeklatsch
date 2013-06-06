@@ -29,6 +29,7 @@ public class CharacterMenu : MonoBehaviour {
 		{
 			if(!clickInside())
 			{
+				// hacky, doesnt close window, just moves it far far away
 				if(clickLocation.x == -WIDTH && clickLocation.y == -HEIGHT && this.gameObject == clickedObject())
 					clickLocation = Input.mousePosition;
 				else
@@ -53,7 +54,10 @@ public class CharacterMenu : MonoBehaviour {
 	
 	bool clickInside()
 	{
-		if(Input.mousePosition.x > clickLocation.x && Input.mousePosition.x < clickLocation.x+WIDTH && Screen.height-Input.mousePosition.y > Screen.height-clickLocation.y && Screen.height-Input.mousePosition.y < Screen.height-clickLocation.y+HEIGHT)
+		if(Input.mousePosition.x > clickLocation.x
+			&& Input.mousePosition.x < clickLocation.x+WIDTH
+			&& Screen.height-Input.mousePosition.y > Screen.height-clickLocation.y
+			&& Screen.height-Input.mousePosition.y < Screen.height-clickLocation.y+HEIGHT)
 			return true;
 		return false;
 	}

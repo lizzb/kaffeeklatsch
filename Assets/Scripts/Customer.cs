@@ -445,7 +445,7 @@ public class Customer : MonoBehaviour
 	
 	int calculateMoneySatisfactionLevel()
 	{
-		return GameConstants.maximumDrinkCost-cafe.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
+		return GameConstants.maximumDrinkCost-cafe.moneyManager.drinkCost-(GameConstants.maximumDrinkCost*moneyGrubber)/10;
 	}
 	
 /*---------------------------------------------------------------------------

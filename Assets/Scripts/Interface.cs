@@ -160,9 +160,20 @@ public class Interface : MonoBehaviour {
 	//
 	// Update is called once per frame
 	//
-	void Update () {
+	void Update ()
+	{
 		//Set drink cost of cafe
-		cafe.setDrinkCost(costVal);
+		cafe.moneyManager.setDrinkCost(costVal);
+		
+		
+		// ----- Hacks for augmenting funds and popularity ----- //
+		if(Input.GetKeyDown(KeyCode.M)) { cafe.moneyManager.funds += cafe.moneyManager.drinkCost; }
+		
+		if(Input.GetKeyDown (KeyCode.N)) { cafe.moneyManager.funds -= cafe.moneyManager.drinkCost; }
+		
+		if(Input.GetKeyDown(KeyCode.H)) { cafe.hypeLevel += 10; } //changed because P used for pause
+		
+		if(Input.GetKeyDown(KeyCode.G)){ cafe.hypeLevel -= 10; }
 	}
 	
 	// UnityGUI controls make use of a special function called OnGUI().
@@ -223,7 +234,7 @@ public class Interface : MonoBehaviour {
 		
 		// TODO: change font size/color *****
 		
-		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: $"+ cafe.funds);
+		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: $"+ cafe.moneyManager.funds);
 	}
 	
 /*---------------------------------------------------------------------------
@@ -489,11 +500,11 @@ public class Interface : MonoBehaviour {
 		int y = 20;
 		int w = eodWindowW - windowPaddingX * 2;
 		int h = 20;
-		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.dailyRevenue);
-		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.dailyNumDrinksSold);
-		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.calculateDailyCosts());
-		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.rent);
-		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.calculateDailyTotalEmployeesWagesTotal());
+		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.moneyManager.dailyRevenue);
+		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.moneyManager.dailyNumDrinksSold);
+		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.moneyManager.calculateDailyCosts());
+		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.moneyManager.rent);
+		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.moneyManager.calculateDailyTotalEmployeesWagesTotal());
 		
 		// If click on advance day button
 		if(GUI.Button(new Rect(windowPaddingX, y + h * 6,w,h),"Advance Day"))
