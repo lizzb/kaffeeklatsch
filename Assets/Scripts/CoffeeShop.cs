@@ -13,6 +13,9 @@ using System.Collections;
 
 public class CoffeeShop : MonoBehaviour {
 	
+	//Clock
+	Clock clock;
+	
 	// Manages employees.... more later ****
 	public EmployeeManager empManager;
 	
@@ -114,6 +117,8 @@ public class CoffeeShop : MonoBehaviour {
 		
 		advertisements = new ArrayList();
 		
+		clock = GameObject.Find("GUI").GetComponent<Clock>();
+		
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
 		
 		// original hack by KG for one machine
@@ -169,7 +174,7 @@ public class CoffeeShop : MonoBehaviour {
 		//Take 3 seconds to make drink
 		if(coffeeMachine!= null && coffeeMachine.inUse)
 		{
-			time += Time.deltaTime;
+			time += clock.deltaTime;
 			//print (time);
 			if(time > GameConstants.timeToMakeCoffee)
 			{

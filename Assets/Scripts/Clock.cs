@@ -25,6 +25,8 @@ public class Clock : MonoBehaviour
 	int goHomeTime = 17; // 5pm
 	int endWork = 18; // 6pm
 	
+	public float deltaTime;
+	
 	// Time.timeScale;
 	// Unity variable for controlling speed of time
 	// The scale at which the time is passing. This can be used for slow motion effects.
@@ -121,8 +123,9 @@ public class Clock : MonoBehaviour
 		//gameTime.ElapsedGameTime.Ticks * (int)CurrTimeSpeed); //timeSpeed;
 		
 		
-		//time += Time.deltaTime; //new TimeSpan ((long)(Time.deltaTime * Time.timeScale));		
-		time += Time.deltaTime * Time.timeScale;
+		//time += Time.deltaTime; //new TimeSpan ((long)(Time.deltaTime * Time.timeScale));	
+		deltaTime = Time.deltaTime * Time.timeScale;
+		time += deltaTime;
 		//print (time.ToString());	
 		
 		
