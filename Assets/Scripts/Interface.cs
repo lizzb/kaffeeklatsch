@@ -26,7 +26,7 @@ public class Interface : MonoBehaviour {
 	Clock clock;
 	
 	
-	
+	// TODO: change font size/color *****
 	
 	// Note: for private variable booleans, use an "IsX" naming convention
 	// especially with visibility
@@ -195,6 +195,8 @@ public class Interface : MonoBehaviour {
 	// The OnGUI() function gets called every frame as long as the
 	// containing script is enabled - just like the Update() function.
 	void OnGUI () {
+		
+		GUI.enabled = true;
 		// Notes:
 		// Rect: x, y, width, height
 		// top left: 0,0,100,50
@@ -206,12 +208,13 @@ public class Interface : MonoBehaviour {
 
 		displayCurrentFunds();
 		displayPopularity();
-		displayCurrentDayTime();
+		displayCurrentDayTimeSpeed();
 		
 		// ----- Buttons, Buy Menus, etc. ----- //
 		displayBuyButton();
 		displayAdButton();
-		displayEmployeeButton();
+		
+		//displayEmployeeButton();
 		
 		// Input for changing costs
 		displayPriceSetter();
@@ -221,8 +224,9 @@ public class Interface : MonoBehaviour {
 			displayEODReport();
 		}
 		
-		//Information Icon
+		// Information Icon
 		displayInformationButton();
+		
 				
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
@@ -250,7 +254,6 @@ public class Interface : MonoBehaviour {
 		// Since label is inside box, make sure position is relative to position of box
 		//GUI.Label(new Rect (fundsX+10,fundsY+25,fundsW,fundsH), "$" + cafe.funds);
 		
-		// TODO: change font size/color *****
 		
 		GUI.Box(new Rect(fundsX,fundsY,fundsW,fundsH), "Current Funds: $"+ cafe.moneyManager.funds);
 	}
@@ -261,13 +264,62 @@ public class Interface : MonoBehaviour {
   Receive:  null
   Return :  void
 ---------------------------------------------------------------------------*/	
-	void displayCurrentDayTime()
+	void displayCurrentDayTimeSpeed()
 	{
 		GUI.Box(new Rect(dateX,dateY,dateW,dateH), "Day: " + clock.days);
 		
 		//GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.displayTime2());
 		//"Hour" + ":" + "Min" + "PM"); //........
 		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.getTimeOfDay()); 
+		
+		
+		char rightTriangleB = '\u25B6'; //'\u25B8';
+		char rightTriangleW = '\u25B7';//'\u25B9';
+		string pause = '\u2016'.ToString (); //"||"
+		string play = rightTriangleB.ToString();
+		string ff = rightTriangleB.ToString() + rightTriangleB.ToString();
+		string fff = rightTriangleB.ToString() + rightTriangleB.ToString() + rightTriangleB.ToString();
+		
+		/*
+		 * i should be making these public or making a getter but i'm lazy so... yeah
+		 * 
+		 * 	const float Paused = 0.0f;
+	const float SpeedPlay = 1.0f;
+	const float SpeedFF = 2.0f;
+	const float SpeedFFF = 4.0f;
+	
+	public float CurrTimeSpeed = SpeedPlay;
+	public float oldSpeed = Paused;
+		 * 
+		 * */
+		
+		if (clock.CurrTimeSpeed == 0.0f) { /* don't know how to turn white??*/ }
+		else if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleW.ToString(); }
+		else if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleW.ToString() + rightTriangleW.ToString(); }
+		else if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString(); }
+		
+		// unity didn't want to compile a float switch statement...
+		/*
+		switch (clock.CurrTimeSpeed)
+		{
+		case 0.0f:
+			break;
+		case 1.0f:
+			play = rightTriangleW.ToString();
+			break;
+		case 2.0f:
+			ff = rightTriangleW.ToString() + rightTriangleW.ToString();
+			break;
+		case 4.0f:
+			fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString();
+			break;
+		//default:
+		//	break;
+		}
+		*/
+		string timeSpeedString = pause +"   "+ play +"   "+ ff +"   "+ fff;
+		
+		GUI.Label (new Rect (dateX+10,dateY+40,dateW,dateH), timeSpeedString);
 	}
 	
 
@@ -309,9 +361,14 @@ public class Interface : MonoBehaviour {
 			adMenuIsVisible = !adMenuIsVisible;
 		}
 		
-		// Display Ad Menu
+		// Display Ad Menu menu if button is pressed
 		if(adMenuIsVisible)
 		{
+			// Button was pressed presumably because player wants to 
+			// display this menu, so disable others
+			if (buyMenuIsVisible) buyMenuIsVisible = false;
+			if (empMenuIsVisible) empMenuIsVisible = false;
+			
 			GUI.Window(0,new Rect(adMenuX,adMenuY,adMenuW,adMenuH),advertisementWindow,"");
 		}
 	}
@@ -374,6 +431,11 @@ public class Interface : MonoBehaviour {
 		// Display buy/shop upgrade menu if button is pressed
 		if(buyMenuIsVisible)
 		{
+			// Button was pressed presumably because player wants to 
+			// display this menu, so disable others
+			if (adMenuIsVisible) adMenuIsVisible = false;
+			if (empMenuIsVisible) empMenuIsVisible = false;
+			
 			GUI.Window(0,new Rect(buyMenuX,buyMenuY,buyMenuW,buyMenuH),buyWindow,"");
 		}
 	}
@@ -386,6 +448,7 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void buyWindow(int WindowId)
 	{
+		GUI.enabled = true;
 		//int x = windowPaddingX; //5;
 		int y = 10;
 		int lineHeight = 30;
@@ -397,40 +460,66 @@ public class Interface : MonoBehaviour {
 		//GUI.Button btn1 = GUI.Button(new Rect(windowPaddingX,y,w,h),
 		//	"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name );
 		
-		// Purchase Level 1 Coffee Machine
+		// Enable/disable button depending on whether we've bought this item already
+		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) GUI.enabled = false;
+		else GUI.enabled = true;
+		
+		// Purchase Level 1 Coffee Machine 
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
 			"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name ))
 		{
 			// TODO: this function should actually take parameters, but haven't written yet
 			// not sure if i like setup of advertisement call
 			//cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
-			//cafe.addCoffeeMachine(1);
-			//cafe.buyCoffeeMachine(new CoffeeMachine(1));
-			
 			cafe.buyCoffeeMachine(1);
+			//buyMenuIsVisible = false;
 			
 		}
+		
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) GUI.enabled = false;
+		else GUI.enabled = true;
+		
 		// Purchase Level 2 Coffee Machine
-		else if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
+		//else
+		if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine2Cost + ":  " + GameConstants.coffeeMachine2Name))
 		{
 			cafe.buyCoffeeMachine(2);
-			//cafe.buyCoffeeMachine(new CoffeeMachine(2)); //cafe.buyCoffeeMachine(2);
+			//buyMenuIsVisible = false;
 		}
+		
+	
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		if (cafe.hasMachine3 || cafe.moneyManager.canAffordMachine(3) == false) GUI.enabled = false;
+		else GUI.enabled = true;
+		
 		// Purchase Level 3 Coffee Machine
-		else if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
+		//else 
+		if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine3Cost + ":  " + GameConstants.coffeeMachine3Name))
 		{
 			cafe.buyCoffeeMachine(3);
-			//cafe.buyCoffeeMachine(new CoffeeMachine(3)); //cafe.buyCoffeeMachine(3);
+			//buyMenuIsVisible = false;
 		}
+		
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) GUI.enabled = false;
+		else GUI.enabled = true;
+		
 		// Purchase Level 4 Coffee Machine
-		else if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
+		//else 
+		if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine4Cost + ":  " + GameConstants.coffeeMachine4Name))
 		{
 			cafe.buyCoffeeMachine(4);
-			//cafe.buyCoffeeMachine(new CoffeeMachine(4)); //cafe.buyCoffeeMachine(4);
+			//buyMenuIsVisible = false;
 		}
+		
+		GUI.enabled = true;
 	}
 	
 /*---------------------------------------------------------------------------
@@ -450,6 +539,11 @@ public class Interface : MonoBehaviour {
 		// Display employees menu if button is pressed
 		if(empMenuIsVisible)
 		{
+			// Button was pressed presumably because player wants to 
+			// display this menu, so disable others
+			if (adMenuIsVisible) adMenuIsVisible = false;
+			if (empMenuIsVisible) empMenuIsVisible = false;
+			
 			GUI.Window(0,new Rect(empMenuX,empMenuY,empMenuW,empMenuH),empWindow,"");
 		}
 	}
@@ -520,10 +614,10 @@ public class Interface : MonoBehaviour {
 		int h = 20;
 		
 		GUI.Label (new Rect(windowPaddingX,y,w,h),"Revenue: " + cafe.moneyManager.dailyRevenue);
-		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"Number of Drinks Sold: " + cafe.moneyManager.dailyNumDrinksSold);
+		GUI.Label (new Rect(windowPaddingX,y + h,w,h),"     Number of Drinks Sold: " + cafe.moneyManager.dailyNumDrinksSold);
 		GUI.Label (new Rect(windowPaddingX,y + h * 2,w,h),"Daily Costs: " + cafe.moneyManager.calculateDailyCosts());
-		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"Rent: " + cafe.moneyManager.rent);
-		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"Employee Wages: " + cafe.moneyManager.calculateDailyTotalEmployeesWagesTotal());
+		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h),"     Rent: " + cafe.moneyManager.rent);
+		GUI.Label (new Rect(windowPaddingX,y + h * 4,w,h),"     Employee Wages: " + cafe.moneyManager.calculateDailyTotalEmployeesWagesTotal());
 		
 		// If click on advance day button
 		if(GUI.Button(new Rect(windowPaddingX, eodWindowH - y * 2,w,h),"Advance Day"))

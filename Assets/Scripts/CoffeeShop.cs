@@ -417,6 +417,7 @@ public Customer customerWaitingAtRegister()
 				// Reference to the CoffeeMachine script for this class to use
 				coffeeM1 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>();
 				coffeeM1.createCoffeeMachineType(machineLevelNum);
+				hasMachine1 = true;
 			}
 			break;
 		case 2: 
@@ -425,6 +426,7 @@ public Customer customerWaitingAtRegister()
 			{
 				coffeeM2 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker2").GetComponent<CoffeeMachine>();
 				coffeeM2.createCoffeeMachineType(machineLevelNum);
+				hasMachine2 = true;
 			}
 			break;
 		case 3: 
@@ -433,6 +435,7 @@ public Customer customerWaitingAtRegister()
 			{
 				coffeeM3 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker3").GetComponent<CoffeeMachine>();
 				coffeeM3.createCoffeeMachineType(machineLevelNum);
+				hasMachine3 = true;
 			}
 			break;
 		case 4: 
@@ -441,6 +444,7 @@ public Customer customerWaitingAtRegister()
 			{
 				coffeeM4 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker4").GetComponent<CoffeeMachine>();
 				coffeeM4.createCoffeeMachineType(machineLevelNum);
+				hasMachine4 = true;
 			}
 			break;
 		}		
