@@ -179,16 +179,25 @@ public class Customer : MonoBehaviour
 		updateLinePositions(); // doesnt do anything right now
 		
 		// Customer gets in line
-		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
+		if(transform.position.z >= 10 && transform.position.x < 13-1.5*linePosition)
 		{
 			// Move forward in line?????................
 			custAction = Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
+			
+			// Fixes bug where customers bumped into each other
+			Vector3 customerPosition = transform.position;
+			customerPosition.z = GameConstants.zLineLimit;
+			transform.position = customerPosition;
 		}
 		// Customer is at front of line waiting for drink.........???
 		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut && linePosition == 0)
 		{
 			custAction = Actions.waitingForDrink;
+			// Fixes bug where customers bumped into each other
+			Vector3 customerPosition = transform.position;
+			customerPosition.x = GameConstants.xLineLimit[linePosition];
+			transform.position = customerPosition;
 		}
 			
 		
@@ -295,7 +304,7 @@ void checkDestroyCustomer()
 			// their linePosition is decreased, so they move forward in line.
 			foreach(Customer customer in customers)
 			{
-				if(customer.linePosition > customerRemoved)
+				if(customer.linePosition >= customerRemoved)
 					customer.linePosition--;
 			}
 			// could end commenting out here if get getting out of line working *********
@@ -332,7 +341,7 @@ public void checkGetOutOfLine()
 			//if (customer != this)
 			//	{
 			//check if this is not the same customer??
-			if(customer.linePosition > customerRemoved) customer.linePosition--;
+			if(customer.linePosition >= customerRemoved) customer.linePosition--;
 			//	}
 		}
 		

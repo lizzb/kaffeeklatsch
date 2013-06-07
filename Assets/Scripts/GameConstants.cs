@@ -27,6 +27,10 @@ using System;
 	// for a brand new coffee shop
 	public const int initialSatisfactionRating = 50;
 	
+	// Place where the customers should stop in line, depending on their linePosition.
+	public static float[] xLineLimit = {13f, 11.5f, 10f, 8.5f, 7f, 5.5f};
+	public const float zLineLimit = 10f;
+	
 	// Initial hype level for new coffee shop
 	// Increased hype for a few days for being "new"
 	public const int initialHypeLevel = 15; 
