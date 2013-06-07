@@ -109,7 +109,9 @@ public class Clock : MonoBehaviour
 			// If currently not paused, pause
 			else
 			{
-				pause ();
+				oldSpeed = CurrTimeSpeed;
+				CurrTimeSpeed = Paused;
+				Time.timeScale = Paused; //TimeSpeed.Pause;
 			}
 			
 			// pretty sure this isnt being called right....
@@ -217,12 +219,6 @@ public class Clock : MonoBehaviour
 		Time.timeScale = SpeedPlay;
 		time = 0;
 		cafe.EODreport();
-	}
-	
-	public void pause(){
-		oldSpeed = CurrTimeSpeed;
-		CurrTimeSpeed = Paused;
-		Time.timeScale = Paused; //TimeSpeed.Pause;
 	}
 
 

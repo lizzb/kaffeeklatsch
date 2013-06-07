@@ -110,9 +110,8 @@ using System;
 	public const int wageExpert = 150;
 	
 	
-	//End Game Conditions
-	public const int moneyGoalWin = 1000;
-	public const int maxNumberOfDays = 6;
+	
+
 	
 	
 	
