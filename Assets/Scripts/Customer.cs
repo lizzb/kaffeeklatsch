@@ -123,12 +123,17 @@ public class Customer : MonoBehaviour
 		arrivalTime = Time.time;
 		
 		
-		// COMMENT MEEEEE......................................
+		// Variables calculated Randomly
 		System.Random random = new System.Random();
 		ambianceLover = random.Next(0, 11);
 		impatience = random.Next(0, 10);
 		moneyGrubber = random.Next(0, 11);
-		drinkQuality = random.Next(-10, 11);
+		// Drink quality is calculated according to nicest machine currently in store.
+		int coffeeMachineQuality = (int) ((CoffeeMachine) GameObject.FindObjectOfType(typeof(CoffeeMachine))).drinkQuality;
+		int minDrinkQuality = 2*coffeeMachineQuality-12;
+		print (minDrinkQuality);
+		drinkQuality = random.Next(minDrinkQuality, 11);
+		
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
 		customerSpeed = 10;
 		resetTime();
@@ -525,7 +530,7 @@ public void checkGetOutOfLine()
   Purpose:  Calculate and return a customer's money satisfaction
   			as a function of their moneyGrubber value
   Receive:  
-  Return :  int patience satisfaction level
+  Return :  int money satisfaction level
 ---------------------------------------------------------------------------*/
 	
 	int calculateMoneySatisfactionLevel()
@@ -536,13 +541,15 @@ public void checkGetOutOfLine()
 /*---------------------------------------------------------------------------
   Name   :  calculateQualitySatisfactionLevel()
   Purpose:  Calculate and return a customer's drink quality satisfaction.
-  			Currently pseudorandom as there is no drink quality implemented.
+  			Value is fixed according to generated quality value, which is
+  			a function of the nicest coffee machine bought.
   Receive:  
-  Return :  int patience satisfaction level
+  Return :  int quality satisfaction level
 ---------------------------------------------------------------------------*/
 	
 	int calculateQualitySatisfactionLevel()
 	{
+		
 		return drinkQuality;
 	}
 	
