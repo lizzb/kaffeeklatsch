@@ -69,7 +69,7 @@ public class CoffeeMachine : MonoBehaviour
 	int barX = 0;
 	const int barY = 0;
 	const int barW = 10;
-	const int barH = 50;
+	const int barH = 80;
 	float progress = 0;
 	Texture2D progressBarFull;
 	
@@ -267,11 +267,14 @@ public class CoffeeMachine : MonoBehaviour
 			progress += clock.deltaTime; //Time.deltaTime; // Increment progress
 		}
 		else
-		{
+		{	
 			progress = 0f; // Otherwise set progress to 0
 		}
 	}
-
+	
+	public int calculateDrinkSpeed(){
+		return 5 - (int)drinkQuality;
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  drawProgressBar
@@ -282,7 +285,7 @@ public class CoffeeMachine : MonoBehaviour
 	void drawProgressBar()
 	{
 		// Based on progress, alter height
-		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f); 
+		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (calculateDrinkSpeed() * 2 - progress) / (calculateDrinkSpeed() * 2)); 
 	}
 	
 	

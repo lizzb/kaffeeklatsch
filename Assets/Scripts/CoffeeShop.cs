@@ -126,7 +126,7 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			time += clock.deltaTime;
 			
-			if(time > GameConstants.timeToMakeCoffee)
+			if(time > coffeeMachine.calculateDrinkSpeed())
 			{
 				customerTransaction(); //sellDrinkToCustomer(); //Sell drink to customer
 				time = 0;
@@ -379,7 +379,7 @@ public bool customerWaitingAtRegister()
 		{
 			moneyManager.buyCoffeeMachine(coffeeMachineLevel); //funds -= cost; //coffeeMach.getCost(); // Decrease funds
 			//coffeeMach.isPurchased = true;
-			addCoffeeMachine(coffeeMachineLevel);
+			addCoffeeMachine (coffeeMachineLevel);
 			return true;
 		}
 		
