@@ -136,7 +136,7 @@ using System;
 	
 	
 	//End Game Conditions
-	public const int moneyGoalWin = 1000;
+	public const int moneyGoalWin = 1250;
 	public const int maxNumberOfDays = 6;
 	
 	
