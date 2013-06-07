@@ -291,21 +291,49 @@ public class Interface : MonoBehaviour {
 		//"Hour" + ":" + "Min" + "PM"); //........
 		GUI.Label(new Rect (dateX+10,dateY+20,dateW,dateH), clock.getTimeOfDay()); 
 		
+		// THESE LABELS SHOULD BE REVERSED !!!!!!! ie u25b6 is black, u25b7 is white
+		// and vert lines actually black
+		// BUT THE logic is messing me up and i'm trying to finish this fast
+		char rightTriangleW = '\u25B6'; //'\u25B8';
+		char rightTriangleB = '\u25B7';//'\u25B9';
 		
-		char rightTriangleB = '\u25B6'; //'\u25B8';
-		char rightTriangleW = '\u25B7';//'\u25B9';
-		string pause = '\u2016'.ToString (); //"||"
+		char doubleVerticalLinesW = '\u2016'; // black unicode but font renders them white....?
+		
+		string pause = " "; // = '\u2016'.ToString(); //"||"
+		string play;
+		string ff;
+		string fff;
+		
+		bool selectedSpeedColorWhite = true; // true for white, false for black
 		
 		
-		//string play = rightTriangleW.ToString();
-		//string ff = rightTriangleW.ToString() + rightTriangleW.ToString();
-		//string fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleB.ToString();
+		if(selectedSpeedColorWhite)
+		{
+			// version so that white = current speed, black otherwise 
+			play = rightTriangleB.ToString();
+			ff = rightTriangleB.ToString() + rightTriangleB.ToString();
+			fff = rightTriangleB.ToString() + rightTriangleB.ToString() + rightTriangleB.ToString();
+			
+			if (clock.CurrTimeSpeed == 0.0f) { pause = doubleVerticalLinesW.ToString(); }
+			if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleW.ToString(); }
+			if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleW.ToString() + rightTriangleW.ToString(); }
+			if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString(); }
+		}
+		else
+		{
+			// version so that black = current speed, white otherwise 
+			// better visibility of controls, but little more confusing, esp with pause not turning black
+			play = rightTriangleW.ToString();
+			ff = rightTriangleW.ToString() + rightTriangleW.ToString();
+			fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleB.ToString();
+			
+			if (clock.CurrTimeSpeed == 0.0f) {  }
+			else if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleB.ToString(); }
+			else if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleB.ToString() + rightTriangleB.ToString(); }
+			else if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleB.ToString() + rightTriangleB.ToString() + rightTriangleB.ToString(); }
 		
-		/* version so that white = current speed, black otherwise */ 
+		}
 		
-		string play = rightTriangleB.ToString();
-		string ff = rightTriangleB.ToString() + rightTriangleB.ToString();
-		string fff = rightTriangleB.ToString() + rightTriangleB.ToString() + rightTriangleB.ToString();
 		
 		/*
 		 * i should be making these public or making a getter but i'm lazy so... yeah
@@ -320,10 +348,10 @@ public class Interface : MonoBehaviour {
 		 * 
 		 * */
 		
-		if (clock.CurrTimeSpeed == 0.0f) { /* don't know how to turn white?? only displays white*/ }
-		else if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleW.ToString(); }
-		else if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleW.ToString() + rightTriangleW.ToString(); }
-		else if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString(); }
+		//if (clock.CurrTimeSpeed == 0.0f) { /* don't know how to turn white?? only displays white*/ }
+		//else if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleW.ToString(); }
+		//else if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleW.ToString() + rightTriangleW.ToString(); }
+		//else if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString(); }
 		
 		// unity didn't want to compile a float switch statement...
 		/*

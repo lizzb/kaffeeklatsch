@@ -56,7 +56,7 @@ using System;
 	
 	// COFFEE MACHINES
 	
-	// Names of different coffee machine models
+	// Names of different coffee machine models (well not the actual 3d model...)
 	public const string coffeeMachine1Name = "Basic Pot o' Joe";
 	public const string coffeeMachine2Name = "FancyPants Coffee Maker";
 	public const string coffeeMachine3Name = "Giovanni 200z Espresso";
@@ -68,7 +68,28 @@ using System;
 	public const int coffeeMachine3Cost = 350;
 	public const int coffeeMachine4Cost = 500;
 	
-
+	// DECORATIONS
+	
+	// Names of different decorations 
+	public const string decoration1Name = "Assorted Coffee Photographs";
+	public const string decoration2Name = "Streamlined Standing Lamp";
+	public const string decoration3Name = "Bamboo Pot";
+	public const string decoration4Name = "Modern Panel Painting";
+	
+	// Cost to purchase different decorations
+	public const int decoration1Cost = 50;
+	public const int decoration2Cost = 125;
+	public const int decoration3Cost = 200;
+	public const int decoration4Cost = 450;
+	
+	
+	// could either use enum in class (as in other classes) or use values like these
+	// Ambiance effect for different decorations
+	/*public const int decoration1Ambiance = 1;
+	public const int decoration2Ambiance = 2;
+	public const int decoration3Ambiance = 3;
+	public const int decoration4Ambiance = 4;
+	 */
 
 	
 	//public Vector3 cashRegister1Pos = new Vector3(0,0,0);
