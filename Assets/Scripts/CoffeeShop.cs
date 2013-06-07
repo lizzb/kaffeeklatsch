@@ -197,6 +197,8 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		ArrayList deleteAds = new ArrayList();
 		
+		if (advertisements.Count > 0)
+		{
 		// check for nulls???
 		foreach(Advertisement ad in advertisements)
 		{
@@ -212,6 +214,7 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			advertisements.Remove(ad); //delete from advertisement list
 			Destroy (ad);
+		}
 		}
 	}
 	
@@ -467,10 +470,10 @@ public bool buyDecoration(int decorationLevel)
 		
 		
 		// Player can afford to buy selected item
-		if(moneyManager.canAffordMachine(decorationLevel))
+		if(moneyManager.canAffordDecoration(decorationLevel))
 		{
-			moneyManager.buyCoffeeMachine(decorationLevel); // Decrease funds
-			addCoffeeMachine (decorationLevel);
+			moneyManager.buyDecoration(decorationLevel); // Decrease funds
+			addDecoration (decorationLevel);
 			return true;
 		}
 		

@@ -45,7 +45,11 @@ public class Interface : MonoBehaviour {
 		bool enableBuyButton2 = true;
 		bool enableBuyButton3 = true;
 		bool enableBuyButton4 = true;
-
+	
+		bool enableDecoButton1 = true;
+		bool enableDecoButton2 = true;
+		bool enableDecoButton3 = true;
+		bool enableDecoButton4 = true;
 	
 	
 	// ----- Constants for placement of interface elements ----- //
@@ -132,8 +136,16 @@ public class Interface : MonoBehaviour {
 	
 	const int empMenuX = empButtonW + 25; 
 	const int empMenuY = empButtonY; 
-	const int empMenuW = 135; //100
-	const int empMenuH = 80; //100
+	const int empMenuW = 265; //135; //100
+	const int empMenuH = 150; //80; //100
+	
+	/// <summary>
+	/// QUICK FIX: USING EMP MENU STUFF FOR DECORATIONS 
+	/// </summary> 
+	
+	
+	
+	
 	
 	// ---End of Day Report Window --
 	const int eodWindowX = 200;
@@ -144,8 +156,8 @@ public class Interface : MonoBehaviour {
 	// --- Information Button ---
 	int infoX = Screen.width - 190;
 	const int infoY = 10;
-	const int infoW = 60;
-	const int infoH = 60;
+	const int infoW = 35; //60;
+	const int infoH = 35; // 60;
 	Texture2D informationIcon;
 	
 	// --- Information Window ---
@@ -193,6 +205,11 @@ public class Interface : MonoBehaviour {
 		if (cafe.hasMachine3) enableBuyButton3 = false;
 		if (cafe.hasMachine4) enableBuyButton4 = false;
 		
+		if (cafe.hasDecoration1) enableDecoButton1 = false;
+		if (cafe.hasDecoration2) enableDecoButton2 = false;
+		if (cafe.hasDecoration3) enableDecoButton3 = false;
+		if (cafe.hasDecoration4) enableDecoButton4 = false;
+		
 		// this wasn't working for some reason...
 		//if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
 		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
@@ -221,6 +238,12 @@ public class Interface : MonoBehaviour {
 		if (cafe.hasMachine3) enableBuyButton3 = false;
 		if (cafe.hasMachine4) enableBuyButton4 = false;
 		
+		if (cafe.hasDecoration1) enableDecoButton1 = false;
+		if (cafe.hasDecoration2) enableDecoButton2 = false;
+		if (cafe.hasDecoration3) enableDecoButton3 = false;
+		if (cafe.hasDecoration4) enableDecoButton4 = false;
+		
+		
 		// this wasn't working for some reason...
 		//if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
 		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
@@ -245,7 +268,7 @@ public class Interface : MonoBehaviour {
 		displayBuyButton();
 		displayAdButton();
 		
-		//displayEmployeeButton();
+		displayEmployeeButton(); // actually decorations
 		
 		// Input for changing costs
 		displayPriceSetter();
@@ -493,7 +516,7 @@ public class Interface : MonoBehaviour {
 	void displayBuyButton()
 	{
 		// Toggle whether the Buy/Shop Upgrades button has been pressed
-		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH), new GUIContent("Shop Upgrades"))) //coffeeCupIcon))
+		if(GUI.Button(new Rect(buyButtonX,buyButtonY,buyButtonW,buyButtonH), new GUIContent("Coffee Machines"))) //coffeeCupIcon)) // shop upgrades
 		{
 			buyMenuIsVisible = !buyMenuIsVisible;
 		}
@@ -637,11 +660,13 @@ public class Interface : MonoBehaviour {
 			}*/
 		}
 		
+		
+		
 		GUI.enabled = true;
 	}
 	
 /*---------------------------------------------------------------------------
-  Name   :  displayEmployeeButton
+  Name   :  displayEmployeeButton --> actually decorations
   Purpose:  x
   Receive:  x
   Return :  x
@@ -649,7 +674,8 @@ public class Interface : MonoBehaviour {
 	void displayEmployeeButton()
 	{
 		// Toggle whether employee(s) button has been pressed
-		if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),"Employees: " + cafe.empManager.employees.Count))
+		//if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),"Employees: " + cafe.empManager.employees.Count))
+		if(GUI.Button(new Rect(empButtonX,empButtonY,empButtonW,empButtonH),"Shop Decorations"))
 		{
 			empMenuIsVisible = !empMenuIsVisible;
 		}
@@ -660,11 +686,12 @@ public class Interface : MonoBehaviour {
 			// Button was pressed presumably because player wants to 
 			// display this menu, so disable others
 			if (adMenuIsVisible) adMenuIsVisible = false;
-			if (empMenuIsVisible) empMenuIsVisible = false;
+			if (buyMenuIsVisible) buyMenuIsVisible = false;
 			
 			GUI.Window(0,new Rect(empMenuX,empMenuY,empMenuW,empMenuH),empWindow,"");
 		}
 	}
+	
 	
 /*---------------------------------------------------------------------------
   Name   :  empWindow
@@ -674,13 +701,14 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void empWindow(int WindowId)
 	{
+		/*
 		//int x = windowPaddingX; = 5;
 		int y = 10;
 		int lineHeight = 30;
 		int w = empMenuW - 2*windowPaddingX; // 10; //125;
 		int h = 20;
-		
-		// COMMENT MEE..............
+		*/
+		/*// COMMENT MEE..............
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),"Hire an employee"))
 		{
 			cafe.empManager.hireEmployee();
@@ -690,6 +718,79 @@ public class Interface : MonoBehaviour {
 		{
 			cafe.empManager.fireEmployee();
 		}
+		*/
+		
+		GUI.enabled = true;
+		
+		//int x = windowPaddingX; //5;
+		int y = 10;
+		int lineHeight = 30;
+		int w = empMenuW - 2*windowPaddingX; //90;
+		int h = 20;
+		
+		GUI.enabled = enableDecoButton1;
+		// Purchase Level 1 Coffee Machine 
+		
+		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
+			"$" + GameConstants.decoration1Cost + ":  " + GameConstants.decoration1Name ))
+		{
+			if(cafe.moneyManager.canAffordDecoration(1))
+			{
+				cafe.buyDecoration(1);
+			}
+		}
+		
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableDecoButton2;
+		// Purchase Level 2 Coffee Machine
+		//else
+		if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
+			"$" + GameConstants.decoration2Cost + ":  " + GameConstants.decoration2Name ))
+		{
+			if(cafe.moneyManager.canAffordDecoration(2))
+			{
+				cafe.buyDecoration(2);
+			}
+		}
+		
+	
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		//if (cafe.hasMachine3 || cafe.moneyManager.canAffordMachine(3) == false) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableDecoButton3;
+		// Purchase Level 3 Coffee Machine
+		//else 
+		if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
+			"$" + GameConstants.decoration3Cost + ":  " + GameConstants.decoration3Name ))
+		{
+			if(cafe.moneyManager.canAffordDecoration(3))
+			{
+				cafe.buyDecoration(3);
+			}
+		}
+		
+		// Enable/disable button depending on whether we've bought this item already
+		// or if the player cannot afford it
+		//if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableDecoButton4;
+		// Purchase Level 4 Coffee Machine
+		//else 
+		if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
+			"$" + GameConstants.decoration4Cost + ":  " + GameConstants.decoration4Name ))
+		{
+			if(cafe.moneyManager.canAffordDecoration(4))
+			{
+				cafe.buyDecoration(4);
+			}
+		}
+		
+		GUI.enabled = true;	
+			
 	}	
 	
 /*---------------------------------------------------------------------------

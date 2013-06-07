@@ -216,4 +216,58 @@ public void buyCoffeeMachine(int coffeeMachineLevel)
 		}
 		
 	}
+	
+	
+public int getDecorationCost(int decorationLevel)
+	{
+		int cost = 0;
+		switch (decorationLevel)
+		{
+			case 1:
+				cost = GameConstants.decoration1Cost;
+				break;
+			case 2:
+				cost = GameConstants.decoration2Cost;
+				break;
+			case 3:
+				cost = GameConstants.decoration3Cost;
+				break;
+			case 4:
+				cost = GameConstants.decoration4Cost;
+				break;
+			default:
+				cost = -1;
+				break;
+				//return false;
+			//break;
+		}
+		return cost;
+	}
+	
+	
+public bool canAffordDecoration(int decorationLevel)
+	{
+		int cost = getDecorationCost(decorationLevel);
+		
+		// cost might return false, so be careful
+		// change to -1
+		if (cost != -1)
+			return (funds >= cost); 
+		return false;
+	}
+	
+public void buyDecoration(int decorationLevel)
+	{
+		funds -= getDecorationCost(decorationLevel); // Decrease funds
+		switch (decorationLevel)
+		{
+			case 1: cafe.hasDecoration1 = true; break;
+			case 2: cafe.hasDecoration2 = true; break;
+			case 3: cafe.hasDecoration3 = true; break;
+			case 4: cafe.hasDecoration4 = true; break;
+			default:
+				break;
+		}
+		
+	}
 }
