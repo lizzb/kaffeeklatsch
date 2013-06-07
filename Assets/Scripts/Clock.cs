@@ -228,7 +228,12 @@ public class Clock : MonoBehaviour
 		CurrTimeSpeed = Paused;
 		Time.timeScale = Paused; //TimeSpeed.Pause;
 	}
-
+	
+	public void play(){
+		oldSpeed = CurrTimeSpeed;
+		CurrTimeSpeed = SpeedPlay;
+		Time.timeScale = SpeedPlay;
+	}
 
 
 	// todo:  move calling end of day display/update to Game1... should be handled there

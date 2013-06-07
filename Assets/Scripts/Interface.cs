@@ -37,7 +37,7 @@ public class Interface : MonoBehaviour {
 	private bool buyMenuIsVisible = false;
 	private bool adMenuIsVisible = false; //advertisementDisplay = false;
 	private bool empMenuIsVisible = false;
-	private bool infoWindowIsVisible = false;
+	private bool infoWindowIsVisible = true;
 	
 	
 	// this is really hacky..... - lizz
@@ -847,12 +847,12 @@ public class Interface : MonoBehaviour {
 	
 	void displayInformationButton(){
 		if(GUI.Button(new Rect(infoX,infoY,infoW,infoH),informationIcon)){
-			infoWindowIsVisible = !infoWindowIsVisible;
+			infoWindowIsVisible = true;
 		}
 		
 		if(infoWindowIsVisible){
+			clock.pause ();
 			GUI.Window (0,new Rect(infoWindowX,infoWindowY,infoWindowW,infoWindowH),infoWindow,"kaffeeklatsch Instructions");
-		} else{
 		}
 	}
 	
@@ -867,7 +867,10 @@ public class Interface : MonoBehaviour {
 		GUI.Label (new Rect(windowPaddingX,y + h * 6,w, h),"Buying Advertisements will increase your hype for a certain period of time.");
 		GUI.Label (new Rect(windowPaddingX,y + h * 7,w, h),"Buying Decorations will improve your shop and increase customer patience.");
 		GUI.Label (new Rect(windowPaddingX,y + h * 8,w, h * 2),"You can adjust the price of coffee anytime using the slider on the left, but it will impact your customer satisfaction.");
-		
+		if(GUI.Button(new Rect(windowPaddingX,y + h * 10, w, h),"Close")){
+			infoWindowIsVisible = false;
+			clock.play();
+		}
 	}
 
 }
