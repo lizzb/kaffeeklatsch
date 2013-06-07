@@ -376,7 +376,7 @@ public void checkGetOutOfLine()
 		
 		transactionTime = Time.time; // not sure if doing this right... - lizz
 		timeInShop = (10-impatience)*ambianceBoostFunction;
-		print (timeInShop);
+		print (Decoration.ambianceBoost);
 	}
 	
 /*---------------------------------------------------------------------------
