@@ -37,6 +37,7 @@ public class Interface : MonoBehaviour {
 	private bool buyMenuIsVisible = false;
 	private bool adMenuIsVisible = false; //advertisementDisplay = false;
 	private bool empMenuIsVisible = false;
+	private bool infoWindowIsVisible = false;
 	
 
 	
@@ -134,6 +135,19 @@ public class Interface : MonoBehaviour {
 	int eodWindowW = Screen.width - 400;
 	int eodWindowH = Screen.height - 200;
 	
+	// --- Information Button ---
+	int infoX = Screen.width - 190;
+	const int infoY = 10;
+	const int infoW = 60;
+	const int infoH = 60;
+	Texture2D informationIcon;
+	
+	// --- Information Window ---
+	const int infoWindowX = 200; 
+	const int infoWindowY = 100; 
+	int infoWindowW = Screen.width - 400; 
+	int infoWindowH = Screen.height - 200; 
+	
 	
 	// drinkssoldtoday
 	// revenue today
@@ -151,6 +165,8 @@ public class Interface : MonoBehaviour {
 		cafe = GameObject.FindGameObjectWithTag("GameController").GetComponent<CoffeeShop>();
 		
 		clock = this.GetComponent<Clock>();
+		
+		informationIcon = (Texture2D) Resources.Load ("information");
 	
 		//employeeIcon = (Texture) GameObject.FindGameObjectWithTag("employeeIcon").GetComponent<GUITexture>();
 		//coffeeCupIcon = (Texture) GameObject.FindGameObjectWithTag("coffeeCupIcon").GetComponent<GUITexture>();
@@ -204,6 +220,9 @@ public class Interface : MonoBehaviour {
 		{
 			displayEODReport();
 		}
+		
+		//Information Icon
+		displayInformationButton();
 				
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
@@ -513,5 +532,20 @@ public class Interface : MonoBehaviour {
 		}
 	}
 	
+	void displayInformationButton(){
+		if(GUI.Button(new Rect(infoX,infoY,infoW,infoH),informationIcon)){
+			infoWindowIsVisible = !infoWindowIsVisible;
+		}
+		
+		if(infoWindowIsVisible){
+			clock.pause ();
+			GUI.Window (0,new Rect(infoWindowX,infoWindowY,infoWindowW,infoWindowH),infoWindow,"kaffeeklatsch Instructions");
+		} else{
+		}
+	}
+	
+	void infoWindow(int windowID){
+		
+	}
 
 }

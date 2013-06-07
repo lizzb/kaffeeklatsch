@@ -72,6 +72,7 @@ public class Clock : MonoBehaviour
 	void Update ()
 	{
 
+
 		// 1 = normal speed
 		if (Input.GetKeyDown (KeyCode.Alpha1))
 		{
