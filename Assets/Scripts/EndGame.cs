@@ -10,6 +10,12 @@ public class EndGame : MonoBehaviour
 	
 	EndGameType currentEndGameType = EndGameType.None;
 	
+	//end of game screen variables
+	const int endGameX = 200;
+	const int endGameY = 100;
+	int endGameW = Screen.width - 400;
+	int endGameH = Screen.height - 200;
+	
 
 	// Use this for initialization
 	void Start ()
@@ -21,7 +27,7 @@ public class EndGame : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if(cafe.moneyManager.funds <= 0){ //If funds falls below 0
+		if(cafe.moneyManager.funds < 0){ //If funds falls below 0
 			currentEndGameType = EndGameType.Bankruptcy;//Set bankruptcy
 		}
 		if(clock.days == GameConstants.maxNumberOfDays){
@@ -48,11 +54,7 @@ public class EndGame : MonoBehaviour
 		if(type == EndGameType.None){
 			return;
 		}
-		clock.pause();
-		const int endGameX = 200;
-		const int endGameY = 100;
-		int endGameW = Screen.width - 400;
-		int endGameH = Screen.height - 200;
+		clock.pause(); //pause time
 		
 		GUI.Window((int)type,new Rect(endGameX,endGameY,endGameW,endGameH),EndGameWindow,"Game Over!");
 	}
@@ -67,7 +69,7 @@ public class EndGame : MonoBehaviour
 	void EndGameWindow(int windowID){
 		int windowPaddingX = 5;
 		int y = 20;
-		int w = Screen.width - 400 - windowPaddingX * 2;
+		int w = endGameW - windowPaddingX * 2;
 		int h = 20;
 		
 		string endGameText = "";
@@ -85,14 +87,12 @@ public class EndGame : MonoBehaviour
 		}
 		
 		GUI.Label (new Rect(windowPaddingX,y,w,h),endGameText);
-
-		/*
+		
 		// If click on advance day button
-		if(GUI.Button(new Rect(windowPaddingX, eodWindowH - y * 2,w,h),"Advance Day"))
+		if(GUI.Button(new Rect(windowPaddingX, endGameH - y * 2,w,h),"Restart Game"))
 		{ 
-			clock.advanceDay(); //Advances day
+			Application.LoadLevel(0); //Restarts game
 		}
-		*/
 	}
 }
 
