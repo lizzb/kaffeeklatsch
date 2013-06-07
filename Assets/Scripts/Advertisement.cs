@@ -9,6 +9,9 @@ public class Advertisement : MonoBehaviour
 		TelevisionAd,
 		Billboard
 	}
+	//GameConstants.adType1Name;
+	//GameConstants.adType2Name;
+	//GameConstants.adType3Name;
 	
 	private AdvertisementType type;
 	private int cost;
@@ -37,7 +40,8 @@ public class Advertisement : MonoBehaviour
 	void Update ()
 	{
 		hypeLength -= clock.deltaTime;
-		if(hypeLength <= 0){
+		if(hypeLength <= 0)
+		{
 			hypeEnd = true;
 		}
 	}
@@ -46,7 +50,8 @@ public class Advertisement : MonoBehaviour
 		displayAdImage();
 	}
 	
-	public void setType(AdvertisementType adType){
+	public void setType(AdvertisementType adType)
+	{
 		type = adType;
 		if (type == AdvertisementType.Flyer) {
 			cost = GameConstants.adType1Cost;
@@ -85,13 +90,18 @@ public class Advertisement : MonoBehaviour
 	
 	public void displayAdImage(){
 		Texture2D adImage;
-		if(type == AdvertisementType.Flyer) {
+		if(type == AdvertisementType.Flyer)
+		{
 			adImage = (Texture2D) Resources.Load("Flyers");
 			GUI.Label(new Rect(adImageX,adImageY,adImageW,adImageH),adImage);
-		} else if(type == AdvertisementType.TelevisionAd){
+		}
+		else if(type == AdvertisementType.TelevisionAd)
+		{
 			adImage = (Texture2D) Resources.Load("TelevisionAd");
 			GUI.Label(new Rect(adImageX + imageSpace + adImageW,adImageY,adImageW,adImageH),adImage);
-		} else if(type == AdvertisementType.Billboard){
+		}
+		else if(type == AdvertisementType.Billboard)
+		{
 			adImage = (Texture2D) Resources.Load("Billboard");
 			GUI.Label(new Rect(adImageX + imageSpace * 2 + adImageW * 2,adImageY,adImageW,adImageH),adImage);
 		}

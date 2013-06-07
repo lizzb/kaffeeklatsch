@@ -38,8 +38,16 @@ public class CoffeeShop : MonoBehaviour {
 	public CoffeeMachine coffeeM3; 
 	public CoffeeMachine coffeeM4; 
 	
-	// this is hacky,
-	// but a way to check if the player has already bought an object
+	
+	// not sure if need these or not... more hacks
+	public Decoration d1;
+	public Decoration d2;
+	public Decoration d3;
+	public Decoration d4;
+	
+	// this is hacky, sorry!
+	
+	//  way to check if the player has already bought an object
 	public bool hasMachine1 = false;
 	public bool hasMachine2 = false;
 	public bool hasMachine3 = false;
@@ -189,6 +197,9 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		ArrayList deleteAds = new ArrayList();
 		
+		if (advertisements.Count > 0)
+		{
+		// check for nulls???
 		foreach(Advertisement ad in advertisements)
 		{
 			if(ad.hypeEnd)
@@ -203,6 +214,7 @@ public class CoffeeShop : MonoBehaviour {
 		{
 			advertisements.Remove(ad); //delete from advertisement list
 			Destroy (ad);
+		}
 		}
 	}
 	
@@ -376,8 +388,6 @@ public Customer customerWaitingAtRegister()
 			return false;
 		}
 		
-		
-		
 	}
 	
 	
@@ -445,6 +455,74 @@ public Customer customerWaitingAtRegister()
 				coffeeM4.createCoffeeMachineType(machineLevelNum);
 				hasMachine4 = true;
 			}
+			break;
+		}		
+	}
+	
+	
+public bool buyDecoration(int decorationLevel)
+	{
+		// check if player does not already ahve this object!!
+		//if they have the object, don't allow to buy another one - return false and notify user?
+		// otherwise, move onto next if statement
+		
+		
+		
+		
+		// Player can afford to buy selected item
+		if(moneyManager.canAffordDecoration(decorationLevel))
+		{
+			moneyManager.buyDecoration(decorationLevel); // Decrease funds
+			addDecoration (decorationLevel);
+			return true;
+		}
+		
+		// insufficient funds - NOTIFY USER TODO *****
+		else
+		{
+			return false;
+		}
+		
+	}
+	
+	
+	private void addDecoration(int decorationLevelNum)
+	{
+		// instantiated objects in the decoration class, since dont have to attach any script to this class
+		switch (decorationLevelNum)
+		{
+		case 1: 
+			/*
+			//coffeeMachineModel1 = (GameObject)
+			Instantiate(Resources.Load("CoffeeMachine1"));
+			//coffeeM1 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker1");
+			//if (coffeeM1 != null) coffeeM1.createCoffeeMachineType(machineLevelNum);
+			if (GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>() != null)
+			{
+				// Reference to the CoffeeMachine script for this class to use
+				coffeeM1 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>();
+				coffeeM1.createCoffeeMachineType(machineLevelNum);
+				hasMachine1 = true;
+			}*/
+			
+			d1 = new Decoration();
+			d1.createDecorationType(decorationLevelNum);
+			hasDecoration1 = true;
+			break;
+		case 2: 
+			d2 = new Decoration();
+			d2.createDecorationType(decorationLevelNum);
+			hasDecoration2 = true;
+			break;
+		case 3: 
+			d3 = new Decoration();
+			d3.createDecorationType(decorationLevelNum);
+			hasDecoration3 = true;
+			break;
+		case 4: 
+			d4 = new Decoration();
+			d4.createDecorationType(decorationLevelNum);
+			hasDecoration1 = true;
 			break;
 		}		
 	}

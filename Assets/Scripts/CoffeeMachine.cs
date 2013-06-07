@@ -275,7 +275,12 @@ public class CoffeeMachine : MonoBehaviour
 		}
 	}
 	
-	public int calculateDrinkSpeed(){
+	
+	
+	//................. not sure if i like this......................
+	
+	public int calculateDrinkSpeed()
+	{
 		return 5 - (int)drinkQuality;
 	}
 	
@@ -303,7 +308,7 @@ public class CoffeeMachine : MonoBehaviour
 
 	public int getHype () { return hypeFactor; }
 	*/
-//}
+
 
 	
 	//public CoffeeMachine coffeeMachine; //cm1script;
