@@ -80,7 +80,6 @@ public class CoffeeShop : MonoBehaviour {
 	// Consists of customer satisfaction + hype from ads
 	public int popularity;
 
-
 	
 	
 	//
@@ -112,6 +111,7 @@ public class CoffeeShop : MonoBehaviour {
 		// which coffee machine will be used for dirnk making...
 		addCoffeeMachine(1);
 		coffeeMachine = coffeeM1; 
+		
 	}
 	
 	//
@@ -157,7 +157,6 @@ public class CoffeeShop : MonoBehaviour {
 		}
 		
 	}
-
 	
 	
 // shop.updateCustomerSatisfaction(calculateSatisfactionLevel());	
@@ -375,7 +374,7 @@ public Customer customerWaitingAtRegister()
 		
 		
 		// Player can afford to buy selected item
-		if(moneyManager.canAffordMachine(coffeeMachineLevel)) //funds >= cost) //coffeeMach.getCost()) 
+		if(moneyManager.canAffordMachine(coffeeMachineLevel) && !coffeeMachine.inUse) //funds >= cost) //coffeeMach.getCost()) 
 		{
 			moneyManager.buyCoffeeMachine(coffeeMachineLevel); // Decrease funds //funds -= cost; //coffeeMach.getCost(); 
 			addCoffeeMachine (coffeeMachineLevel);
