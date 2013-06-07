@@ -521,7 +521,7 @@ public bool buyDecoration(int decorationLevel)
 		case 4: 
 			d4 = new Decoration();
 			d4.createDecorationType(decorationLevelNum);
-			hasDecoration1 = true;
+			hasDecoration4 = true; //fix!!
 			break;
 		}		
 	}
