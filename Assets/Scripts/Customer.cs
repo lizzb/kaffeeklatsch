@@ -131,7 +131,6 @@ public class Customer : MonoBehaviour
 		// Drink quality is calculated according to nicest machine currently in store.
 		int coffeeMachineQuality = (int) ((CoffeeMachine) GameObject.FindObjectOfType(typeof(CoffeeMachine))).drinkQuality;
 		int minDrinkQuality = 2*coffeeMachineQuality-12;
-		print (minDrinkQuality);
 		drinkQuality = random.Next(minDrinkQuality, 11);
 		
 		linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
@@ -151,10 +150,11 @@ public class Customer : MonoBehaviour
 		float yPosition = Screen.height-Camera.main.WorldToScreenPoint(transform.position).y-75;
 		GUI.Label(new Rect(xPosition, yPosition, 60, 60), thoughtBubble);
 	} 
-
 	// ------------ Update is called once per frame ------------ //
 	void Update ()
 	{
+		int coffeeMachineQuality = (int) ((CoffeeMachine) GameObject.FindObjectOfType(typeof(CoffeeMachine))).drinkQuality;
+		
 		// Units in world space to offset; 1 unit above object by default
 		//opinionText.transform.position = Camera.main.WorldToScreenPoint(this.transform.position + Vector3.up);
 		
@@ -372,9 +372,12 @@ public void checkGetOutOfLine()
 ---------------------------------------------------------------------------*/	
 	public void resetTime()
 	{
+		float ambianceBoostFunction = ((float) Decoration.ambianceBoost-1)/2 + 5/2;
+		
 		transactionTime = Time.time; // not sure if doing this right... - lizz
-		timeInShop = (10-impatience)*2;
-	}	
+		timeInShop = (10-impatience)*ambianceBoostFunction;
+		print (timeInShop);
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateLineWaitingTime
@@ -530,8 +533,9 @@ public void checkGetOutOfLine()
 
 	int calculatePatienceSatisfactionLevel()
 	{
+		float ambianceBoostFunction = ((float) Decoration.ambianceBoost-1)/2 + 5/2;
 		// Linear function f:[0, 1] → [-10, 10] that maps a ratio of their current time in shop / initial time to a scale [-10, 10]
-		return 20*((int) timeInShop)/((10-impatience)*2)-10;
+		return 20*((int) timeInShop)/((10-impatience)* (int) ambianceBoostFunction)-10;
 	}
 
 /*---------------------------------------------------------------------------
@@ -591,7 +595,8 @@ public void checkGetOutOfLine()
 ---------------------------------------------------------------------------*/	
 	void ColorCustomer()
 	{
-		float ratio = timeInShop/((10-impatience)*2);
+		float ambianceBoostFunction = ((float) Decoration.ambianceBoost-1)/2 + 5/2;
+		float ratio = timeInShop/((10-impatience)*ambianceBoostFunction);
 		
 		if(paidForDrink)
 			renderer.material.color = gotCoffeeColor; //new Color(0.65882f, 0.63137f, 1.0f); // Purple

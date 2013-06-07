@@ -33,7 +33,7 @@ public class Decoration : MonoBehaviour {
 	// Customers will .... be willing to wait longer if better ambiance? .... TODO define
 	public enum AmbianceRating { low = 1, med = 2, high = 3, highest = 4 }
 	
-	public AmbianceRating ambianceBoost = AmbianceRating.low;
+	public static AmbianceRating ambianceBoost = AmbianceRating.low;
 
 
 
