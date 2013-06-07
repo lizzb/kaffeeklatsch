@@ -664,13 +664,16 @@ public class Interface : MonoBehaviour {
 		}
 		
 		if(infoWindowIsVisible){
-			clock.pause ();
 			GUI.Window (0,new Rect(infoWindowX,infoWindowY,infoWindowW,infoWindowH),infoWindow,"kaffeeklatsch Instructions");
 		} else{
 		}
 	}
 	
 	void infoWindow(int windowID){
+		int y = 20;
+		int w = eodWindowW - windowPaddingX * 2;
+		int h = 20;
+		GUI.Label(new Rect(windowPaddingX,y,w,h * 2),"Welcome to kaffeeklatsch, a coffee shop simulation game. You are the owner of this coffeeshop,\nwith the dream of making the most money as quicky as possible.");
 		
 	}
 

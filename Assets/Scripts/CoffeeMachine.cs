@@ -101,7 +101,6 @@ public class CoffeeMachine : MonoBehaviour
 	// ---------- Update is called once per frame ---------- //
 	void Update ()
 	{
-		
 		// rather than creating and worrying about activating/rendering, only create when bought
 		//SetActive(false);
 		//renderer.enabled = false;
