@@ -75,6 +75,7 @@ public class CoffeeMachine : MonoBehaviour
 	
 	GameObject progressBarFill;
 	GUITexture progressBarFillTexture;
+	ObjectLabel progressBarFillObjectLabel;
 	
 
 	// ---------- Use this for initialization ---------- //
@@ -91,8 +92,8 @@ public class CoffeeMachine : MonoBehaviour
 		progressBarFillTexture = progressBarFill.AddComponent<GUITexture>(); // Add Texture
 		progressBarFillTexture.texture = progressBarFull; // Set texture as progress bar full texture
 		progressBarFill.transform.localScale = Vector3.zero; // Set scale to 0 so it doesn't become huge
-		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
-		progressBarFillObjectLabel.target = GameObject.FindGameObjectWithTag("coffeeMaker1").transform;
+		progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
+		progressBarFillObjectLabel.target = this.transform;
 	}
 	
 
@@ -210,7 +211,7 @@ public class CoffeeMachine : MonoBehaviour
 				coffeeMachineModel1 = GameObject.FindGameObjectWithTag("coffeeMaker1"); //(GameObject)Instantiate(Resources.Load("CoffeeMachine1")); //, coffeeMachine1Pos, Quaternion.identity);
 				coffeeMachineModel1.transform.localScale = coffeeMachine1Scale;	
 				coffeeMachineModel1.transform.position = coffeeMachine1Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);	
+				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);
 				return true;
 			//break;
 			case 2:
