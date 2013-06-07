@@ -183,13 +183,21 @@ public class Interface : MonoBehaviour {
 	//
 	void Update ()
 	{
+		GUI.enabled = true;
+		
 		//Set drink cost of cafe
 		cafe.moneyManager.setDrinkCost(costVal);
 		
-		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
-		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
-		if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
-		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
+		if (cafe.hasMachine1) enableBuyButton1 = false;
+		if (cafe.hasMachine2) enableBuyButton2 = false;
+		if (cafe.hasMachine3) enableBuyButton3 = false;
+		if (cafe.hasMachine4) enableBuyButton4 = false;
+		
+		// this wasn't working for some reason...
+		//if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
+		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
+		//if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
+		//if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
 		
 		// ----- Hacks for augmenting funds and popularity ----- //
 		if(Input.GetKeyDown(KeyCode.M)) { cafe.moneyManager.funds += cafe.moneyManager.drinkCost; }
@@ -208,10 +216,17 @@ public class Interface : MonoBehaviour {
 		
 		GUI.enabled = true;
 		
-		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
-		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
-		if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
-		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
+		if (cafe.hasMachine1) enableBuyButton1 = false;
+		if (cafe.hasMachine2) enableBuyButton2 = false;
+		if (cafe.hasMachine3) enableBuyButton3 = false;
+		if (cafe.hasMachine4) enableBuyButton4 = false;
+		
+		// this wasn't working for some reason...
+		//if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
+		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
+		//if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
+		//if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
+		
 		
 		// Notes:
 		// Rect: x, y, width, height
@@ -503,6 +518,11 @@ public class Interface : MonoBehaviour {
 ---------------------------------------------------------------------------*/	
 	void buyWindow(int WindowId)
 	{
+		// TO FIX
+		// FOR SOME REASON DISABLES EVERYTHING, EVEN IF CAN AFFORD
+		// BUT IF I DONT INCLUDE CAN AFFORD IN ENABLE STATEMENTS, PLAYER CAN BUY AND GO BANKRUPT
+		
+		
 		GUI.enabled = true;
 		//int x = windowPaddingX; //5;
 		int y = 10;
@@ -525,13 +545,22 @@ public class Interface : MonoBehaviour {
 		
 		GUI.enabled = enableBuyButton1;
 		// Purchase Level 1 Coffee Machine 
+		
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
 			"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name ))
 		{
 			// TODO: this function should actually take parameters, but haven't written yet
 			// not sure if i like setup of advertisement call
 			//cafe.buyCoffeeMachine(1); //cafe.buyAdvertisement(new Advertisement(AdvertisementType.Flyer));
-			cafe.buyCoffeeMachine(1);
+			if(cafe.moneyManager.canAffordMachine(1))
+			{
+				cafe.buyCoffeeMachine(1);
+			}
+			/*else
+			{
+				
+				GUI.Label (new Rect(windowPaddingX,y+lineHeight/2,w,h),"Insufficient funds!");
+			}*/
 			//buyMenuIsVisible = false;
 			
 		}
@@ -546,8 +575,18 @@ public class Interface : MonoBehaviour {
 		if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine2Cost + ":  " + GameConstants.coffeeMachine2Name))
 		{
-			cafe.buyCoffeeMachine(2);
+			//if(cafe.moneyManager.canAffordMachine(2)) cafe.buyCoffeeMachine(2);
 			//buyMenuIsVisible = false;
+			
+			if(cafe.moneyManager.canAffordMachine(2))
+			{
+				cafe.buyCoffeeMachine(2);
+			}
+			/*else
+			{
+				
+				GUI.Label (new Rect(windowPaddingX,y+lineHeight/2,w,h),"Insufficient funds!");
+			}*/
 		}
 		
 	
@@ -561,8 +600,18 @@ public class Interface : MonoBehaviour {
 		if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine3Cost + ":  " + GameConstants.coffeeMachine3Name))
 		{
-			cafe.buyCoffeeMachine(3);
+			//if(cafe.moneyManager.canAffordMachine(3)) cafe.buyCoffeeMachine(3);
 			//buyMenuIsVisible = false;
+			
+			if(cafe.moneyManager.canAffordMachine(3))
+			{
+				cafe.buyCoffeeMachine(3);
+			}
+			/*else
+			{
+				
+				GUI.Label (new Rect(windowPaddingX,y+lineHeight/2+2*lineHeight,w,h),"Insufficient funds!");
+			}*/
 		}
 		
 		// Enable/disable button depending on whether we've bought this item already
@@ -575,8 +624,17 @@ public class Interface : MonoBehaviour {
 		if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),
 			"$" + GameConstants.coffeeMachine4Cost + ":  " + GameConstants.coffeeMachine4Name))
 		{
-			cafe.buyCoffeeMachine(4);
+			//if(cafe.moneyManager.canAffordMachine(4)) cafe.buyCoffeeMachine(4);
 			//buyMenuIsVisible = false;
+			
+			if(cafe.moneyManager.canAffordMachine(4))
+			{
+				cafe.buyCoffeeMachine(4);
+			}
+			/*else
+			{
+				GUI.Label (new Rect(windowPaddingX,y+lineHeight/2+3*lineHeight,w,h),"Insufficient funds!");
+			}*/
 		}
 		
 		GUI.enabled = true;

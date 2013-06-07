@@ -197,6 +197,7 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		ArrayList deleteAds = new ArrayList();
 		
+		// check for nulls???
 		foreach(Advertisement ad in advertisements)
 		{
 			if(ad.hypeEnd)
