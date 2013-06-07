@@ -83,6 +83,8 @@ public class CoffeeMachine : MonoBehaviour
 		clock = GameObject.Find("GUI").GetComponent<Clock>();
 		//gameObject.SetActive(false);
 		
+		gameObject.AddComponent<EndGame>(); //End Game conditions
+		
 		// Setting up progress Bar object
 		progressBarFull = new Texture2D(barW,barH); // Progress bar while full
 		progressBarFill = new GameObject("ProgressBarFill"); // Create new game object
