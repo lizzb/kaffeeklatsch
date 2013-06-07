@@ -107,7 +107,7 @@ public class Decoration : MonoBehaviour {
 			
 				objectName = GameConstants.decoration1Name;	
 				cost = GameConstants.decoration1Cost;
-				ambianceBoost = AmbianceRating.low;
+				ambianceBoost = ambianceBoost > AmbianceRating.low ? ambianceBoost : AmbianceRating.low;
 				return true;
 			
 			case 2:
@@ -118,7 +118,7 @@ public class Decoration : MonoBehaviour {
 			
 				objectName = GameConstants.decoration2Name;	
 				cost = GameConstants.decoration2Cost;
-				ambianceBoost = AmbianceRating.med;
+				ambianceBoost = ambianceBoost > AmbianceRating.med ? ambianceBoost : AmbianceRating.med;
 				return true;
 				
 			case 3:
@@ -129,7 +129,7 @@ public class Decoration : MonoBehaviour {
 			
 				objectName = GameConstants.decoration3Name;	
 				cost = GameConstants.decoration3Cost;
-				ambianceBoost = AmbianceRating.high;
+				ambianceBoost = ambianceBoost > AmbianceRating.high ? ambianceBoost : AmbianceRating.high;
 				return true;
 			
 			case 4:
