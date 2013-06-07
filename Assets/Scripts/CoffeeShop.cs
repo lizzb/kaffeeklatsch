@@ -22,7 +22,7 @@ public class CoffeeShop : MonoBehaviour {
 	// Clock
 	Clock clock;
 	
-	// Manages employees.... more later ****
+	// Manages employees.... sort of, never really got around to this
 	public EmployeeManager empManager;
 
 	// Manages all money stuff for this coffee shop
@@ -37,7 +37,21 @@ public class CoffeeShop : MonoBehaviour {
 	public CoffeeMachine coffeeM2; 
 	public CoffeeMachine coffeeM3; 
 	public CoffeeMachine coffeeM4; 
-
+	
+	// this is hacky,
+	// but a way to check if the player has already bought an object
+	public bool hasMachine1 = false;
+	public bool hasMachine2 = false;
+	public bool hasMachine3 = false;
+	public bool hasMachine4 = false;
+	
+	public bool hasDecoration1 = false;
+	public bool hasDecoration2 = false;
+	public bool hasDecoration3 = false;
+	public bool hasDecoration4 = false;
+	
+	// Variables to simulate drink making, will probably go away with employees
+	private float time = 0;
 
 	
 	// List of Advertisements bought
@@ -60,11 +74,6 @@ public class CoffeeShop : MonoBehaviour {
 
 
 	
-	// Variables to simulate drink making, will probably go away with employees
-	private float time = 0;
-	
-	
-
 	
 	//
 	// Use this for initialization
@@ -89,10 +98,6 @@ public class CoffeeShop : MonoBehaviour {
 		// original hack by KG for one machine
 		//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
 		
-		// By default, Instantiate makes an object, so cast to GameObject
-		//coffeeMachineModel1 = (GameObject)Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
-		//cm1script =//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
-		
 		
 		// TODO: ***
 		// need to figure out a better way to update
@@ -108,9 +113,19 @@ public class CoffeeShop : MonoBehaviour {
 	{
 		// FIX THIS ******
 		// lizz's bad attempt to get the best coffee machine to be the one used by default
+		
+		// By default, use the best machine that the shop has available to make coffee
 		if (coffeeM2 != null) coffeeMachine = coffeeM2; 
 		if (coffeeM3 != null) coffeeMachine = coffeeM3; 
 		if (coffeeM4 != null) coffeeMachine = coffeeM4; 
+		
+		
+		
+		if (hasMachine1) coffeeMachine = coffeeM1; 
+	 	if (hasMachine2) coffeeMachine = coffeeM2;
+		if (hasMachine3) coffeeMachine = coffeeM3;
+		if (hasMachine4) coffeeMachine = coffeeM4;
+	
 		
 		// Detect if customer is ready to buy drink
 		takeCustomerOrder();
@@ -212,16 +227,16 @@ public class CoffeeShop : MonoBehaviour {
 	
 
 
-public bool customerWaitingAtRegister()
+public Customer customerWaitingAtRegister()
 	{
 		// Check all of customers in coffee shop
 		// to determine if someone is at front of line
 		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
 		{
-			if(c.isFrontOfLine()) return true;
+			if(c.isFrontOfLine()) return c; //return true;
 		}
 		
-		return false;
+		return null; //false
 		
 	}
 
@@ -233,9 +248,10 @@ public bool customerWaitingAtRegister()
 ---------------------------------------------------------------------------*/	
 	public void takeCustomerOrder()
 	{
-		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
-		{
-			if(c.isFrontOfLine())
+		//foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
+		//{
+			//c = customerWaitingAtRegister();
+			if (customerWaitingAtRegister() != null) //(c != null)
 			{
 				Employee e = empManager.findAvailableEmployee(); // Find next available employee
 				if(e != null)
@@ -244,7 +260,7 @@ public bool customerWaitingAtRegister()
 					e.setAction(Employee.Actions.MakingDrink); // Set employee to making drink
 				}
 			}
-		}
+		//}
 	}
 	
 /*---------------------------------------------------------------------------
@@ -258,9 +274,10 @@ public bool customerWaitingAtRegister()
 		// Check all of customers in coffee shop
 		// to determine if someone is at front of line
 		// if so, then take their order
-		foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
-		{
-			if(c.isFrontOfLine()) // If customer is in front of line
+		//foreach(Customer c in GameObject.FindObjectsOfType(typeof(Customer)))
+		//{
+			Customer c = customerWaitingAtRegister();
+			if (c != null)
 			{ 
 				// Out of scope:
 				// An employee must be at the cash register to take the order
@@ -297,38 +314,9 @@ public bool customerWaitingAtRegister()
 					e.setAction(Employee.Actions.Nothing); //set employee to doing nothing
 				}
 			}
-		}
+		//}
 	}
 
-	
-	// TODO: ???
-	// not sure if next 2 functions are better in a "employeemanager" class
-	// or here... or within employees?
-	
-	
-
-	
-/*---------------------------------------------------------------------------
-  Name   :  makeDrink
-  Purpose:  Choose an employee to make specified drink
-  			Assume customer will wait and pick up their correct drink
-  Receive:  the drink ordered
-  Return :  true if the drink was made successfully (?? void?)
----------------------------------------------------------------------------*/
-	bool makeDrink (GameConstants.Drinks drink)	
-	{
-		// Check if one of your employees is free
-		
-		// If not, add job to job queue for next free employee to take
-		
-		// TODO: ??? will this cause a problem if there are 2 people in line,
-		// and only 1 employee, then they take all orders first and then make them all?
-		// actually maybe not...
-		
-		// Not sure how to handle it from here....
-		
-		return true;
-	}	
 	
 	
 /*---------------------------------------------------------------------------
@@ -379,7 +367,7 @@ public bool customerWaitingAtRegister()
 		// Player can afford to buy selected item
 		if(moneyManager.canAffordMachine(coffeeMachineLevel)) //funds >= cost) //coffeeMach.getCost()) 
 		{
-			moneyManager.buyCoffeeMachine(coffeeMachineLevel); //funds -= cost; //coffeeMach.getCost(); // Decrease funds
+			moneyManager.buyCoffeeMachine(coffeeMachineLevel); // Decrease funds //funds -= cost; //coffeeMach.getCost(); 
 			//coffeeMach.isPurchased = true;
 			addCoffeeMachine(coffeeMachineLevel);
 			return true;
@@ -388,7 +376,6 @@ public bool customerWaitingAtRegister()
 		// insufficient funds - NOTIFY USER TODO *****
 		else
 		{
-			
 			return false;
 		}
 		
@@ -415,6 +402,11 @@ public bool customerWaitingAtRegister()
 		 * CoffeeMachine4						coffeeMaker4
 		 */
 		
+		// By default, Instantiate makes an object, so cast to GameObject
+		//coffeeMachineModel1 = (GameObject)Instantiate(Resources.Load("CoffeeMachine1"), new Vector3(16.13379f, -3.482452f, 6.18842f), Quaternion.identity);
+		//cm1script =//coffeeMachine = GameObject.FindGameObjectWithTag("GameController").AddComponent<CoffeeMachine>(); //Coffee Machine
+		
+		
 		switch (machineLevelNum)
 		{
 		case 1: 
@@ -424,6 +416,7 @@ public bool customerWaitingAtRegister()
 			//if (coffeeM1 != null) coffeeM1.createCoffeeMachineType(machineLevelNum);
 			if (GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>() != null)
 			{
+				// Reference to the CoffeeMachine script for this class to use
 				coffeeM1 = (CoffeeMachine) GameObject.FindGameObjectWithTag("coffeeMaker1").GetComponent<CoffeeMachine>();
 				coffeeM1.createCoffeeMachineType(machineLevelNum);
 			}

@@ -3,9 +3,10 @@
  * 
  * Base class for coffee machines that a player can purchase and put in their shop.
  * There are a fixed number of fixed slots for coffee machines.
- * If a player upgrades one, it replaces the existing one. 
+ *  
  * 
  * Notes: 
+ * removed: If a player upgrades one, it replaces the existing one. 
  */
 using UnityEngine;
 using System;

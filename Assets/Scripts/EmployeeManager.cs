@@ -104,7 +104,8 @@ public class EmployeeManager : MonoBehaviour {
   Receive:  nothing
   Return :  return employee who is available
 ---------------------------------------------------------------------------*/
-	public Employee findAvailableEmployee(){
+	public Employee findAvailableEmployee()
+	{
 		// Iterate through employees
 		foreach (Employee e in employees)
 		{ 
@@ -134,4 +135,33 @@ public class EmployeeManager : MonoBehaviour {
 		return null;
 	}
 	
+	
+		// TODO: ???
+	// not sure if next 2 functions are better in a "employeemanager" class
+	// or here... or within employees?
+	
+	
+
+	
+/*---------------------------------------------------------------------------
+  Name   :  makeDrink
+  Purpose:  Choose an employee to make specified drink
+  			Assume customer will wait and pick up their correct drink
+  Receive:  the drink ordered
+  Return :  true if the drink was made successfully (?? void?)
+---------------------------------------------------------------------------*/
+	public bool makeDrink (GameConstants.Drinks drink)	
+	{
+		// Check if one of your employees is free
+		
+		// If not, add job to job queue for next free employee to take
+		
+		// TODO: ??? will this cause a problem if there are 2 people in line,
+		// and only 1 employee, then they take all orders first and then make them all?
+		// actually maybe not...
+		
+		// Not sure how to handle it from here....
+		
+		return true;
+	}	
 }

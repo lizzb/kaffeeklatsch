@@ -5,7 +5,7 @@ public class MoneyManager : MonoBehaviour {
 	
 	CoffeeShop cafe;
 	
-		// TODO ???Not sure if we should have a "MoneyManager" class...
+	// TODO ???Not sure if we should have a "MoneyManager" class...
 	
 	// TODO: make sure you can't purchase things that will make you go into debt
 	// however, paying your employees at end of day CAN make you go into debt
@@ -203,6 +203,16 @@ public bool canAffordMachine(int coffeeMachineLevel)
 	
 public void buyCoffeeMachine(int coffeeMachineLevel)
 	{
-			funds -= getMachineCost(coffeeMachineLevel); // cost; //coffeeMach.getCost(); // Decrease funds
+		funds -= getMachineCost(coffeeMachineLevel); // cost; //coffeeMach.getCost(); // Decrease funds
+		switch (coffeeMachineLevel)
+		{
+			case 1: cafe.hasMachine1 = true; break;
+			case 2: cafe.hasMachine2 = true; break;
+			case 3: cafe.hasMachine3 = true; break;
+			case 4: cafe.hasMachine4 = true; break;
+			default:
+				break;
+		}
+		
 	}
 }

@@ -4,7 +4,7 @@
  * TODO finish description
  * 
  * A customer comes to the coffee store with a specific drink to purchase in mind...
- * different patience levels.... calculate satisfaction when they leave...
+ * different patience levels.... calculate satisfaction when they leave... and show dominating opinion
  * 
  * Notes: 
  */
@@ -13,7 +13,7 @@ using System.Collections;
 
 public class Customer : MonoBehaviour
 {
-	// ADD OBJECT LABELS
+	public bool isOutOfLine = false;
 	
 	public Texture2D thoughtBubble;
 	GUIText opinionText;
@@ -78,7 +78,7 @@ public class Customer : MonoBehaviour
 
 	
 	// Different actions a customer can be doing
-	public enum Actions { neutral, walkingIn, inLine, payingForDrink, waitingForDrink, walkingOut };
+	public enum Actions { neutral, walkingIn, inLine, payingForDrink, waitingForDrink, justLeftLine, justPaidForDrink, walkingOut };
 	
 	// This customer's current action
 	public Actions custAction = Actions.neutral; // not sure if should be public...?
@@ -165,37 +165,85 @@ public class Customer : MonoBehaviour
 		// Customer walks from door to its line position
 		if(transform.position.x == 5)
 		{
-			custAction = Actions.walkingIn; //(int) Actions.walkingIn;
+			custAction = Actions.walkingIn;
 			transform.Translate(0f, 0f, customerSpeed*Time.deltaTime);
 		}
 		
 		// USE CONSTANTS INSTEAD OF NUMBERS!!!! TODO what is 13?
 		
+		updateLinePositions(); // doesnt do anything right now
+		
 		// Customer gets in line
-		// comment this.....................
 		if(transform.position.z > 10 && transform.position.x < 13-1.5*linePosition)
 		{
-			// Move forward in line?????
+			// Move forward in line?????................
 			custAction = Actions.inLine;
 			transform.Translate(customerSpeed*Time.deltaTime, 0f, 0f);
 		}
-		// comment this.....................
+		// Customer is at front of line waiting for drink.........???
 		else if(transform.position.x >= 13-1.5*linePosition && custAction != Actions.walkingOut && linePosition == 0)
 		{
 			custAction = Actions.waitingForDrink;
 		}
 			
-			
-
 		
+		checkLeavingCafe();
+		
+		//updateLinePositions();
+		
+		// Update the color of the customer
+		// Default color gives indication of their remaining patience (from green --> red)
+		// Purplish if they have received/paid for coffee...?????
+		ColorCustomer();
+		
+
+		checkDestroyCustomer();
+		
+	}
+	
+
+	
+public void updateLinePositions()
+{
+	/*// check that every line position is filled and in order	
+	// ....?????
+	// in start
+	//linePosition = GameObject.FindObjectsOfType(this.GetType()).Length - 1;
+	//int customerRemoved = this.linePosition;
+		
+	//ArrayList customers = GameObject.FindObjectsOfType(this.GetType());
+	//foreach (Customer c in customers)
+	//	{
+	//		if (c.custAction != Actions.inLine) customers.Remove(c);
+	//	}
+	Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
+		int numCustomersInLine = 0;
+			
+			// Loops through each of the current customers and if they were behind the customer who left,
+			// their linePosition is decreased, so they move forward in line.
+			foreach(Customer customer in customers)
+			{
+				if(customer.custAction == Actions.inLine || customer.custAction == Actions.waitingForDrink)
+					numCustomersInLine++;
+				//customer.linePosition = customers.Count - 1;
+				//if(customer.linePosition > customerRemoved)
+				//	customer.linePosition--;
+			}	*/
+}
+	
+	
+void checkLeavingCafe()
+{	
 		// 
 		// Conditions for customer leaving the shop
 		//
-		if (timeInShop < 0 || custAction == Actions.walkingOut)
+		if (timeInShop < 0 || custAction == Actions.walkingOut) // || custAction == Actions.justLeftLine)
 		{
 			// If timeInShop < 0, customer walks out of the line and leaves the shop.
-			custAction = Actions.walkingOut;
-			thoughtBubble = setOpinionImage(getOpinion()); // Set thought bubble representing Opinion
+			custAction =  Actions.walkingOut; // Actions.justLeftLine;
+			
+			// Set thought bubble representing Opinion
+			thoughtBubble = setOpinionImage(getOpinion()); 
 			
 			// If the time a customer has been waiting in line (modify this *****)
 			// exceeds their patience limit, they leave unhappily without buying a drink
@@ -213,7 +261,6 @@ public class Customer : MonoBehaviour
 				//if (!drinkIsReady)
 				// decrease patience
 				// leaveCafe(false, true);
-		
 			
 			
 			// If a customer successfully receives their drink
@@ -223,27 +270,19 @@ public class Customer : MonoBehaviour
 			// Trigger animation for leaving cafe
 			leaveCafe();
 		}
+		
+		//checkDestroyCustomer();
+	}
+	
 
-		
-
-		
-		// TODO ???
-		// does getting rang up fast, but waiting for drink for long time,
-		// have diff impact than waiting for both for a long time?
-		
-
-		
-		
-		// Update the color of the customer
-		// Default color gives indication of their remaining patience (from green --> red)
-		// Purplish if they have received/paid for coffee...?????
-		ColorCustomer();
-
-		
+void checkDestroyCustomer()
+	{	
 		// Checks if the customer is far enough from the shop after leaving it
 		// if it is, destroys its object.
 		if(transform.position.x < 6 && transform.position.z < -1 && (timeInShop < 0 || custAction == Actions.walkingOut))
 		{
+			
+		// could start commenting out here if get getting out of line working earlier in code ********
 			int customerRemoved = this.linePosition;
 			Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
 			
@@ -254,20 +293,63 @@ public class Customer : MonoBehaviour
 				if(customer.linePosition > customerRemoved)
 					customer.linePosition--;
 			}
+			// could end commenting out here if get getting out of line working *********
 			
-			// NOTE: moved this update satisfaction code higher,
-			// why do we have to wait for the customer to be destroyed to update cafe stats? - lizz
-			// nevermind, probably has to do with not calling update satisfaction more than once....
 			
 			// Update the customer satisfaction rating of the coffee shop
 			// Based on the satisfaction level of the customer that just left
+			// Do it here (right before destroying customer)
+			// so that it only happens ONCE
 			cafe.updateCustomerSatisfaction(calculateSatisfactionLevel());
 			
 			Destroy(this.gameObject);
 		}
 		
+		
+		
 	}
-
+	
+public void checkGetOutOfLine()
+	{
+		if (!isOutOfLine && transform.position.z <= 8 && (timeInShop < 0 || custAction == Actions.walkingOut))
+		{
+		// This customer is removed from the "line", but not destroyed from game yet
+		int customerRemoved = this.linePosition;
+		//othersMoveForwardInLine(customerRemoved);
+		
+		// Other customers move forward in line
+		Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
+		
+		// Loops through each of the current customers and if they were behind the customer who left,
+		// their linePosition is decreased, so they move forward in line.
+		foreach(Customer customer in customers)
+		{
+			//if (customer != this)
+			//	{
+			//check if this is not the same customer??
+			if(customer.linePosition > customerRemoved) customer.linePosition--;
+			//	}
+		}
+		
+		isOutOfLine = true;
+		}
+/*if(!isOutOfLine && transform.position.z == 8 && (timeInShop < 0 || custAction == Actions.walkingOut))
+			{
+				int customerRemoved = this.linePosition;
+				Customer[] customers = (Customer[]) GameObject.FindObjectsOfType(this.GetType());
+				
+				// Loops through each of the current customers and if they were behind the customer who left,
+				// their linePosition is decreased, so they move forward in line.
+				foreach(Customer customer in customers)
+				{
+					if(customer.linePosition > customerRemoved) customer.linePosition--;
+				}
+				//isOutOfLine = true;
+				//calledGetOutOfLine = true;
+				//print (name + "  get out of line called: " + calledGetOutOfLine);
+			}*/
+	}	
+	
 /*---------------------------------------------------------------------------
   Name   :  resetTime
   Purpose:  Sets time to initial wait time ---> what is the PURPOSE of this??
@@ -292,6 +374,9 @@ public class Customer : MonoBehaviour
 		return transactionTime - arrivalTime; 
 	}
 	
+			// TODO ???
+		// does getting rang up fast, but waiting for drink for long time,
+		// have diff impact than waiting for both for a long time?
 	
 /*---------------------------------------------------------------------------
   Name   :  calculateDrinkWaitingTime
@@ -507,6 +592,13 @@ public class Customer : MonoBehaviour
 ---------------------------------------------------------------------------*/	
 	public void leaveCafe ()
 	{
+		//checkGetOutOfLine();
+		//if(!isOutOfLine && transform.position.z < 8)
+		//{
+		//	isOutOfLine = true;
+			//getOutOfLine();
+		//}
+		
 		// Animation to leave cafe....comment me later!! ****
 		if(transform.position.z < 1 && transform.position.x >= 6)
 			transform.Translate(-customerSpeed*Time.deltaTime, 0f, 0f);
@@ -531,61 +623,3 @@ public class Customer : MonoBehaviour
   Receive:  ...
   Return :  ...
 ---------------------------------------------------------------------------*/	
-
-/*
- * ObjectLabel
- * 
- * Makes a GUIText label follow an object in 3D space.
- * Useful for things like having name tags over players' heads.
- * 
- * Notes: from http://wiki.unity3d.com/index.php/ObjectLabel
- 
-Usage: Attach this script to a GUIText object, and drag the object it should follow into the Target slot.
-For best results, the anchor of the GUIText should probably be set to lower center,
-depending on what you're doing.
-
-Note: This script also works with GUITextures.
- 
-*/
-
- /*
-//[RequireComponent (typeof(GUIText))]
-//public class ObjectLabel : MonoBehaviour
-//{
- 	// Object that this label should follow... the one it is attached to... ??
-	public Transform target;  
-	
-	// Units in world space to offset; 1 unit above object by default
-	public Vector3 offset = Vector3.up;    
-	
-	
-	/*
-	If UseMainCamera is checked, the first camera in the scene tagged MainCamera will be used.
-	If it's not checked, you should drag the desired camera onto the CameraToUse slot,
-	which is otherwise unused if UseMainCamera is true.
-	*/
-	
-	/*
-	Camera cam ;
-	Transform thisTransform;
-	Transform camTransform;
- 
-	void Start ()
-	{
-		thisTransform = transform;
-		// Use the camera tagged MainCamera
-		cam = Camera.main;
-		camTransform = cam.transform;
-	}
- 
-	void Update ()
-	{
-
-		thisTransform.position = cam.WorldToViewportPoint (this.position + offset);
-		
-			// Units in world space to offset; 1 unit above object by default
-	public Vector3 offset = Vector3.up;   
-		thisTransform.position = cam.WorldToViewportPoint (this.position + Vector3.up);
-	}
-}
-	*/
