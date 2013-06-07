@@ -860,7 +860,13 @@ public class Interface : MonoBehaviour {
 		int y = 20;
 		int w = eodWindowW - windowPaddingX * 2;
 		int h = 20;
-		GUI.Label(new Rect(windowPaddingX,y,w,h * 2),"Welcome to kaffeeklatsch, a coffee shop simulation game. You are the owner of this coffeeshop,\nwith the dream of making the most money as quicky as possible.");
+		GUI.Label(new Rect(windowPaddingX,y,w,h * 2),"Welcome to kaffeeklatsch, a coffee shop simulation game. You are the owner of this coffeeshop,with the dream of making the most money as quicky as possible.");
+		GUI.Label (new Rect(windowPaddingX,y + h * 2, w, h),"Your goal is to make $" + GameConstants.moneyGoalWin + " by day " + GameConstants.maxNumberOfDays + ".");
+		GUI.Label (new Rect(windowPaddingX,y + h * 3,w,h * 2),"You can change the speed of the game by pressing 1, 2 or 3. You can pause the game by pressing 'p'");
+		GUI.Label (new Rect(windowPaddingX,y + h * 5,w, h),"Buying Coffee Machines will increase your drink quality and decrease the time it takes to make coffee.");
+		GUI.Label (new Rect(windowPaddingX,y + h * 6,w, h),"Buying Advertisements will increase your hype for a certain period of time.");
+		GUI.Label (new Rect(windowPaddingX,y + h * 7,w, h),"Buying Decorations will improve your shop and increase customer patience.");
+		GUI.Label (new Rect(windowPaddingX,y + h * 8,w, h * 2),"You can adjust the price of coffee anytime using the slider on the left, but it will impact your customer satisfaction.");
 		
 	}
 
