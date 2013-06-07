@@ -197,7 +197,8 @@ public bool canAffordMachine(int coffeeMachineLevel)
 		
 		// cost might return false, so be careful
 		// change to -1
-		if (cost!= -1) return (funds >= drinkCost); 
+		if (cost != -1)
+			return (funds >= cost); 
 		return false;
 	}
 	

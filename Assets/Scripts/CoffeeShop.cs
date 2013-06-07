@@ -366,7 +366,6 @@ public Customer customerWaitingAtRegister()
 		if(moneyManager.canAffordMachine(coffeeMachineLevel)) //funds >= cost) //coffeeMach.getCost()) 
 		{
 			moneyManager.buyCoffeeMachine(coffeeMachineLevel); // Decrease funds //funds -= cost; //coffeeMach.getCost(); 
-			//coffeeMach.isPurchased = true;
 			addCoffeeMachine (coffeeMachineLevel);
 			return true;
 		}

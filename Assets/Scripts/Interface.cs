@@ -39,6 +39,12 @@ public class Interface : MonoBehaviour {
 	private bool empMenuIsVisible = false;
 	private bool infoWindowIsVisible = false;
 	
+	
+	// this is really hacky..... - lizz
+		bool enableBuyButton1 = true;
+		bool enableBuyButton2 = true;
+		bool enableBuyButton3 = true;
+		bool enableBuyButton4 = true;
 
 	
 	
@@ -180,6 +186,10 @@ public class Interface : MonoBehaviour {
 		//Set drink cost of cafe
 		cafe.moneyManager.setDrinkCost(costVal);
 		
+		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
+		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
+		if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
+		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
 		
 		// ----- Hacks for augmenting funds and popularity ----- //
 		if(Input.GetKeyDown(KeyCode.M)) { cafe.moneyManager.funds += cafe.moneyManager.drinkCost; }
@@ -197,6 +207,12 @@ public class Interface : MonoBehaviour {
 	void OnGUI () {
 		
 		GUI.enabled = true;
+		
+		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) enableBuyButton1 = false;
+		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) enableBuyButton2 = false;
+		if (cafe.hasMachine3 || !cafe.moneyManager.canAffordMachine(3)) enableBuyButton3 = false;
+		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) enableBuyButton4 = false;
+		
 		// Notes:
 		// Rect: x, y, width, height
 		// top left: 0,0,100,50
@@ -227,6 +243,9 @@ public class Interface : MonoBehaviour {
 		// Information Icon
 		displayInformationButton();
 		
+
+		
+	
 				
 		/*		
 		GUI.Label (new Rect (x-10,40,120,20), "Drinks sold today: " + imp.currentFearLevel);
@@ -276,6 +295,14 @@ public class Interface : MonoBehaviour {
 		char rightTriangleB = '\u25B6'; //'\u25B8';
 		char rightTriangleW = '\u25B7';//'\u25B9';
 		string pause = '\u2016'.ToString (); //"||"
+		
+		
+		//string play = rightTriangleW.ToString();
+		//string ff = rightTriangleW.ToString() + rightTriangleW.ToString();
+		//string fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleB.ToString();
+		
+		/* version so that white = current speed, black otherwise */ 
+		
 		string play = rightTriangleB.ToString();
 		string ff = rightTriangleB.ToString() + rightTriangleB.ToString();
 		string fff = rightTriangleB.ToString() + rightTriangleB.ToString() + rightTriangleB.ToString();
@@ -293,7 +320,7 @@ public class Interface : MonoBehaviour {
 		 * 
 		 * */
 		
-		if (clock.CurrTimeSpeed == 0.0f) { /* don't know how to turn white??*/ }
+		if (clock.CurrTimeSpeed == 0.0f) { /* don't know how to turn white?? only displays white*/ }
 		else if (clock.CurrTimeSpeed == 1.0f) { play = rightTriangleW.ToString(); }
 		else if (clock.CurrTimeSpeed == 2.0f) { ff = rightTriangleW.ToString() + rightTriangleW.ToString(); }
 		else if (clock.CurrTimeSpeed == 4.0f) { fff = rightTriangleW.ToString() + rightTriangleW.ToString() + rightTriangleW.ToString(); }
@@ -460,10 +487,15 @@ public class Interface : MonoBehaviour {
 		//GUI.Button btn1 = GUI.Button(new Rect(windowPaddingX,y,w,h),
 		//	"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name );
 		
-		// Enable/disable button depending on whether we've bought this item already
-		if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) GUI.enabled = false;
-		else GUI.enabled = true;
 		
+		// Enable/disable button depending on whether we've bought this item already
+		//if (cafe.hasMachine1 || !cafe.moneyManager.canAffordMachine(1)) GUI.enabled = false;
+		///else GUI.enabled = true;
+		
+		//if (enableBuyButton1) GUI.enabled = true;
+		//else GUI.enabled = false;
+		
+		GUI.enabled = enableBuyButton1;
 		// Purchase Level 1 Coffee Machine 
 		if(GUI.Button(new Rect(windowPaddingX,y,w,h),
 			"$" + GameConstants.coffeeMachine1Cost + ":  " + GameConstants.coffeeMachine1Name ))
@@ -478,9 +510,9 @@ public class Interface : MonoBehaviour {
 		
 		// Enable/disable button depending on whether we've bought this item already
 		// or if the player cannot afford it
-		if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) GUI.enabled = false;
-		else GUI.enabled = true;
-		
+		//if (cafe.hasMachine2 || !cafe.moneyManager.canAffordMachine(2)) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableBuyButton2;
 		// Purchase Level 2 Coffee Machine
 		//else
 		if(GUI.Button(new Rect(windowPaddingX,y+lineHeight,w,h),
@@ -493,9 +525,9 @@ public class Interface : MonoBehaviour {
 	
 		// Enable/disable button depending on whether we've bought this item already
 		// or if the player cannot afford it
-		if (cafe.hasMachine3 || cafe.moneyManager.canAffordMachine(3) == false) GUI.enabled = false;
-		else GUI.enabled = true;
-		
+		//if (cafe.hasMachine3 || cafe.moneyManager.canAffordMachine(3) == false) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableBuyButton3;
 		// Purchase Level 3 Coffee Machine
 		//else 
 		if(GUI.Button(new Rect(windowPaddingX, y+2*lineHeight,w,h),
@@ -507,9 +539,9 @@ public class Interface : MonoBehaviour {
 		
 		// Enable/disable button depending on whether we've bought this item already
 		// or if the player cannot afford it
-		if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) GUI.enabled = false;
-		else GUI.enabled = true;
-		
+		//if (cafe.hasMachine4 || !cafe.moneyManager.canAffordMachine(4)) GUI.enabled = false;
+		//else GUI.enabled = true;
+		GUI.enabled = enableBuyButton4;
 		// Purchase Level 4 Coffee Machine
 		//else 
 		if(GUI.Button(new Rect(windowPaddingX, y+3*lineHeight,w,h),

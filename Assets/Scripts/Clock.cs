@@ -165,8 +165,10 @@ public class Clock : MonoBehaviour
 		if (ReachedEOD())
 		{
 			// Pause game, display some stuff
-			Time.timeScale = Paused; 
-			CurrTimeSpeed = Paused;
+			//oldSpeed = CurrTimeSpeed; 
+			//Time.timeScale = Paused; 
+			//CurrTimeSpeed = Paused;
+			pause ();
 		}
 	}
 
@@ -190,7 +192,6 @@ public class Clock : MonoBehaviour
 			ampmString = "PM";
 			if (hrs > 12) hrs = hrs % 12;
 		}
-		
 		string hrString = hrs.ToString();
 		
 		int min = (int)time % 60;
@@ -212,15 +213,17 @@ public class Clock : MonoBehaviour
 	
 	
 	//Advances a day forward
-	public void advanceDay(){
+	public void advanceDay()
+	{
 		days++;
-		CurrTimeSpeed = SpeedPlay;
-		Time.timeScale = SpeedPlay;
+		CurrTimeSpeed = SpeedPlay; //oldSpeed; 
+		Time.timeScale = SpeedPlay; //oldSpeed; 
 		time = 0;
 		cafe.EODreport();
 	}
 	
-	public void pause(){
+	public void pause()
+	{
 		oldSpeed = CurrTimeSpeed;
 		CurrTimeSpeed = Paused;
 		Time.timeScale = Paused; //TimeSpeed.Pause;
