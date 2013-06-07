@@ -18,6 +18,7 @@ public class Advertisement : MonoBehaviour
 	
 	private Clock clock;
 	
+	//Variables to set up ad Image
 	int adImageX = 210;
 	int imageSpace = 10;
 	int adImageY = 10;
@@ -28,7 +29,7 @@ public class Advertisement : MonoBehaviour
 	// Use this for initialization
 	void Start ()
 	{
-		clock = GameObject.Find("GUI").GetComponent<Clock>();
+		clock = GameObject.Find("GUI").GetComponent<Clock>(); 
 		hypeEnd = false;
 	}
 	

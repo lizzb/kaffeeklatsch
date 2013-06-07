@@ -136,14 +136,12 @@ public class CoffeeShop : MonoBehaviour {
 		
 		updateHypeLength();
 		
-
-		
 		//Take 3 seconds to make drink
 		if(coffeeMachine!= null && coffeeMachine.inUse)
 		{
 			time += clock.deltaTime;
 			
-			if(time > GameConstants.timeToMakeCoffee)
+			if(time > coffeeMachine.calculateDrinkSpeed())
 			{
 				customerTransaction(); //sellDrinkToCustomer(); //Sell drink to customer
 				time = 0;
@@ -369,7 +367,7 @@ public Customer customerWaitingAtRegister()
 		{
 			moneyManager.buyCoffeeMachine(coffeeMachineLevel); // Decrease funds //funds -= cost; //coffeeMach.getCost(); 
 			//coffeeMach.isPurchased = true;
-			addCoffeeMachine(coffeeMachineLevel);
+			addCoffeeMachine (coffeeMachineLevel);
 			return true;
 		}
 		

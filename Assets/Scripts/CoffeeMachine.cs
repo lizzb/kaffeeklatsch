@@ -70,12 +70,13 @@ public class CoffeeMachine : MonoBehaviour
 	int barX = 0;
 	const int barY = 0;
 	const int barW = 10;
-	const int barH = 50;
+	const int barH = 80;
 	float progress = 0;
 	Texture2D progressBarFull;
 	
 	GameObject progressBarFill;
 	GUITexture progressBarFillTexture;
+	ObjectLabel progressBarFillObjectLabel;
 	
 
 	// ---------- Use this for initialization ---------- //
@@ -84,14 +85,16 @@ public class CoffeeMachine : MonoBehaviour
 		clock = GameObject.Find("GUI").GetComponent<Clock>();
 		//gameObject.SetActive(false);
 		
+		gameObject.AddComponent<EndGame>(); //End Game conditions
+		
 		// Setting up progress Bar object
 		progressBarFull = new Texture2D(barW,barH); // Progress bar while full
 		progressBarFill = new GameObject("ProgressBarFill"); // Create new game object
 		progressBarFillTexture = progressBarFill.AddComponent<GUITexture>(); // Add Texture
 		progressBarFillTexture.texture = progressBarFull; // Set texture as progress bar full texture
 		progressBarFill.transform.localScale = Vector3.zero; // Set scale to 0 so it doesn't become huge
-		ObjectLabel progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
-		progressBarFillObjectLabel.target = GameObject.FindGameObjectWithTag("coffeeMaker1").transform;
+		progressBarFillObjectLabel = progressBarFill.AddComponent<ObjectLabel>(); //Add Object label
+		progressBarFillObjectLabel.target = this.transform;
 	}
 	
 
@@ -209,7 +212,7 @@ public class CoffeeMachine : MonoBehaviour
 				coffeeMachineModel1 = GameObject.FindGameObjectWithTag("coffeeMaker1"); //(GameObject)Instantiate(Resources.Load("CoffeeMachine1")); //, coffeeMachine1Pos, Quaternion.identity);
 				coffeeMachineModel1.transform.localScale = coffeeMachine1Scale;	
 				coffeeMachineModel1.transform.position = coffeeMachine1Pos; //new Vector3(16.13379f, -3.482452f, 6.18842f);	
-				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);	
+				coffeeMachineModel1.transform.Rotate(coffeeMachine1Rot);
 				return true;
 			//break;
 			case 2:
@@ -268,11 +271,14 @@ public class CoffeeMachine : MonoBehaviour
 			progress += clock.deltaTime; //Time.deltaTime; // Increment progress
 		}
 		else
-		{
+		{	
 			progress = 0f; // Otherwise set progress to 0
 		}
 	}
-
+	
+	public int calculateDrinkSpeed(){
+		return 5 - (int)drinkQuality;
+	}
 	
 /*---------------------------------------------------------------------------
   Name   :  drawProgressBar
@@ -283,7 +289,7 @@ public class CoffeeMachine : MonoBehaviour
 	void drawProgressBar()
 	{
 		// Based on progress, alter height
-		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (6.0f - progress) / 6.0f); 
+		progressBarFillTexture.pixelInset = new Rect(barX,barY,barW,barH * (calculateDrinkSpeed() * 2 - progress) / (calculateDrinkSpeed() * 2)); 
 	}
 	
 	
