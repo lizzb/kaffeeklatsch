@@ -1,3 +1,5 @@
+/* this class didn't end up getting used at all... */
+
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;

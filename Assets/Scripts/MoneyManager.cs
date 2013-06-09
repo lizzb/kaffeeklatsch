@@ -1,11 +1,25 @@
+/*
+ * MoneyManager
+ * 
+ * The purpose of this class is to handle everything to do with money
+ * for the coffee shop - increasing/decreasing funds, checking if
+ * player can afford something, calculating daily statistics, etc.
+ * 
+ * Notes:
+ * Out of scope due to time:
+ * 	// List for history of revenue
+	// List for history of number of drinks sold
+	// List for history of costs at EOD
+	// List of history of satisfaction ratings at EOD
+	
+	// possibly feed in difficulty level --> different initial funds?
+ */
 using UnityEngine;
 using System.Collections;
 
 public class MoneyManager : MonoBehaviour {
 	
 	CoffeeShop cafe;
-	
-	// TODO ???Not sure if we should have a "MoneyManager" class...
 	
 	// TODO: make sure you can't purchase things that will make you go into debt
 	// however, paying your employees at end of day CAN make you go into debt
@@ -30,11 +44,6 @@ public class MoneyManager : MonoBehaviour {
 	// Number of drinks sold during 1 simulation day
 	public int dailyNumDrinksSold = 0;
 	
-	
-	// List for history of revenue
-	// List for history of number of drinks sold
-	// List for history of costs at EOD
-	// List of history of satisfaction ratings at EOD
 	
 	
 	// The daily rent for this coffee shop
@@ -88,9 +97,10 @@ public class MoneyManager : MonoBehaviour {
 		
 		// increase shop funds by price of drink requested
 		funds += drinkCost;
-		
-		
+			
 		// for now, all transactions assumed to be successful
+		// the player comes in with enough money and will always buy the drink
+		// even if they won't be happy about it
 		return true;
 	}
 	
@@ -114,7 +124,6 @@ public class MoneyManager : MonoBehaviour {
 		// Prices of ingredients/stock?
 		
 		return totalDailyCosts;
-		//return GameConstants.startingRent + GameConstants.wageNovice;
 	}
 
 /*---------------------------------------------------------------------------
@@ -125,16 +134,16 @@ public class MoneyManager : MonoBehaviour {
 ---------------------------------------------------------------------------*/
 	public int calculateDailyTotalEmployeesWagesTotal() // might make an employeemanager class for keeping track of this stuff...
 	{
+		// For each employee in the list of employees
+		// determine what their daily pay rate is
+		// sum it all up
+		// and return it
 		int total = 0;
 		foreach(Employee e in cafe.empManager.employees)
 		{
 			total += e.getPayrate();
 		}
-		// For each employee in the list of employees
-		// determine what their daily pay rate is
-		// sum it all up
-		// and return it
-		// (another function actually takes it from shop funds)
+		// (another function actually deducts it from shop funds)
 		return total;
 	}
 	
@@ -238,8 +247,6 @@ public int getDecorationCost(int decorationLevel)
 			default:
 				cost = -1;
 				break;
-				//return false;
-			//break;
 		}
 		return cost;
 	}

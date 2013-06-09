@@ -1,3 +1,11 @@
+/*
+ * Advertisement
+ * 
+ * Buying advertisements increases your hype for a limited time.
+ * Hype adds to popularity, which influences how fast customers are generated.
+ * 
+ * Notes: Buying an ad will display an icon on the screen while it is active.
+ */
 using UnityEngine;
 using System.Collections;
 
@@ -88,7 +96,10 @@ public class Advertisement : MonoBehaviour
 		return hypeLength;
 	}
 	
-	public void displayAdImage(){
+	// Display ad image on screen so player can see a visual indicator of their purchase
+	// while the increased hype is in effect
+	public void displayAdImage()
+	{
 		Texture2D adImage;
 		if(type == AdvertisementType.Flyer)
 		{

@@ -1,11 +1,13 @@
 /*
  * CoffeeShop
  * 
- * TODO finish description
  * 
- * This class is the main... keeps track of inventory/funds, employees...
+ * This class is the main class for the game.
+ * Uses manager objects to keep track of funds, employees...
+ * basically everything connects through this class.
  * 
  * Notes: 
+ * 
  * Out of scope due to time:
  * 	// List (expandable) of drinks that this coffee shop is capable of making
 	// Based on the machinery they have and/or the recipes they offer
@@ -29,7 +31,6 @@ public class CoffeeShop : MonoBehaviour {
 	public MoneyManager moneyManager;
 	
 	// CoffeeMachines
-	public CoffeeMachine coffeeMachine; // reevaluate later
 	
 	// Scripts associated with the coffee machine models
 	// i.e. where all the functionality actually is
@@ -38,6 +39,8 @@ public class CoffeeShop : MonoBehaviour {
 	public CoffeeMachine coffeeM3; 
 	public CoffeeMachine coffeeM4; 
 	
+	// reevaluate this functionality approach later, if get more employees
+	public CoffeeMachine coffeeMachine; 
 	
 	// not sure if need these or not... more hacks
 	public Decoration d1;
@@ -45,9 +48,9 @@ public class CoffeeShop : MonoBehaviour {
 	public Decoration d3;
 	public Decoration d4;
 	
-	// this is hacky, sorry!
-	
-	//  way to check if the player has already bought an object
+	// Hacky-ish way to check if the player has already bought an object
+	// will impact what coffee machine is used or what ambiance level is
+	// and if buttons are enabled/disabled in Interface class
 	public bool hasMachine1 = false;
 	public bool hasMachine2 = false;
 	public bool hasMachine3 = false;
@@ -73,7 +76,7 @@ public class CoffeeShop : MonoBehaviour {
 	public int satisfactionRating;
 	
 	// The current "hype" level for this coffee shop
-	// (boosts to popularity due to advertising)
+	// (temporary boosts to popularity due to advertising)
 	public int hypeLevel;
 	
 	// The popularity of this coffee shop
@@ -81,10 +84,7 @@ public class CoffeeShop : MonoBehaviour {
 	public int popularity;
 
 	
-	
-	//
-	// Use this for initialization
-	//
+	// ---------- Use this for initialization ---------- //
 	void Start ()
 	{
 		empManager = GameObject.FindGameObjectWithTag("GameController").AddComponent<EmployeeManager>(); //(this);
@@ -114,9 +114,7 @@ public class CoffeeShop : MonoBehaviour {
 		
 	}
 	
-	//
-	// Update is called once per frame
-	//
+	// ---------- Update is called once per frame ---------- //
 	void Update ()
 	{
 		// FIX THIS ******
@@ -126,7 +124,6 @@ public class CoffeeShop : MonoBehaviour {
 		if (coffeeM2 != null) coffeeMachine = coffeeM2; 
 		if (coffeeM3 != null) coffeeMachine = coffeeM3; 
 		if (coffeeM4 != null) coffeeMachine = coffeeM4; 
-		
 		
 		
 		if (hasMachine1) coffeeMachine = coffeeM1; 
@@ -144,25 +141,24 @@ public class CoffeeShop : MonoBehaviour {
 		
 		updateHypeLength();
 		
-		//Take 3 seconds to make drink
+		// Takes time to make drink - make sure correct no matter what game speed
 		if(coffeeMachine!= null && coffeeMachine.inUse)
 		{
 			time += clock.deltaTime;
 			
 			if(time > coffeeMachine.calculateDrinkSpeed())
 			{
-				customerTransaction(); //sellDrinkToCustomer(); //Sell drink to customer
+				customerTransaction(); //Sell drink to customer
 				time = 0;
 			}
 		}
 		
 	}
 	
-	
-// shop.updateCustomerSatisfaction(calculateSatisfactionLevel());	
+
 /*---------------------------------------------------------------------------
   Name   :  updateSatisfaction
-  Purpose:  
+  Purpose:  // shop.updateCustomerSatisfaction(calculateSatisfactionLevel());	
   Receive:  satisfaction rating from a customer
   Return :  void
 ---------------------------------------------------------------------------*/
@@ -183,7 +179,7 @@ public class CoffeeShop : MonoBehaviour {
 	}
 	
 	
-		// TODO: Figure out how to determine how long "hype" lasts for,
+	// Figure out how to determine how long "hype" lasts for,
 	// especially if multiple marketing campaigns are put in place
 	
 /*---------------------------------------------------------------------------
@@ -314,13 +310,14 @@ public Customer customerWaitingAtRegister()
 					// then have the customer wait for their coffee at end of counter
 					// Instead...
 					
+					coffeeMachine.inUse = false; // Stop incrementing drink
+				
 					c.setPaidForDrink(true);
 					// Set customer action to leaving shop
 					c.custAction = Customer.Actions.walkingOut; 
 					
-					coffeeMachine.inUse = false; // Stop incrementing drink
-					
-					e.setAction(Employee.Actions.Nothing); //set employee to doing nothing
+					// set employee to doing nothing
+					e.setAction(Employee.Actions.Nothing); 
 				}
 			}
 		//}
@@ -363,16 +360,12 @@ public Customer customerWaitingAtRegister()
   Return :  true if purchase was successful,
   			false if machine not bought (insufficient funds or reach limit)
 ---------------------------------------------------------------------------*/	
-	public bool buyCoffeeMachine(int coffeeMachineLevel)
-	//(CoffeeMachine coffeeMac, int coffeeMachineLevel) //(CoffeeMachine coffeeMach) //
+	public bool buyCoffeeMachine(int coffeeMachineLevel) //(CoffeeMachine coffeeMach)
 	{
 		// check if player does not already ahve this object!!
 		//if they have the object, don't allow to buy another one - return false and notify user?
 		// otherwise, move onto next if statement
-		
-		
-		
-		
+
 		// Player can afford to buy selected item
 		if(moneyManager.canAffordMachine(coffeeMachineLevel) && !coffeeMachine.inUse) //funds >= cost) //coffeeMach.getCost()) 
 		{
@@ -381,7 +374,7 @@ public Customer customerWaitingAtRegister()
 			return true;
 		}
 		
-		// insufficient funds - NOTIFY USER TODO *****
+		// insufficient funds - TODO: NOTIFY USER somehow *****
 		else
 		{
 			return false;
@@ -460,14 +453,7 @@ public Customer customerWaitingAtRegister()
 	
 	
 public bool buyDecoration(int decorationLevel)
-	{
-		// check if player does not already ahve this object!!
-		//if they have the object, don't allow to buy another one - return false and notify user?
-		// otherwise, move onto next if statement
-		
-		
-		
-		
+	{	
 		// Player can afford to buy selected item
 		if(moneyManager.canAffordDecoration(decorationLevel))
 		{
@@ -476,7 +462,7 @@ public bool buyDecoration(int decorationLevel)
 			return true;
 		}
 		
-		// insufficient funds - NOTIFY USER TODO *****
+		// insufficient funds - TODO: NOTIFY USER somehow *****
 		else
 		{
 			return false;
@@ -521,7 +507,7 @@ public bool buyDecoration(int decorationLevel)
 		case 4: 
 			d4 = new Decoration();
 			d4.createDecorationType(decorationLevelNum);
-			hasDecoration4 = true; //fix!!
+			hasDecoration4 = true; 
 			break;
 		}		
 	}

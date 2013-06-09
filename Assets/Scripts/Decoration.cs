@@ -23,8 +23,8 @@ public class Decoration : MonoBehaviour {
 	
 	
 	// The name of the coffee machine, to display in the buy menu
-	// except this doesnt actually get used....
-	string objectName = "";
+	
+	string objectName = ""; // except this doesnt actually get used....called from gameconstants
 
 	// The cost of this decoration --> ideally use constants defined in another file
 	int cost = 0;
